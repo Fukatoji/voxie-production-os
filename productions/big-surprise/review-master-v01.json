@@ -1,0 +1,50 @@
+{
+  "project": "Voxie’s Big Surprise",
+  "status": "COMPLETE_FOR_FINAL_REVIEW",
+  "controlled_filename": "VWF_BIG_SURPRISE_VIDEO_v01_COMPLETE_FOR_FINAL_REVIEW.mp4",
+  "media_storage": {
+    "provider": "Higgsfield media storage",
+    "media_id": "730dc3c4-5df7-4698-8c98-177cb5c70c51",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3HcHVg9qff4T7VTg97HP27Ob55q/730dc3c4-5df7-4698-8c98-177cb5c70c51.mp4"
+  },
+  "sha256": "561e9ff9963d6e5ce55b05ce2ea2b5b5e34b81e964fa963a66371013d9415fd7",
+  "technical": {
+    "duration_seconds": 150.0,
+    "resolution": "1920x1080",
+    "fps": 30,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "audio_sample_rate_hz": 48000,
+    "audio_channels": 2,
+    "subtitle_codec": "mov_text",
+    "subtitle_language": "eng"
+  },
+  "source_audio": {
+    "controlled_filename": "VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav",
+    "sha256": "600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b",
+    "source_preserved_unchanged": true,
+    "delivery_audio_note": "Locked PCM source was muxed into the review delivery as 48 kHz stereo AAC; the canonical source WAV remains unchanged."
+  },
+  "beatmap": "productions/big-surprise/beatmap-001.final.json",
+  "visuals": {
+    "keyframe_count": 8,
+    "generator": "Higgsfield Nano Banana Pro request / Nano Banana 2 execution",
+    "canon_reference_used": true,
+    "environment_reference_used": true,
+    "motion_strategy": "Subtle compositor zoom on locked generated stills; no generative character animation required."
+  },
+  "qc": {
+    "transcript_gap": "RESOLVED",
+    "former_humpting_cues": "NORMALIZED_TO_NONVERBAL_HUMMING",
+    "subtitle_track_present": true,
+    "runtime_matches_locked_audio": true,
+    "public_release": "NOT_AUTHORIZED"
+  },
+  "credits_used": {
+    "image_generation": 16,
+    "compositing": 0,
+    "transcription_review": 0,
+    "total": 16
+  },
+  "review_note": "Ready for user finalization. No publication action has been taken."
+}
