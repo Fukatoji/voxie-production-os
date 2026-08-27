@@ -1,0 +1,40 @@
+{
+  "transcript_id": "ae7f3ea8-d07f-43d6-bf41-58a00294181c",
+  "provider": "AccurateScribe.ai",
+  "filename": "Voxies_Big_Surprise_2026-08-26T165944 (1).wav",
+  "duration_seconds": 150,
+  "language": "en-US",
+  "status": "completed",
+  "subtitle_entries": [
+    {"index":1,"start":4.64,"end":10.48,"text":"Oh, what could be inside this big wonder box? Let's listen carefully and follow the clues.","confidence":"transcriber_timed"},
+    {"index":2,"start":15.215,"end":17.775,"text":"What's the surprise? Listen and see.","confidence":"transcriber_timed"},
+    {"index":3,"start":20.015,"end":27.07,"text":"One little clue for you and me. Clap and tap and count to three. Wonder is waiting. What could it be?","confidence":"transcriber_timed"},
+    {"index":4,"start":28.75,"end":30.67,"text":"Here is clue number one.","confidence":"transcriber_timed"},
+    {"index":5,"start":31.07,"end":31.87,"text":"Clap.","confidence":"transcriber_timed"},
+    {"index":6,"start":31.87,"end":35.15,"text":"Clap. One, two. Now you try.","confidence":"transcriber_timed"},
+    {"index":7,"start":36.43,"end":37.39,"text":"Great job.","confidence":"transcriber_timed"},
+    {"index":8,"start":48.195,"end":50.355003,"text":"What's the surprise? Listen and see.","confidence":"transcriber_timed"},
+    {"index":9,"start":52.97,"end":59.690002,"text":"One little clue for you and me. Clap and tap, then count to three. Wonder is waiting. What could it be?","confidence":"transcriber_timed"},
+    {"index":10,"start":81.11,"end":83.67,"text":"What's the surprise? Listen and see.","confidence":"transcriber_timed"},
+    {"index":11,"start":85.91,"end":90.31,"text":"One little clue for you and me. Clap and tap and count to three.","confidence":"transcriber_timed"},
+    {"index":12,"start":92.985,"end":95.305,"text":"Wonder is waiting. What could it be?","confidence":"transcriber_timed"},
+    {"index":13,"start":97.625,"end":100.025,"text":"Ready for clue number three.","confidence":"transcriber_timed"},
+    {"index":14,"start":103.545,"end":104.745,"text":"Humpting.","confidence":"needs_review","review_note":"Likely recognition error; preserve raw transcript until manually corrected."},
+    {"index":15,"start":105.865,"end":106.744995,"text":"Now you try.","confidence":"transcriber_timed"},
+    {"index":16,"start":108.19,"end":109.39,"text":"Humpting.","confidence":"needs_review","review_note":"Likely recognition error; preserve raw transcript until manually corrected."},
+    {"index":17,"start":109.55,"end":111.950005,"text":"Way to go, little friends.","confidence":"transcriber_timed"},
+    {"index":18,"start":113.55,"end":118.83,"text":"Let's","confidence":"transcriber_timed"},
+    {"index":19,"start":118.83,"end":120.590004,"text":"put the clues together.","confidence":"transcriber_timed"},
+    {"index":20,"start":120.590004,"end":123.265,"text":"Clap clap tap tap tap. Humming.","confidence":"transcriber_timed"},
+    {"index":21,"start":123.265,"end":128.065,"text":"Let's try it again together. Clap clap tap tap tap. Humming.","confidence":"transcriber_timed"},
+    {"index":22,"start":132.625,"end":137.53,"text":"Open the box. What do we see? The big surprise is our melody.","confidence":"transcriber_timed"},
+    {"index":23,"start":137.76999,"end":143.61,"text":"Every sound became a part of one big song we made by heart. The big surprise","confidence":"transcriber_timed"},
+    {"index":24,"start":143.61,"end":145.77,"text":"was the music we made together.","confidence":"transcriber_timed"},
+    {"index":25,"start":146.40999,"end":148.73,"text":"Wonderful listening, little explorers.","confidence":"transcriber_timed"}
+  ],
+  "known_issues": [
+    {"type":"coverage_gap","start":59.690002,"end":81.11,"note":"No transcript entries returned for this span; requires listening/manual review."},
+    {"type":"recognition_uncertainty","entry_indices":[14,16],"raw_text":"Humpting.","note":"Likely transcription error; do not auto-correct without audio review or exact lyrics."},
+    {"type":"segmentation_artifact","entry_indices":[18,19],"note":"Sentence split across two subtitle entries."}
+  ]
+}
