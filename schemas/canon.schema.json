@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie Canon",
+  "type": "object",
+  "required": ["canon_version", "characters"],
+  "properties": {
+    "canon_version": {"type": "string"},
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["character_id", "name", "lock_level", "identity_rules"],
+        "properties": {
+          "character_id": {"type": "string", "pattern": "^[A-Z0-9_-]+$"},
+          "name": {"type": "string"},
+          "lock_level": {"enum": ["hard", "layered", "experimental"]},
+          "identity_rules": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "reference_assets": {"type": "array", "items": {"type": "string"}},
+          "forbidden_assets": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
