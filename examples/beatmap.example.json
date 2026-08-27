@@ -1,0 +1,10 @@
+{
+  "beatmap_version": "1.0",
+  "duration_s": 8.0,
+  "bpm": 120,
+  "lyrics": [
+    {"line_id": "L001", "text": "Come explore with me!", "vocal_start_s": 0.5, "vocal_end_s": 2.0, "confidence": 0.98, "beat_index": 1, "bar_index": 1, "manual_review": false}
+  ],
+  "beats": [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5],
+  "downbeats": [0.0, 2.0]
+}
