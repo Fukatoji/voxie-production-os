@@ -1,0 +1,18 @@
+canon_version: "1.0"
+characters:
+  - character_id: VOXIE
+    name: Voxie
+    lock_level: hard
+    identity_rules:
+      - Preserve canonical silhouette and proportions.
+      - Preserve visor, cyan eyes and catchlights, brows, mouth, V emblem, ear modules, and chest diamond.
+      - Preserve four translucent wings and their placement.
+      - Preserve white/dark-indigo armor balance.
+    reference_assets:
+      - VOXIE_FRONT
+      - VOXIE_3Q
+      - VOXIE_SIDE_BACK
+      - VOXIE_FLOAT
+      - VOXIE_CS_A
+    forbidden_assets:
+      - VOXFLOW_DISALLOWED_VOXIE_PNG
