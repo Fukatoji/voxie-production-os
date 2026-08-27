@@ -1,0 +1,29 @@
+manifest_version: "1.0"
+project_id: VOXIE-OS-DEMO
+shots:
+  - shot_id: S001
+    duration_s: 2.0
+    asset_id: VOXIE_NEUTRAL_POSE
+    characters: [VOXIE]
+    composition_lock: true
+    motion:
+      mode: hold
+      start_anchor_asset: VOXIE_NEUTRAL_POSE
+      mid_anchor_asset: null
+      end_anchor_asset: null
+      camera_move: null
+    markers:
+      - {type: lyric, line_id: L001, at_s: 0.5}
+  - shot_id: S002
+    duration_s: 3.0
+    asset_id: VOXIE_FREEZE_DANCE_TEST
+    characters: [VOXIE]
+    composition_lock: true
+    motion:
+      mode: keyframed
+      start_anchor_asset: VOXIE_DANCE_START
+      mid_anchor_asset: VOXIE_STAR_FREEZE
+      end_anchor_asset: VOXIE_RESET
+      camera_move: null
+    markers:
+      - {type: freeze_cue, at_s: 1.5}
