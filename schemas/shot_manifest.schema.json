@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shot Manifest",
+  "type": "object",
+  "required": ["manifest_version", "project_id", "shots"],
+  "properties": {
+    "manifest_version": {"type": "string"},
+    "project_id": {"type": "string"},
+    "shots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["shot_id", "duration_s", "characters", "motion"],
+        "properties": {
+          "shot_id": {"type": "string"},
+          "duration_s": {"type": "number", "exclusiveMinimum": 0},
+          "asset_id": {"type": ["string", "null"]},
+          "characters": {"type": "array", "items": {"type": "string"}},
+          "composition_lock": {"type": "boolean"},
+          "motion": {
+            "type": "object",
+            "required": ["mode"],
+            "properties": {
+              "mode": {"enum": ["hold", "keyframed", "generated", "hybrid"]},
+              "start_anchor_asset": {"type": ["string", "null"]},
+              "mid_anchor_asset": {"type": ["string", "null"]},
+              "end_anchor_asset": {"type": ["string", "null"]},
+              "camera_move": {"type": ["string", "null"]}
+            },
+            "additionalProperties": true
+          },
+          "markers": {"type": "array", "items": {"type": "object"}}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
