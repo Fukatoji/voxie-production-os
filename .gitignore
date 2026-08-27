@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.env.*
+!.env.example
+
+# Local/generated production outputs
+media/
+artifacts/
+outputs/
+runs/
+qc-report.json
+timeline.json
+
+# Large media should live in ChatGPT Library / connected media storage
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.flac
+*.zip
