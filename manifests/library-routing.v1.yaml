@@ -1,0 +1,75 @@
+version: 1
+updated: 2026-08-27
+purpose: "Route external creative assets without storing large media in Git."
+
+source_of_truth:
+  control_plane: "GitHub/Codex"
+  media_library: "ChatGPT Library"
+
+library_routes:
+  voxie_wonder_world:
+    root: "/Voxie's Wonder World"
+    canon:
+      characters: "/Voxie's Wonder World/01 Canon/Characters"
+      environments: "/Voxie's Wonder World/01 Canon/Environments"
+      brand: "/Voxie's Wonder World/01 Canon/Brand"
+    references:
+      character_and_production_stills: "/Voxie's Wonder World/02 References/Character & Production Stills"
+      external_research: "/Voxie's Wonder World/02 References/External Research"
+      brand_development: "/Voxie's Wonder World/02 References/Brand Development"
+    productions:
+      active: "/Voxie's Wonder World/Productions/Active"
+      masters: "/Voxie's Wonder World/Productions/Masters"
+      shorts: "/Voxie's Wonder World/Productions/Shorts"
+      audio: "/Voxie's Wonder World/Productions/Audio"
+      keyframes: "/Voxie's Wonder World/Productions/Keyframes"
+    social:
+      posting_packages: "/Voxie's Wonder World/03 Social/Posting Packages"
+      covers: "/Voxie's Wonder World/03 Social/Covers"
+      account_setup: "/Voxie's Wonder World/03 Social/Account Setup"
+    production_os:
+      manifests: "/Voxie's Wonder World/04 Production OS/Manifests"
+      policies: "/Voxie's Wonder World/04 Production OS/Policies"
+      workflows: "/Voxie's Wonder World/04 Production OS/Workflows"
+      workflow_evidence: "/Voxie's Wonder World/04 Production OS/Workflows/Evidence"
+      tests: "/Voxie's Wonder World/04 Production OS/Tests"
+      codex_handoff: "/Voxie's Wonder World/04 Production OS/Codex Handoff"
+    archive: "/Voxie's Wonder World/05 Archive/Superseded"
+    non_canon_alternates: "/Voxie's Wonder World/Non-Canon Alternates"
+
+  agent_specialize_control_system:
+    root: "/Agent Specialize Control System"
+    profiles: "/Agent Specialize Control System/Agent Profiles"
+    workflows: "/Agent Specialize Control System/Agent Workflows"
+
+  earn_with_picsart:
+    root: "/Earn with Picsart"
+    onboarding_and_rules: "/Earn with Picsart/Onboarding & Rules"
+    campaigns_and_updates: "/Earn with Picsart/Campaigns & Updates"
+
+  character_creator:
+    root: "/Character Creator"
+    video_tests: "/Character Creator/Video Tests"
+
+  voxflow:
+    root: "/VoxFlow"
+    app_screens: "/VoxFlow/App Screens"
+
+holding_areas:
+  unsorted: "/00 Inbox - Unsorted"
+  duplicate_review: "/99 Duplicates - Review"
+  unrelated_review: "/98 Unrelated - Review"
+
+classification_rules:
+  - "Ambiguous assets stay in the unsorted inbox; do not infer identity from filename alone."
+  - "Only explicit approved/locked assets may enter Masters or Canon."
+  - "Draft, source, and visually identified production clips go to Active unless a stronger status is established."
+  - "Duplicate candidates are quarantined for review; do not delete automatically."
+  - "Large image/audio/video binaries remain outside Git and are referenced by manifests."
+  - "Use stable semantic asset IDs and checksums when authoritative identity is known."
+
+current_intake_status:
+  unresolved_count: 1
+  unresolved:
+    - "1000002764.png"
+  deletion_performed: false
