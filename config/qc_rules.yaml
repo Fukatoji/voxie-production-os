@@ -1,0 +1,10 @@
+version: "1.0"
+policy:
+  destructive_writes_require_approval: true
+  paid_generation_requires_approval: true
+  publishing_requires_approval: true
+  canon_promotion_requires_approval: true
+thresholds:
+  max_identity_drift: 0.15
+  max_composition_drift: 0.12
+  max_keyframe_error_frames: 2
