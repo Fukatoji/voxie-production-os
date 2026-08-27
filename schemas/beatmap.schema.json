@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BeatMap",
+  "type": "object",
+  "required": ["beatmap_version", "duration_s", "lyrics"],
+  "properties": {
+    "beatmap_version": {"type": "string"},
+    "duration_s": {"type": "number", "exclusiveMinimum": 0},
+    "bpm": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "lyrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["line_id", "text", "vocal_start_s", "vocal_end_s", "confidence", "manual_review"],
+        "properties": {
+          "line_id": {"type": "string"},
+          "text": {"type": "string"},
+          "vocal_start_s": {"type": "number", "minimum": 0},
+          "vocal_end_s": {"type": "number", "minimum": 0},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "beat_index": {"type": ["integer", "null"]},
+          "bar_index": {"type": ["integer", "null"]},
+          "manual_review": {"type": "boolean"}
+        }
+      }
+    },
+    "beats": {"type": "array", "items": {"type": "number", "minimum": 0}},
+    "downbeats": {"type": "array", "items": {"type": "number", "minimum": 0}}
+  },
+  "additionalProperties": true
+}
