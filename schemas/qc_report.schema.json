@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QC Report",
+  "type": "object",
+  "required": ["status", "findings"],
+  "properties": {
+    "status": {"enum": ["PASS", "REVIEW", "FAIL"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "rule_id", "message"],
+        "properties": {
+          "severity": {"enum": ["info", "warning", "error"]},
+          "rule_id": {"type": "string"},
+          "shot_id": {"type": ["string", "null"]},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
