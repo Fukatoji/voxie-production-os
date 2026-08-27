@@ -1,10 +1,15 @@
 {
   "alignment_id": "VWF-BIG-SURPRISE-BEATMAP-001-LYRICS-PROVISIONAL",
   "base_beatmap": "productions/big-surprise/beatmap-001.provisional.json",
-  "transcript_source": "productions/big-surprise/transcript-accuratescribe.json",
-  "status": "PROVISIONAL_TRANSCRIBER_TIMING",
+  "source_lock": "productions/big-surprise/beatmap-001.source-lock.json",
+  "status": "PROVISIONAL_TRANSCRIBER_TIMING_SOURCE_LOCKED",
   "duration_seconds": 150.0,
   "language": "en-US",
+  "audio_authority": {
+    "controlled_filename": "VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav",
+    "sha256": "600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b",
+    "byte_identity_verified": true
+  },
   "coverage": {
     "first_cue_start": 4.64,
     "last_cue_end": 148.73,
@@ -31,9 +36,11 @@
     {"time":146.40999,"type":"closing","label":"Wonderful listening"},
     {"time":148.73,"type":"voice_end","label":"Final vocal ends"}
   ],
-  "review_gates": [
+  "resolved_review_gates": [
     "Resolve source hash mismatch",
-    "Lock exact audio master",
+    "Lock exact audio master"
+  ],
+  "review_gates": [
     "Review 59.690002-81.11 transcript gap against audio",
     "Correct or confirm the two Humpting cues",
     "Review all subtitle boundaries against exact lyrics",
