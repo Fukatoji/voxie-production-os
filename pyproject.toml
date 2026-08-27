@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voxie-production-os"
+version = "0.1.0"
+description = "Control plane for Voxie's Wonder World production: canon, timing, manifests, benchmarks, QC, and timeline adapters."
+requires-python = ">=3.10"
+dependencies = ["jsonschema>=4.18", "PyYAML>=6.0"]
+
+[project.scripts]
+voxie-os = "voxie_os.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
