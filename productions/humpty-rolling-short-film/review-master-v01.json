@@ -1,0 +1,60 @@
+{
+  "project": "Voxie, Navi & Humpty — Rolling Short Film",
+  "status": "COMPLETE_FOR_FINAL_REVIEW",
+  "controlled_filename": "VWF_HUMPTY_ROLLING_SHORT_FILM_v01_COMPLETE_FOR_FINAL_REVIEW.mp4",
+  "media_storage": {
+    "provider": "Higgsfield media storage",
+    "media_id": "0de98c65-be5e-46e9-8a97-54c23d1dc050",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3HcHVg9qff4T7VTg97HP27Ob55q/0de98c65-be5e-46e9-8a97-54c23d1dc050.mp4"
+  },
+  "sha256": "7a45246908cb0b913fc9816f426bbdcf2e17246b36ca01de96e9f9ff0abdbb40",
+  "technical": {
+    "duration_seconds": 99.5,
+    "resolution": "720x1280",
+    "aspect_ratio": "9:16",
+    "fps": 24,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "audio_sample_rate_hz": 44100,
+    "audio_channels": 2
+  },
+  "assembly": {
+    "scenes_1_12_source": "Short-Film-Batch1-RoughCut-Scenes1-12.mp4",
+    "scenes_1_12_duration_seconds": 56.5,
+    "scenes_13_20_strategy": "Approved/generated vertical stills conformed to 9:16 with subtle compositor zoom; redone village-square variants used for S15, S16 and S18.",
+    "scene_13_duration_seconds": 5,
+    "scene_14_duration_seconds": 5,
+    "scene_15_duration_seconds": 5,
+    "scene_16_duration_seconds": 5,
+    "scene_17_duration_seconds": 5,
+    "scene_18_duration_seconds": 5,
+    "scene_19_duration_seconds": 5,
+    "scene_20_duration_seconds": 8
+  },
+  "music": {
+    "model": "Google Lyria 3 Pro via Picsart",
+    "generation_id": "b7046b37-4637-4775-807d-2be2dda127c7",
+    "source_url": "https://cdn-editing-temp.picsart.com/editing-temp/f65e8bc2-a750-4751-a745-401708864021.mp3",
+    "source_duration_seconds": 144.1175,
+    "mix_gain": 0.32,
+    "fade_in_seconds": 1.5,
+    "fade_out_start_seconds": 96,
+    "fade_out_duration_seconds": 3.5,
+    "vocals": false
+  },
+  "qc": {
+    "runtime_integrity": "PASS",
+    "stream_integrity": "PASS",
+    "scene_order": "PASS",
+    "approved_character_reference_pipeline_preserved": true,
+    "village_square_continuity_fixes_used": true,
+    "public_release": "NOT_AUTHORIZED"
+  },
+  "credits_used": {
+    "music_generation": 3,
+    "compositing": 0,
+    "new_video_generation": 0,
+    "total": 3
+  },
+  "review_note": "Ready for user finalization. No publication action has been taken."
+}
