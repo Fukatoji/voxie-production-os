@@ -1,0 +1,49 @@
+{
+  "beatmap_version": "1.0",
+  "beatmap_id": "VWF-BIG-SURPRISE-BEATMAP-001",
+  "status": "FINAL_APPROVED_FOR_PRODUCTION",
+  "duration_s": 150.0,
+  "bpm": 103.359375,
+  "source_audio": {
+    "controlled_filename": "VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav",
+    "sha256": "600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b",
+    "byte_identity_verified": true
+  },
+  "beat_grid_source": "productions/big-surprise/beatmap-001.provisional.json",
+  "alignment_evidence": "productions/big-surprise/beatmap-001.lyric-alignment.provisional.json",
+  "lyrics": [
+    {"line_id":"L01","text":"Oh, what could be inside this big wonder box? Let's listen carefully and follow the clues.","vocal_start_s":4.64,"vocal_end_s":10.48,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L02","text":"What's the surprise? Listen and see.","vocal_start_s":15.215,"vocal_end_s":17.775,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L03","text":"One little clue for you and me. Clap and tap and count to three. Wonder is waiting. What could it be?","vocal_start_s":20.015,"vocal_end_s":27.07,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L04","text":"Here is clue number one.","vocal_start_s":28.75,"vocal_end_s":30.67,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L05","text":"Clap. Clap. One, two. Now you try.","vocal_start_s":31.07,"vocal_end_s":35.15,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L06","text":"Great job.","vocal_start_s":36.27,"vocal_end_s":37.39,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L07","text":"What's the surprise? Listen and see.","vocal_start_s":48.195,"vocal_end_s":50.355003,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L08","text":"One little clue for you and me. Clap and tap, then count to three. Wonder is waiting. What could it be?","vocal_start_s":52.97,"vocal_end_s":59.690002,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L09","text":"Listen to clue number two.","vocal_start_s":66.935005,"vocal_end_s":69.415,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L10","text":"Tap. Tap. Tap. One, two, three.","vocal_start_s":71.095,"vocal_end_s":74.135,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L11","text":"Your turn. Beautiful tapping.","vocal_start_s":75.175,"vocal_end_s":79.33501,"confidence":0.98,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L12","text":"What's the surprise? Listen and see.","vocal_start_s":81.11,"vocal_end_s":83.67,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L13","text":"One little clue for you and me. Clap and tap and count to three.","vocal_start_s":85.91,"vocal_end_s":90.31,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L14","text":"Wonder is waiting. What could it be?","vocal_start_s":92.985,"vocal_end_s":95.305,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L15","text":"Ready for clue number three.","vocal_start_s":97.625,"vocal_end_s":100.025,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L16","text":"[humming]","vocal_start_s":103.545,"vocal_end_s":104.745,"confidence":0.96,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L17","text":"Now you try.","vocal_start_s":105.865,"vocal_end_s":106.744995,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L18","text":"[humming]","vocal_start_s":108.19,"vocal_end_s":109.39,"confidence":0.96,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L19","text":"Way to go, little friends.","vocal_start_s":109.55,"vocal_end_s":111.950005,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L20","text":"Let's put the clues together.","vocal_start_s":113.55,"vocal_end_s":120.590004,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L21","text":"Clap, clap, tap, tap, tap. [humming]","vocal_start_s":120.590004,"vocal_end_s":123.265,"confidence":0.97,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L22","text":"Let's try it again together. Clap, clap, tap, tap, tap. [humming]","vocal_start_s":123.265,"vocal_end_s":128.065,"confidence":0.97,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L23","text":"Open the box. What do we see? The big surprise is our melody.","vocal_start_s":132.625,"vocal_end_s":137.53,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L24","text":"Every sound became a part of one big song we made by heart.","vocal_start_s":137.76999,"vocal_end_s":142.17,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L25","text":"The big surprise was the music we made together.","vocal_start_s":142.17,"vocal_end_s":145.77,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
+    {"line_id":"L26","text":"Wonderful listening, little explorers.","vocal_start_s":146.48999,"vocal_end_s":148.73,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false}
+  ],
+  "approval": {
+    "source_lock_resolved": true,
+    "transcript_gap_resolved": true,
+    "nonverbal_cues_reviewed": true,
+    "routine_production_approval_authorized": true,
+    "public_release_authorized": false
+  }
+}
