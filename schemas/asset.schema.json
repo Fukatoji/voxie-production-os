@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Asset Registry Record",
+  "type": "object",
+  "required": ["asset_id", "asset_type", "status", "provenance"],
+  "properties": {
+    "asset_id": {"type": "string"},
+    "asset_type": {"enum": ["image", "video", "audio", "timeline", "document", "model", "other"]},
+    "status": {"enum": ["candidate", "approved", "locked", "rejected", "superseded"]},
+    "path_or_uri": {"type": ["string", "null"]},
+    "sha256": {"type": ["string", "null"]},
+    "provenance": {"type": "object"},
+    "canon_tags": {"type": "array", "items": {"type": "string"}},
+    "qc_status": {"enum": ["UNTESTED", "PASS", "REVIEW", "FAIL"]}
+  },
+  "additionalProperties": true
+}
