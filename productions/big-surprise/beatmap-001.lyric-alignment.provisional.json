@@ -1,8 +1,8 @@
 {
-  "alignment_id": "VWF-BIG-SURPRISE-BEATMAP-001-LYRICS-PROVISIONAL",
+  "alignment_id": "VWF-BIG-SURPRISE-BEATMAP-001-LYRICS-REVIEWED",
   "base_beatmap": "productions/big-surprise/beatmap-001.provisional.json",
   "source_lock": "productions/big-surprise/beatmap-001.source-lock.json",
-  "status": "PROVISIONAL_TRANSCRIBER_TIMING_SOURCE_LOCKED",
+  "status": "REVIEWED_SOURCE_LOCKED",
   "duration_seconds": 150.0,
   "language": "en-US",
   "audio_authority": {
@@ -13,37 +13,56 @@
   "coverage": {
     "first_cue_start": 4.64,
     "last_cue_end": 148.73,
-    "cue_count": 25,
-    "known_gap": {"start": 59.690002, "end": 81.11},
-    "unreviewed_terms": ["Humpting."]
+    "known_gap": null,
+    "gap_resolution": "Recovered from two independent AccurateScribe passes of the 150-second source and independently confirmed by a faster-whisper small.en pass on the exact locked WAV segment.",
+    "nonverbal_normalization": "The two former 'Humpting.' cues contain no detected lexical speech in the independent faster-whisper pass and are normalized as [humming], consistent with the clue structure and later humming cue."
   },
+  "resolved_gap_cues": [
+    {"start":66.935005,"end":69.415,"text":"Listen to clue number two."},
+    {"start":71.095,"end":72.295006,"text":"Tap. Tap. Tap."},
+    {"start":72.295006,"end":74.135,"text":"One, two, three."},
+    {"start":75.175,"end":76.215004,"text":"Your turn."},
+    {"start":76.215004,"end":79.33501,"text":"Beautiful tapping."}
+  ],
+  "normalized_nonverbal_cues": [
+    {"start":103.545,"end":104.745,"text":"[humming]","raw_transcriber_text":"Humpting."},
+    {"start":108.19,"end":109.39,"text":"[humming]","raw_transcriber_text":"Humpting."}
+  ],
   "production_markers": [
     {"time":4.64,"type":"voice_start","label":"Opening question"},
     {"time":15.215,"type":"chorus_start","label":"What's the surprise? 1"},
     {"time":28.75,"type":"clue_start","label":"Clue 1"},
-    {"time":36.43,"type":"response_feedback","label":"Great job"},
+    {"time":36.27,"type":"response_feedback","label":"Great job"},
     {"time":48.195,"type":"chorus_start","label":"What's the surprise? 2"},
-    {"time":59.690002,"type":"review_gap_start","label":"Transcript coverage gap"},
-    {"time":81.11,"type":"review_gap_end","label":"Transcript resumes / chorus 3"},
+    {"time":66.935005,"type":"clue_start","label":"Clue 2"},
+    {"time":71.095,"type":"sound_pattern","label":"Tap tap tap"},
+    {"time":81.11,"type":"chorus_start","label":"What's the surprise? 3"},
     {"time":97.625,"type":"clue_start","label":"Clue 3"},
-    {"time":103.545,"type":"uncertain_lyric","label":"Raw transcript: Humpting"},
+    {"time":103.545,"type":"nonverbal_humming","label":"Humming clue"},
+    {"time":108.19,"type":"nonverbal_humming","label":"Humming response"},
     {"time":109.55,"type":"response_feedback","label":"Way to go"},
     {"time":113.55,"type":"assembly_start","label":"Put clues together"},
     {"time":120.590004,"type":"sound_pattern","label":"Clap clap tap tap tap / humming"},
     {"time":132.625,"type":"reveal_start","label":"Open the box"},
     {"time":135.12999,"type":"reveal_payoff","label":"The big surprise is our melody"},
     {"time":142.17,"type":"lesson_resolution","label":"Music we made together"},
-    {"time":146.40999,"type":"closing","label":"Wonderful listening"},
+    {"time":146.48999,"type":"closing","label":"Wonderful listening"},
     {"time":148.73,"type":"voice_end","label":"Final vocal ends"}
   ],
+  "evidence": {
+    "accuratescribe_full_pass_ids": ["0eac5b3b-a72f-4e1d-ae0c-554fd3ffc9cf","5426a53e-a2f0-47c3-b06e-3d1f04d33c06"],
+    "accuratescribe_partial_pass_id": "ae7f3ea8-d07f-43d6-bf41-58a00294181c",
+    "independent_model": "faster-whisper small.en",
+    "independent_gap_result": "Listen to clue number two, tap, tap, tap, one, two, three. Your turn, beautiful tapping, what's the surprise?",
+    "independent_hum_result": "No lexical speech detected at the two raw 'Humpting.' cue windows; surrounding spoken phrases were detected."
+  },
   "resolved_review_gates": [
     "Resolve source hash mismatch",
-    "Lock exact audio master"
+    "Lock exact audio master",
+    "Review 59.690002-81.11 transcript gap against audio",
+    "Correct or confirm the two Humpting cues"
   ],
   "review_gates": [
-    "Review 59.690002-81.11 transcript gap against audio",
-    "Correct or confirm the two Humpting cues",
-    "Review all subtitle boundaries against exact lyrics",
-    "Promote only after human lyric approval"
+    "Promote exact lyric cue set into final BeatMap record"
   ]
 }
