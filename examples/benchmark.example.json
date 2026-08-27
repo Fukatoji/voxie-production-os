@@ -1,0 +1,8 @@
+{
+  "benchmark_id": "VOXIE-KEYFRAME-001",
+  "model": {"name": "example-model", "revision": "local-test"},
+  "samples": [
+    {"sample_id": "S1", "accepted": true, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.08, "composition_drift": 0.05, "keyframe_error_frames": 1}},
+    {"sample_id": "S2", "accepted": false, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.31, "composition_drift": 0.18, "keyframe_error_frames": 5}}
+  ]
+}
