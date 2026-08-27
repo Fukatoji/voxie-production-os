@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Benchmark Run",
+  "type": "object",
+  "required": ["benchmark_id", "model", "samples"],
+  "properties": {
+    "benchmark_id": {"type": "string"},
+    "model": {"type": "object", "required": ["name", "revision"]},
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sample_id", "accepted", "metrics"],
+        "properties": {
+          "sample_id": {"type": "string"},
+          "accepted": {"type": "boolean"},
+          "duration_s": {"type": "number", "minimum": 0},
+          "cost_usd": {"type": "number", "minimum": 0},
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "identity_drift": {"type": "number", "minimum": 0},
+              "composition_drift": {"type": "number", "minimum": 0},
+              "keyframe_error_frames": {"type": "number", "minimum": 0}
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
