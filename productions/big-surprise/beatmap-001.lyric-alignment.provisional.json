@@ -1,0 +1,42 @@
+{
+  "alignment_id": "VWF-BIG-SURPRISE-BEATMAP-001-LYRICS-PROVISIONAL",
+  "base_beatmap": "productions/big-surprise/beatmap-001.provisional.json",
+  "transcript_source": "productions/big-surprise/transcript-accuratescribe.json",
+  "status": "PROVISIONAL_TRANSCRIBER_TIMING",
+  "duration_seconds": 150.0,
+  "language": "en-US",
+  "coverage": {
+    "first_cue_start": 4.64,
+    "last_cue_end": 148.73,
+    "cue_count": 25,
+    "known_gap": {"start": 59.690002, "end": 81.11},
+    "unreviewed_terms": ["Humpting."]
+  },
+  "production_markers": [
+    {"time":4.64,"type":"voice_start","label":"Opening question"},
+    {"time":15.215,"type":"chorus_start","label":"What's the surprise? 1"},
+    {"time":28.75,"type":"clue_start","label":"Clue 1"},
+    {"time":36.43,"type":"response_feedback","label":"Great job"},
+    {"time":48.195,"type":"chorus_start","label":"What's the surprise? 2"},
+    {"time":59.690002,"type":"review_gap_start","label":"Transcript coverage gap"},
+    {"time":81.11,"type":"review_gap_end","label":"Transcript resumes / chorus 3"},
+    {"time":97.625,"type":"clue_start","label":"Clue 3"},
+    {"time":103.545,"type":"uncertain_lyric","label":"Raw transcript: Humpting"},
+    {"time":109.55,"type":"response_feedback","label":"Way to go"},
+    {"time":113.55,"type":"assembly_start","label":"Put clues together"},
+    {"time":120.590004,"type":"sound_pattern","label":"Clap clap tap tap tap / humming"},
+    {"time":132.625,"type":"reveal_start","label":"Open the box"},
+    {"time":135.12999,"type":"reveal_payoff","label":"The big surprise is our melody"},
+    {"time":142.17,"type":"lesson_resolution","label":"Music we made together"},
+    {"time":146.40999,"type":"closing","label":"Wonderful listening"},
+    {"time":148.73,"type":"voice_end","label":"Final vocal ends"}
+  ],
+  "review_gates": [
+    "Resolve source hash mismatch",
+    "Lock exact audio master",
+    "Review 59.690002-81.11 transcript gap against audio",
+    "Correct or confirm the two Humpting cues",
+    "Review all subtitle boundaries against exact lyrics",
+    "Promote only after human lyric approval"
+  ]
+}
