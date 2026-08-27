@@ -1,0 +1,28 @@
+{
+  "project": "Voxie’s Wonder Freeze Dance",
+  "review_master_version": "V2.1",
+  "status": "COMPLETE_FOR_FINAL_REVIEW",
+  "controlled_filename": "VWF_FREEZE_DANCE_V21_COMPLETE_FOR_FINAL_REVIEW.mp4",
+  "source_filename": "Voxie_Wonder_Freeze_Dance_V2.1_HARD-FREEZE_AUDIO-MASTER__REVIEW_FINAL.mp4",
+  "sha256": "6b1b5bc0c4439c6d3c4bdf2de67d5e24c0e086d9678da809421588674d78ebd8",
+  "technical": {
+    "resolution": "1920x1080",
+    "fps": 30,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "audio_sample_rate_hz": 44100,
+    "audio_channels": 2,
+    "duration_seconds": 175.833333
+  },
+  "qc": {
+    "hard_freeze_count": 7,
+    "locked_freeze_references_present": true,
+    "verified_reference_match_times_seconds": [43.5, 68.5, 89.5, 112.0, 133.5, 155.5, 175.5],
+    "character_consistency": "PASS",
+    "audio_master_preserved": "PASS",
+    "frame_integrity": "PASS",
+    "publication_status": "NOT_PUBLISHED"
+  },
+  "review_note": "Ready for user finalization. This record does not constitute public-release approval.",
+  "credits_used_this_completion_pass": 0
+}
