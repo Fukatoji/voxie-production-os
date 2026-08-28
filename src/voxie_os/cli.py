@@ -7,7 +7,8 @@ import sys
 from .alignment import audit_beatmap, build_consensus
 from .benchmark import evaluate, summarize
 from .change_report import build_change_report, changed_files, to_markdown
-from .core import load_data, save_json, validate
+from .core import SCHEMA_FILES, load_data, save_json, validate
+from .fixtures import validate_fixtures
 from .qc import run_manifest_qc
 from .providers import build_provider_plan
 from .timeline import to_neutral_timeline, to_premiere_plan, to_remotion_manifest, write_otio
@@ -18,8 +19,11 @@ def main() -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     v = sub.add_parser("validate")
-    v.add_argument("kind", choices=["canon", "asset", "beatmap", "shot_manifest", "benchmark", "qc_report", "alignment", "benchmark_suite", "provider_catalog", "provider_job"])
+    v.add_argument("kind", choices=sorted(SCHEMA_FILES))
     v.add_argument("path")
+
+    fixtures = sub.add_parser("fixtures-check")
+    fixtures.add_argument("--repo", help="Repository to check; defaults to the Production OS checkout")
 
     q = sub.add_parser("qc")
     q.add_argument("canon")
@@ -66,6 +70,15 @@ def main() -> int:
     pp.add_argument("--out")
 
     args = p.parse_args()
+    if args.cmd == "fixtures-check":
+        errors = validate_fixtures(args.repo) if args.repo else validate_fixtures()
+        if errors:
+            print("FAIL")
+            print("\n".join(f"- {error}" for error in errors))
+            return 1
+        print("PASS")
+        return 0
+
     if args.cmd == "validate":
         errors = validate(args.kind, load_data(args.path))
         if errors:

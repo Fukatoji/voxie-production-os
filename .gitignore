@@ -18,10 +18,20 @@ qc-report.json
 timeline.json
 
 # Large media should live in ChatGPT Library / connected media storage
-*.mp4
-*.mov
-*.mkv
-*.wav
-*.mp3
-*.flac
-*.zip
+*.[mM][pP]4
+*.[mM][oO][vV]
+*.[mM][kK][vV]
+*.[wW][aA][vV]
+*.[mM][pP]3
+*.[fF][lL][aA][cC]
+*.[zZ][iI][pP]
+*.[pP][nN][gG]
+*.[jJ][pP][gG]
+*.[jJ][pP][eE][gG]
+*.[wW][eE][bB][pP]
+*.[gG][iI][fF]
+
+# Exact fixture exceptions; CI enforces config/media-fixtures.v1.json (64 KiB max).
+# Never unignore an entire fixture directory or subtree.
+!/tests/fixtures/tone.wav
+!/examples/fixtures/tone.wav

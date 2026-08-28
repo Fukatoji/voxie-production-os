@@ -34,7 +34,24 @@ voxie-os validate canon examples/canon.voxie.v1.yaml
 voxie-os validate beatmap examples/beatmap.example.json
 voxie-os validate shot_manifest examples/shot_manifest.example.yaml
 voxie-os validate benchmark examples/benchmark.example.json
+voxie-os validate library_routing manifests/library-routing.v2.yaml
 ```
+
+## Library routing and media fixtures
+
+The `library_routing` validator checks the routing structure, version lineage, and that `current_intake_status.unresolved_count` equals the length of `unresolved`. The CLI takes its schema choices from the shared schema registry; new validators are registered in one place (`SCHEMA_FILES`).
+
+`manifests/library-routing.v2.yaml` quotes the snapshot date so PyYAML returns a string. It preserves the v1 routes and intake snapshot, with a `supersedes` reference containing the original manifest's version, path, and SHA-256. Historical `library-routing.v1.yaml` is unchanged; use v2 for schema validation. This representation change does not constitute a new asset audit or canon approval.
+
+Production media remains ignored, including inside fixture directories. Only the exact `tests/fixtures/tone.wav` and `examples/fixtures/tone.wav` paths are allowed as optional small fixture files by `config/media-fixtures.v1.json` and `.gitignore`; no binary fixtures are included by this change. New exceptions require a deliberate update to both files. Subtree and wildcard exceptions are prohibited.
+
+After staging changes, run:
+
+```bash
+voxie-os fixtures-check
+```
+
+This read-only check uses the Git index and staged policy: listed fixtures must be regular files no larger than **65,536 bytes (64 KiB)**, and unlisted tracked media is rejected even if force-added. CI runs this check along with routing validation. Git ignore patterns cannot enforce file size, so an oversized file at an allowed path may be staged, but the checker and CI reject it. Resizing the working copy or editing an unstaged policy does not bypass the check. Large media belongs in external storage and should be referenced by manifest.
 
 ## Run QC
 

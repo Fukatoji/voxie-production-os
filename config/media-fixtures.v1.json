@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "max_fixture_bytes": 65536,
+  "allowed_paths": [
+    "tests/fixtures/tone.wav",
+    "examples/fixtures/tone.wav"
+  ]
+}
