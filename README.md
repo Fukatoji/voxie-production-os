@@ -28,6 +28,7 @@ voxie-os validate canon examples/canon.voxie.v1.yaml
 voxie-os validate beatmap examples/beatmap.example.json
 voxie-os validate shot_manifest examples/shot_manifest.example.yaml
 voxie-os validate benchmark examples/benchmark.example.json
+voxie-os validate library_routing manifests/library-routing.v1.yaml
 ```
 
 ## Run QC

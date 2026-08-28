@@ -18,6 +18,7 @@ SCHEMA_FILES = {
     "shot_manifest": "shot_manifest.schema.json",
     "benchmark": "benchmark.schema.json",
     "qc_report": "qc_report.schema.json",
+    "library_routing": "library_routing.schema.json",
 }
 
 
@@ -39,12 +40,31 @@ def schema_for(kind: str) -> dict[str, Any]:
     return json.loads((SCHEMAS / SCHEMA_FILES[kind]).read_text(encoding="utf-8"))
 
 
+def _validate_library_routing_state(data: Any) -> list[str]:
+    if not isinstance(data, dict):
+        return []
+    status = data.get("current_intake_status")
+    if not isinstance(status, dict):
+        return []
+    unresolved = status.get("unresolved")
+    unresolved_count = status.get("unresolved_count")
+    if isinstance(unresolved, list) and type(unresolved_count) is int:
+        if unresolved_count != len(unresolved):
+            return [
+                "current_intake_status.unresolved_count: "
+                f"expected {len(unresolved)} to match unresolved items, got {unresolved_count}"
+            ]
+    return []
+
+
 def validate(kind: str, data: Any) -> list[str]:
     validator = Draft202012Validator(schema_for(kind))
     errors = []
     for err in sorted(validator.iter_errors(data), key=lambda e: list(e.path)):
         where = ".".join(str(p) for p in err.path) or "<root>"
         errors.append(f"{where}: {err.message}")
+    if kind == "library_routing":
+        errors.extend(_validate_library_routing_state(data))
     return errors
 
 

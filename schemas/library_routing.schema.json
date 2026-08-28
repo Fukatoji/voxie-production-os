@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Library Routing Manifest",
+  "type": "object",
+  "required": [
+    "version",
+    "updated",
+    "purpose",
+    "source_of_truth",
+    "library_routes",
+    "holding_areas",
+    "classification_rules",
+    "current_intake_status"
+  ],
+  "properties": {
+    "version": {"const": 1},
+    "updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "purpose": {"type": "string", "minLength": 1},
+    "source_of_truth": {
+      "type": "object",
+      "required": ["control_plane", "media_library"],
+      "properties": {
+        "control_plane": {"type": "string", "minLength": 1},
+        "media_library": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "library_routes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/route_node"}
+    },
+    "holding_areas": {
+      "type": "object",
+      "required": ["unsorted", "duplicate_review", "unrelated_review"],
+      "properties": {
+        "unsorted": {"$ref": "#/$defs/library_path"},
+        "duplicate_review": {"$ref": "#/$defs/library_path"},
+        "unrelated_review": {"$ref": "#/$defs/library_path"}
+      },
+      "additionalProperties": false
+    },
+    "classification_rules": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "current_intake_status": {
+      "type": "object",
+      "required": ["unresolved_count", "unresolved", "deletion_performed"],
+      "properties": {
+        "unresolved_count": {"type": "integer", "minimum": 0},
+        "unresolved": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "deletion_performed": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "library_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "route_node": {
+      "oneOf": [
+        {"$ref": "#/$defs/library_path"},
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/$defs/route_node"}
+        }
+      ]
+    }
+  }
+}

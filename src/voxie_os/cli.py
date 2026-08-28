@@ -5,7 +5,7 @@ import json
 import sys
 
 from .benchmark import summarize
-from .core import load_data, save_json, validate
+from .core import SCHEMA_FILES, load_data, save_json, validate
 from .qc import run_manifest_qc
 from .timeline import to_neutral_timeline
 
@@ -15,7 +15,7 @@ def main() -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     v = sub.add_parser("validate")
-    v.add_argument("kind", choices=["canon", "asset", "beatmap", "shot_manifest", "benchmark", "qc_report"])
+    v.add_argument("kind", choices=sorted(SCHEMA_FILES))
     v.add_argument("path")
 
     q = sub.add_parser("qc")

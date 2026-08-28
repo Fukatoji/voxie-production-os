@@ -24,3 +24,9 @@ timeline.json
 *.mp3
 *.flac
 *.zip
+
+# Small media fixtures required by tests or examples may be committed.
+!tests/fixtures/
+!tests/fixtures/**
+!examples/fixtures/
+!examples/fixtures/**
