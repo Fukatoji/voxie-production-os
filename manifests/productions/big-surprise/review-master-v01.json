@@ -25,7 +25,7 @@
     "source_preserved_unchanged": true,
     "delivery_audio_note": "Locked PCM source was muxed into the review delivery as 48 kHz stereo AAC; the canonical source WAV remains unchanged."
   },
-  "beatmap": "productions/big-surprise/beatmap-001.final.json",
+  "beatmap": "manifests/productions/big-surprise/beatmap-001.final.json",
   "visuals": {
     "keyframe_count": 8,
     "generator": "Higgsfield Nano Banana Pro request / Nano Banana 2 execution",

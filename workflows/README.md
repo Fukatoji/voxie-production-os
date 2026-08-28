@@ -3,6 +3,7 @@
 Declarative production workflow specifications and orchestration notes belong here.
 
 Suggested groups:
+- `productions/` — production-specific recovery, revision, and execution plans
 - `image-generation/`
 - `video-generation/`
 - `audio/`

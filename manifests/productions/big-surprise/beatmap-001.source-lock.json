@@ -1,6 +1,6 @@
 {
   "beatmap_id": "VWF-BIG-SURPRISE-BEATMAP-001",
-  "base_beatmap": "productions/big-surprise/beatmap-001.provisional.json",
+  "base_beatmap": "manifests/productions/big-surprise/beatmap-001.provisional.json",
   "status": "SOURCE_LOCKED",
   "audio_master": {
     "controlled_filename": "VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav",
@@ -21,7 +21,7 @@
     "uid": "562573af-da79-4353-b7f3-d0d14c63c3e7",
     "url": "https://cdn-editing-temp.picsart.com/editing-temp/928cc4a8-df48-41b2-83e0-f9748b424482.x-wav"
   },
-  "authority_document": "productions/big-surprise/audio-master-v01B.lock.md",
+  "authority_document": "manifests/productions/big-surprise/audio-master-v01B.lock.md",
   "resolved_review_gates": [
     "Confirm exact source file identity or formally accept uploaded hash",
     "Lock the audio master"
