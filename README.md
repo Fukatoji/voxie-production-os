@@ -1,6 +1,6 @@
 # Voxie Production OS
 
-Version 0.1 is the first executable control-plane scaffold for Voxie's Wonder World production.
+Version 0.2 turns the first scaffold into an executable evaluation and interchange layer for Voxie's Wonder World production.
 
 ## What exists now
 
@@ -12,6 +12,11 @@ Version 0.1 is the first executable control-plane scaffold for Voxie's Wonder Wo
 - Deterministic neutral timeline exporter
 - Initial manifest QC rules
 - CLI
+- Multi-aligner lyric consensus with explicit disagreement gates
+- Reproducible Voxie model benchmark suite and promotion scoring
+- Real OpenTimelineIO export
+- Deterministic Remotion manifests and Premiere UXP 26.3 transaction plans
+- Read-only GitHub change-impact reporting and CI
 
 ## Install locally
 
@@ -42,12 +47,33 @@ voxie-os qc examples/canon.voxie.v1.yaml examples/shot_manifest.example.yaml --o
 voxie-os timeline examples/shot_manifest.example.yaml --out timeline.json
 ```
 
+Build real OTIO, Remotion, and Premiere-controller artifacts from the same shot manifest:
+
+```bash
+pip install -e '.[timeline]'
+voxie-os timeline examples/shot_manifest.example.yaml --format otio --fps 30 --out timeline.otio
+voxie-os timeline examples/shot_manifest.example.yaml --format remotion --fps 30 --out remotion.json
+voxie-os timeline examples/shot_manifest.example.yaml --format premiere --fps 30 --out premiere-plan.json
+```
+
+## Merge lyric-alignment evidence
+
+Normalize each aligner result to the source contract, then merge without hiding conflicts:
+
+```bash
+voxie-os alignment-consensus whisperx.json lyric-align.json \
+  --id VWF-SONG-ALIGN-001 --out alignment-consensus.json
+```
+
+The consensus result is provisional by construction. Audio hash mismatches fail; timing and text disagreement create review gates.
+
 ## Benchmark summary
 
 ```bash
 voxie-os benchmark-summary examples/benchmark.example.json
+voxie-os benchmark-evaluate examples/benchmark.example.json workflows/voxie-model-benchmark-v01.yaml
 ```
 
-## Next build target
+## Current execution boundary
 
-The next layer should ingest a real completed Voxie song and produce a BeatMap with lyric timestamps, confidence flags, beats, downbeats, and manual-review markers. After that, the same manifest can drive ComfyUI/Diffusers benchmarks and later OTIO/Premiere.
+The code and contracts are runnable here. LTX, ComfyUI, Diffusers, WhisperX/Yass, and Premiere execution still require their own isolated GPU/desktop environments. The repository records those results; it does not promote a model, export a master, spend credits, or publish automatically.

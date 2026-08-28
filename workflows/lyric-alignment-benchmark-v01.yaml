@@ -1,0 +1,34 @@
+suite_version: "1.0"
+suite_id: VOS-LYRIC-ALIGNMENT-001
+status: READY
+audio:
+  controlled_filename: VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav
+  sha256: 600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b
+  duration_s: 150.0
+reference_lyrics: productions/big-surprise/beatmap-001.final.json
+baseline:
+  adapter: accuratescribe
+  evidence: productions/big-surprise/transcript-accuratescribe.json
+challengers:
+  - adapter: lyric-align
+    status: PENDING_ISOLATED_INSTALL
+    required_outputs: [line_timestamps, confidence, unresolved_spans]
+  - adapter: whisperx
+    status: PENDING_ISOLATED_INSTALL
+    preprocessing: separated_vocals
+    required_outputs: [word_timestamps, line_timestamps, confidence]
+  - adapter: yass-reloaded
+    status: PENDING_ISOLATED_INSTALL
+    preprocessing: separated_vocals
+    required_outputs: [line_timestamps, pitch_energy_evidence, confidence]
+consensus_policy:
+  join_key: line_id
+  max_timing_spread_s: 0.45
+  min_sources: 2
+  min_confidence: 0.85
+  unresolved_behavior: FLAG_FOR_HUMAN_REVIEW
+  silent_invention_forbidden: true
+promotion_gate:
+  output_status: PROVISIONAL
+  human_review_required: true
+  locked_beatmap_must_not_be_overwritten: true
