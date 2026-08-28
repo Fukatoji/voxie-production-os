@@ -58,6 +58,8 @@ manifests/
 
 Preserve explicit states such as `candidate`, `review`, `approved`, `locked`, `superseded`, and `non-canon`. Never overwrite an approved or locked historical record; create a successor with explicit lineage.
 
+The read-only change reporter classifies asset, production, distribution, and repository-level manifest records separately. Every non-README manifest change requires human review; final, locked, and master production records receive the stricter lock-gate classification.
+
 ### `workflows/`
 
 Declarative production, recovery, editing, QC, and publishing processes. A workflow may describe an action but cannot silently grant spend, approval, canon promotion, or publication authority.
@@ -84,6 +86,7 @@ Architecture, decisions, provider guides, runbooks, status reports, and reposito
 | Posting or release package | `manifests/distribution/` |
 | Recovery or execution plan | `workflows/productions/` |
 | Operator continuity summary | `handoff/` |
+| Multi-production completion summary | `handoff/completion-batches/` |
 | Architecture or runbook | `docs/` |
 | WAV, MP4, source image, or ZIP | External media storage |
 
