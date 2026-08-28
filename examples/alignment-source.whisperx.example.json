@@ -1,0 +1,20 @@
+{
+  "source_id": "WHISPERX-DEMO-001",
+  "adapter": "whisperx",
+  "revision": "fixture",
+  "weight": 1.0,
+  "audio": {
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "duration_s": 8.0
+  },
+  "lyrics": [
+    {
+      "line_id": "L001",
+      "text": "Come explore with me!",
+      "vocal_start_s": 0.5,
+      "vocal_end_s": 2.0,
+      "confidence": 0.95,
+      "manual_review": false
+    }
+  ]
+}

@@ -18,6 +18,8 @@ SCHEMA_FILES = {
     "shot_manifest": "shot_manifest.schema.json",
     "benchmark": "benchmark.schema.json",
     "qc_report": "qc_report.schema.json",
+    "alignment": "alignment.schema.json",
+    "benchmark_suite": "benchmark_suite.schema.json",
 }
 
 

@@ -1,8 +1,9 @@
 {
   "benchmark_id": "VOXIE-KEYFRAME-001",
   "model": {"name": "example-model", "revision": "local-test"},
+  "execution": {"adapter": "example", "hardware": {"gpu": "fixture"}, "started_at": "2026-08-28T00:00:00Z"},
   "samples": [
-    {"sample_id": "S1", "accepted": true, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.08, "composition_drift": 0.05, "keyframe_error_frames": 1}},
-    {"sample_id": "S2", "accepted": false, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.31, "composition_drift": 0.18, "keyframe_error_frames": 5}}
+    {"sample_id": "S1", "scenario_id": "FIRST-LAST", "seed": 1001, "accepted": true, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.08, "composition_drift": 0.05, "keyframe_error_frames": 1, "wing_count_error": 0, "face_error": 0.04, "runtime_s": 40, "peak_memory_gb": 12}, "output": {"sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}},
+    {"sample_id": "S2", "scenario_id": "FIRST-LAST", "seed": 1002, "accepted": false, "duration_s": 3.0, "cost_usd": 0.12, "metrics": {"identity_drift": 0.31, "composition_drift": 0.18, "keyframe_error_frames": 5, "wing_count_error": 1, "face_error": 0.22, "runtime_s": 41, "peak_memory_gb": 12.4}, "output": {"sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}}
   ]
 }
