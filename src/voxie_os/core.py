@@ -20,6 +20,8 @@ SCHEMA_FILES = {
     "qc_report": "qc_report.schema.json",
     "alignment": "alignment.schema.json",
     "benchmark_suite": "benchmark_suite.schema.json",
+    "provider_catalog": "provider_catalog.schema.json",
+    "provider_job": "provider_job.schema.json",
 }
 
 

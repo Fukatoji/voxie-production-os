@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie Provider Job",
+  "type": "object",
+  "required": ["schema_version", "job_id", "project_id", "provider", "operation", "status", "inputs", "approvals"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "job_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "operation": {"type": "string", "minLength": 1},
+    "status": {"enum": ["DRAFT", "APPROVAL_REQUIRED", "APPROVED", "EXECUTED", "FAILED", "CANCELLED"]},
+    "inputs": {"type": "object"},
+    "estimated_credits": {"type": ["number", "null"], "minimum": 0},
+    "max_credits": {"type": ["number", "null"], "minimum": 0},
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["approval_id", "gate", "status", "scope"],
+        "properties": {
+          "approval_id": {"type": "string", "minLength": 1},
+          "gate": {"enum": ["CREATE_MEDIA", "CREDIT_SPEND", "ASSET_UPLOAD", "PUBLISH_CONTENT", "CANON_LOCK", "DESTRUCTIVE_ACTION"]},
+          "status": {"enum": ["APPROVED", "REJECTED", "EXPIRED"]},
+          "scope": {
+            "type": "object",
+            "required": ["provider", "operation"],
+            "properties": {
+              "provider": {"type": "string"},
+              "operation": {"type": "string"},
+              "max_credits": {"type": "number", "minimum": 0}
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,14 @@
+schema_version: "1.0"
+job_id: VOS-ML-CHAR-PREVIEW-001
+project_id: VWW-CHARACTERS
+provider: magiclight
+operation: create_character_preview
+status: APPROVAL_REQUIRED
+inputs:
+  character_id: LUMI-WONDER-SCOUT
+  reference_asset_ids: [LUMI-REF-FRONT-APPROVED]
+  preserve_identity: true
+  preview_only: true
+estimated_credits: 10
+max_credits: 10
+approvals: []
