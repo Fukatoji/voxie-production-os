@@ -9,6 +9,18 @@ inputs:
   end_asset_id: VOXIE-STAR-FREEZE-APPROVED
   duration_s: 4
   publish: false
+asset_lineage:
+  inputs:
+    - asset_id: VOXIE-DANCE-START-APPROVED
+      status: approved
+      version: v1
+      sha256: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+    - asset_id: VOXIE-STAR-FREEZE-APPROVED
+      status: approved
+      version: v1
+      sha256: dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+  output_asset_id: VWF-FREEZE-DANCE-ANIMATION-001
+  output_asset_version: v1
 estimated_credits: 6
 max_credits: 6
 approvals: []

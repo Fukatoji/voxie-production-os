@@ -40,6 +40,7 @@ def test_paid_creative_jobs_are_blocked_without_scoped_approval(filename, expect
 
 def test_credit_approval_must_cover_provider_operation_and_budget():
     job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["status"] = "APPROVED"
     job["approvals"] = [
         {
             "approval_id": f"HF-{gate}",
@@ -55,6 +56,110 @@ def test_credit_approval_must_cover_provider_operation_and_budget():
 
     job["max_credits"] = 5
     assert build_provider_plan(CATALOG, job)["status"] == "BLOCKED_BUDGET"
+
+
+def test_credit_approval_must_cover_maximum_exposure_not_estimate():
+    job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["status"] = "APPROVED"
+    job["estimated_credits"] = 5
+    job["max_credits"] = 100
+    job["approvals"] = [
+        {
+            "approval_id": f"HF-{gate}",
+            "gate": gate,
+            "status": "APPROVED",
+            "scope": {
+                "provider": "higgsfield",
+                "operation": "animate_keyframes",
+                "max_credits": 5,
+            },
+        }
+        for gate in ("ASSET_UPLOAD", "CREATE_MEDIA", "CREDIT_SPEND")
+    ]
+
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "BLOCKED_APPROVAL"
+    assert plan["missing_approvals"] == ["CREDIT_SPEND"]
+    assert plan["external_execution_authorized"] is False
+
+
+def test_wildcard_approvals_never_authorize_provider_work():
+    job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["status"] = "APPROVED"
+    job["approvals"] = [
+        {
+            "approval_id": f"WILDCARD-{gate}",
+            "gate": gate,
+            "status": "APPROVED",
+            "scope": {"provider": "*", "operation": "*", "max_credits": 6},
+        }
+        for gate in ("ASSET_UPLOAD", "CREATE_MEDIA", "CREDIT_SPEND")
+    ]
+
+    assert validate("provider_job", job)
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "BLOCKED_APPROVAL"
+    assert set(plan["missing_approvals"]) == {"ASSET_UPLOAD", "CREATE_MEDIA", "CREDIT_SPEND"}
+
+
+@pytest.mark.parametrize("catalog_status", ["DRAFT", "SUPERSEDED"])
+def test_inactive_catalog_never_authorizes_execution(catalog_status):
+    catalog = load_data(ROOT / "config/providers.v1.yaml")
+    catalog["status"] = catalog_status
+    job = load_data(ROOT / "examples/provider-job.vidiq-audit.yaml")
+
+    plan = build_provider_plan(catalog, job)
+    assert plan["status"] == "BLOCKED_CATALOG_INACTIVE"
+    assert plan["external_execution_authorized"] is False
+
+
+@pytest.mark.parametrize("job_status", ["EXECUTED", "FAILED", "CANCELLED"])
+def test_terminal_job_never_authorizes_execution(job_status):
+    job = load_data(ROOT / "examples/provider-job.vidiq-audit.yaml")
+    job["status"] = job_status
+
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "BLOCKED_JOB_TERMINAL"
+    assert plan["external_execution_authorized"] is False
+
+
+def test_mutating_job_requires_approved_status_even_with_approvals():
+    job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["approvals"] = [
+        {
+            "approval_id": f"HF-{gate}",
+            "gate": gate,
+            "status": "APPROVED",
+            "scope": {"provider": "higgsfield", "operation": "animate_keyframes", "max_credits": 6},
+        }
+        for gate in ("ASSET_UPLOAD", "CREATE_MEDIA", "CREDIT_SPEND")
+    ]
+
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "BLOCKED_JOB_STATUS"
+    assert plan["external_execution_authorized"] is False
+
+
+def test_asset_lineage_must_exactly_cover_referenced_assets():
+    job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["asset_lineage"]["inputs"] = job["asset_lineage"]["inputs"][:1]
+
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "INVALID_REQUEST"
+    assert any("VOXIE-STAR-FREEZE-APPROVED" in error for error in plan["validation_errors"])
+    assert plan["external_execution_authorized"] is False
+
+
+def test_asset_lineage_rejects_unapproved_inputs_and_missing_output_version():
+    job = load_data(ROOT / "examples/provider-job.magiclight-character-preview.yaml")
+    job["asset_lineage"]["inputs"][0]["status"] = "candidate"
+    job["asset_lineage"]["output_asset_version"] = None
+
+    assert validate("provider_job", job)
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "INVALID_REQUEST"
+    assert "asset_lineage inputs must have approved or locked status" in plan["validation_errors"]
+    assert "asset_lineage.output_asset_version is required for mutating operations" in plan["validation_errors"]
 
 
 def test_unknown_operation_fails_closed():

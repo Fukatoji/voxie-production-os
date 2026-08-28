@@ -4,7 +4,7 @@ This layer gives MagicLight, ElevenLabs, Higgsfield, and vidIQ one deterministic
 
 ## Control flow
 
-`provider job -> schema validation -> capability lookup -> budget check -> scoped approval gates -> provider execution -> provenance/QC record`
+`provider job -> schema validation -> asset-lineage validation -> capability lookup -> budget check -> scoped approval gates -> provider execution -> provenance/QC record`
 
 `provider-plan` stops before provider execution. A result of `READY_FOR_PROVIDER_EXECUTION` means the requested action is within its declared approval and budget; it does not mean the external action occurred.
 
@@ -20,11 +20,17 @@ This layer gives MagicLight, ElevenLabs, Higgsfield, and vidIQ one deterministic
 ## Safety model
 
 - Creating media requires `CREATE_MEDIA`.
-- Paid work additionally requires `CREDIT_SPEND` scoped to the exact provider, operation, and sufficient credit ceiling.
+- Paid work additionally requires `CREDIT_SPEND` scoped to the exact provider and operation. Wildcards never authorize execution.
+- A credit approval must cover `max_credits`, not merely the lower estimate. The maximum is the actual exposure boundary passed to a provider adapter.
 - Uploading character or shot references requires `ASSET_UPLOAD`.
 - Canon changes require `CANON_LOCK`.
 - Publishing and deletion gate types exist in the contract but no automatic publishing or destructive operation is enabled in the v1 catalog.
 - Runtime connection state and balances are checked live and are never treated as repository truth.
+- Only an `ACTIVE` catalog may authorize work. `EXECUTED`, `FAILED`, and `CANCELLED` jobs are terminal, and mutating jobs must be explicitly `APPROVED`.
+
+## Asset lineage
+
+Every provider job carries an `asset_lineage` block. Each input asset referenced by the job must appear exactly once with its stable asset ID, approved or locked status, version, and SHA-256 checksum. Extra or missing lineage entries fail closed. Asset-producing and canon-mutation operations must also declare the output asset ID and version before execution; read-only operations must declare no output. This keeps a provider result tied to exact reviewed sources rather than a regenerated approximation.
 
 ## Commands
 
