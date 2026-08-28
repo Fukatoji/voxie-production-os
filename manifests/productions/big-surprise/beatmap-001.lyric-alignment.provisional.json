@@ -1,7 +1,7 @@
 {
   "alignment_id": "VWF-BIG-SURPRISE-BEATMAP-001-LYRICS-REVIEWED",
-  "base_beatmap": "productions/big-surprise/beatmap-001.provisional.json",
-  "source_lock": "productions/big-surprise/beatmap-001.source-lock.json",
+  "base_beatmap": "manifests/productions/big-surprise/beatmap-001.provisional.json",
+  "source_lock": "manifests/productions/big-surprise/beatmap-001.source-lock.json",
   "status": "REVIEWED_SOURCE_LOCKED",
   "duration_seconds": 150.0,
   "language": "en-US",

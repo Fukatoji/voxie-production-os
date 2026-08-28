@@ -38,7 +38,7 @@ jobs:
           voxie-os validate provider_job examples/provider-job.higgsfield-animation.yaml
           voxie-os validate provider_job examples/provider-job.vidiq-audit.yaml
           voxie-os provider-plan config/providers.v1.yaml examples/provider-job.vidiq-audit.yaml
-          voxie-os beatmap-audit productions/big-surprise/beatmap-001.final.json
+          voxie-os beatmap-audit manifests/productions/big-surprise/beatmap-001.final.json
       - name: Build read-only change report
         shell: bash
         run: |

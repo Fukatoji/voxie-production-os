@@ -53,7 +53,7 @@ def test_consensus_rejects_different_audio_hashes():
 
 
 def test_final_big_surprise_beatmap_audits_cleanly():
-    beatmap = load_data("productions/big-surprise/beatmap-001.final.json")
+    beatmap = load_data("manifests/productions/big-surprise/beatmap-001.final.json")
     report = audit_beatmap(beatmap)
     assert report["status"] == "PASS"
     assert report["lyric_line_count"] == 26

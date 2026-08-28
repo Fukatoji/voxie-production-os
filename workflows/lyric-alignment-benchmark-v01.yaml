@@ -5,10 +5,10 @@ audio:
   controlled_filename: VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav
   sha256: 600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b
   duration_s: 150.0
-reference_lyrics: productions/big-surprise/beatmap-001.final.json
+reference_lyrics: manifests/productions/big-surprise/beatmap-001.final.json
 baseline:
   adapter: accuratescribe
-  evidence: productions/big-surprise/transcript-accuratescribe.json
+  evidence: manifests/productions/big-surprise/transcript-accuratescribe.json
 challengers:
   - adapter: lyric-align
     status: PENDING_ISOLATED_INSTALL

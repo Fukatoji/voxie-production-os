@@ -9,8 +9,8 @@
     "sha256": "600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b",
     "byte_identity_verified": true
   },
-  "beat_grid_source": "productions/big-surprise/beatmap-001.provisional.json",
-  "alignment_evidence": "productions/big-surprise/beatmap-001.lyric-alignment.provisional.json",
+  "beat_grid_source": "manifests/productions/big-surprise/beatmap-001.provisional.json",
+  "alignment_evidence": "manifests/productions/big-surprise/beatmap-001.lyric-alignment.provisional.json",
   "lyrics": [
     {"line_id":"L01","text":"Oh, what could be inside this big wonder box? Let's listen carefully and follow the clues.","vocal_start_s":4.64,"vocal_end_s":10.48,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
     {"line_id":"L02","text":"What's the surprise? Listen and see.","vocal_start_s":15.215,"vocal_end_s":17.775,"confidence":0.99,"beat_index":null,"bar_index":null,"manual_review":false},
