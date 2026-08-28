@@ -12,3 +12,5 @@ A handoff should state:
 - required approval or spend gate
 
 Do not store large media here. Link to the authoritative external asset location through manifests or stable asset IDs.
+
+Dated multi-production completion records belong under `completion-batches/`.

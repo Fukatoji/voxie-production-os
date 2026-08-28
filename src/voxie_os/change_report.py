@@ -9,7 +9,7 @@ IMPACT_RULES = (
     ("schemas/", "contract", "Run schema validation and compatibility review."),
     ("src/", "runtime", "Run the full unit test suite."),
     ("tests/", "tests", "Confirm the changed tests exercise a production invariant."),
-    ("productions/", "production-state", "Review asset status, lineage, lock gates, and media checksums."),
+    ("manifests/productions/", "production-state", "Review asset status, lineage, lock gates, and media checksums."),
     ("config/", "policy", "Review approval and QC thresholds."),
     ("workflows/", "workflow", "Validate workflow schemas and provider/approval gates."),
     ("adapters/", "adapter", "Run the adapter contract test in its isolated environment."),
@@ -46,7 +46,7 @@ def build_change_report(changes: Iterable[tuple[str, str]]) -> dict:
                 entry = impacts.setdefault(impact, {"files": [], "required_action": action})
                 entry["files"].append({"status": status, "path": path})
                 break
-        if path.startswith("productions/") and any(token in path.lower() for token in ("final", "lock", "master")):
+        if path.startswith("manifests/productions/") and any(token in path.lower() for token in ("final", "lock", "master")):
             lock_gate_files.append(path)
 
     return {

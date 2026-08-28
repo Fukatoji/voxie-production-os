@@ -3,7 +3,7 @@ from voxie_os.change_report import build_change_report, to_markdown
 
 def test_change_report_flags_locked_production_state():
     report = build_change_report([
-        ("M", "productions/big-surprise/beatmap-001.final.json"),
+        ("M", "manifests/productions/big-surprise/beatmap-001.final.json"),
         ("M", "src/voxie_os/alignment.py"),
     ])
     assert report["status"] == "REVIEW_REQUIRED"

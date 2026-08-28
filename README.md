@@ -103,3 +103,19 @@ voxie-os provider-plan config/providers.v1.yaml examples/provider-job.vidiq-audi
 ```
 
 See `docs/PROVIDER-INTEGRATIONS.md` for the four-service capability matrix and approval model.
+
+## Repository layout
+
+See [`docs/REPOSITORY-STRUCTURE.md`](docs/REPOSITORY-STRUCTURE.md) for the authoritative placement, naming, versioning, and media-boundary rules.
+
+- `config/` — provider configuration, policies, and spend gates
+- `schemas/` — machine-readable contracts
+- `src/` — executable Production OS implementation
+- `tests/` — automated validation and regression tests
+- `examples/` — small runnable examples and fixtures
+- `manifests/` — versioned asset, production, and distribution state
+- `workflows/` — declarative workflows and orchestration notes
+- `handoff/` — compact ChatGPT, Codex, and operator handoffs
+- `docs/` — architecture, decisions, runbooks, and conventions
+
+Large media remains outside Git and is referenced from manifests by stable identity and storage metadata.
