@@ -99,8 +99,49 @@ def _validate_asset_lineage(job: dict[str, Any], risk_class: str) -> list[str]:
     return errors
 
 
-def build_provider_plan(catalog: dict[str, Any], job: dict[str, Any]) -> dict[str, Any]:
+def _invalid_provider_plan(validation_errors: list[str]) -> dict[str, Any]:
+    """Return the plan envelope without interpreting or copying invalid inputs."""
+    return {
+        "plan_version": "1.0",
+        "job_id": None,
+        "project_id": None,
+        "provider": None,
+        "provider_display_name": None,
+        "operation": None,
+        "transport_preference": [],
+        "runtime_connection_check_required": True,
+        "risk_class": None,
+        "chargeable": None,
+        "budget": {
+            "estimated_credits": None,
+            "max_credits": None,
+            "status": "NOT_EVALUATED",
+        },
+        "required_approvals": [],
+        "missing_approvals": [],
+        "validation_errors": validation_errors,
+        "asset_lineage": None,
+        "status": "INVALID_REQUEST",
+        "external_execution_authorized": False,
+        "execution_performed": False,
+        "safety": {
+            "credentials_stored_in_repository": False,
+            "runtime_balance_stored_in_repository": False,
+            "automatic_publish": False,
+            "automatic_canon_promotion": False,
+        },
+    }
+
+
+def build_provider_plan(catalog: Any, job: Any) -> dict[str, Any]:
     """Evaluate a provider job without contacting or mutating an external service."""
+    validation_errors = [
+        *(f"provider catalog schema: {error}" for error in validate("provider_catalog", catalog)),
+        *(f"provider job schema: {error}" for error in validate("provider_job", job)),
+    ]
+    if validation_errors:
+        return _invalid_provider_plan(validation_errors)
+
     provider_id = job["provider"]
     operation_id = job["operation"]
     providers = catalog.get("providers", {})
@@ -121,10 +162,6 @@ def build_provider_plan(catalog: dict[str, Any], job: dict[str, Any]) -> dict[st
     risk_class = capability.get("risk_class")
     job_status = job.get("status")
 
-    validation_errors = [
-        *(f"provider catalog schema: {error}" for error in validate("provider_catalog", catalog)),
-        *(f"provider job schema: {error}" for error in validate("provider_job", job)),
-    ]
     validation_errors.extend(_validate_asset_lineage(job, risk_class))
     if "ASSET_UPLOAD" in required and not _referenced_asset_ids(job.get("inputs", {})):
         validation_errors.append("ASSET_UPLOAD operations require at least one referenced input asset")

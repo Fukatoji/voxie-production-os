@@ -2,11 +2,31 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from pathlib import Path
 from typing import Any
 
 import yaml
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, validators
+
+
+def _is_finite_number(_checker: Any, value: Any) -> bool:
+    """Keep JSON numbers finite, including values loaded from YAML or Python."""
+    if not Draft202012Validator.TYPE_CHECKER.is_type(value, "number"):
+        return False
+    # Python integers are finite without conversion to a possibly overflowing float.
+    if isinstance(value, int):
+        return True
+    try:
+        return math.isfinite(value)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
+FiniteNumberValidator = validators.extend(
+    Draft202012Validator,
+    type_checker=Draft202012Validator.TYPE_CHECKER.redefine("number", _is_finite_number),
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMAS = ROOT / "schemas"
@@ -44,7 +64,7 @@ def schema_for(kind: str) -> dict[str, Any]:
 
 
 def validate(kind: str, data: Any) -> list[str]:
-    validator = Draft202012Validator(schema_for(kind))
+    validator = FiniteNumberValidator(schema_for(kind))
     errors = []
     for err in sorted(validator.iter_errors(data), key=lambda e: list(e.path)):
         where = ".".join(str(p) for p in err.path) or "<root>"
