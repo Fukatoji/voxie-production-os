@@ -8,6 +8,8 @@ This layer gives MagicLight, ElevenLabs, Higgsfield, and vidIQ one deterministic
 
 `provider-plan` stops before provider execution. A result of `READY_FOR_PROVIDER_EXECUTION` means the requested action is within its declared approval and budget; it does not mean the external action occurred.
 
+Schema validation also runs inside the exported planner, so adapters cannot bypass the job and catalog contracts by calling the Python function directly.
+
 ## Provider roles
 
 | Provider | Production role | Read-only examples | Mutating examples |

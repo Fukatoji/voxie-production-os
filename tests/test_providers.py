@@ -98,8 +98,9 @@ def test_wildcard_approvals_never_authorize_provider_work():
 
     assert validate("provider_job", job)
     plan = build_provider_plan(CATALOG, job)
-    assert plan["status"] == "BLOCKED_APPROVAL"
+    assert plan["status"] == "INVALID_REQUEST"
     assert set(plan["missing_approvals"]) == {"ASSET_UPLOAD", "CREATE_MEDIA", "CREDIT_SPEND"}
+    assert any("provider job schema" in error for error in plan["validation_errors"])
 
 
 @pytest.mark.parametrize("catalog_status", ["DRAFT", "SUPERSEDED"])
@@ -160,6 +161,16 @@ def test_asset_lineage_rejects_unapproved_inputs_and_missing_output_version():
     assert plan["status"] == "INVALID_REQUEST"
     assert "asset_lineage inputs must have approved or locked status" in plan["validation_errors"]
     assert "asset_lineage.output_asset_version is required for mutating operations" in plan["validation_errors"]
+
+
+def test_direct_planner_call_enforces_job_schema():
+    job = load_data(ROOT / "examples/provider-job.higgsfield-animation.yaml")
+    job["max_credits"] = -1
+
+    plan = build_provider_plan(CATALOG, job)
+    assert plan["status"] == "INVALID_REQUEST"
+    assert any("provider job schema" in error for error in plan["validation_errors"])
+    assert plan["external_execution_authorized"] is False
 
 
 def test_unknown_operation_fails_closed():

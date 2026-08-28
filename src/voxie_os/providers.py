@@ -4,6 +4,8 @@ from copy import deepcopy
 import re
 from typing import Any
 
+from .core import validate
+
 
 TERMINAL_JOB_STATUSES = {"EXECUTED", "FAILED", "CANCELLED"}
 MUTATING_RISK_CLASSES = {"creates_asset", "publishing", "canon_mutation", "destructive"}
@@ -119,7 +121,10 @@ def build_provider_plan(catalog: dict[str, Any], job: dict[str, Any]) -> dict[st
     risk_class = capability.get("risk_class")
     job_status = job.get("status")
 
-    validation_errors: list[str] = []
+    validation_errors = [
+        *(f"provider catalog schema: {error}" for error in validate("provider_catalog", catalog)),
+        *(f"provider job schema: {error}" for error in validate("provider_job", job)),
+    ]
     validation_errors.extend(_validate_asset_lineage(job, risk_class))
     if "ASSET_UPLOAD" in required and not _referenced_asset_ids(job.get("inputs", {})):
         validation_errors.append("ASSET_UPLOAD operations require at least one referenced input asset")
