@@ -1,5 +1,5 @@
-version: 1
-updated: 2026-08-27
+version: 2
+updated: "2026-08-27"
 purpose: "Route external creative assets without storing large media in Git."
 
 source_of_truth:
@@ -73,3 +73,8 @@ current_intake_status:
   unresolved:
     - "1000002764.png"
   deletion_performed: false
+
+supersedes:
+  version: 1
+  manifest: manifests/library-routing.v1.yaml
+  sha256: 86e58aadb9e6c91f5aaeab2a9a28f08690e51b2bce5366070a40d11c9fd29c70

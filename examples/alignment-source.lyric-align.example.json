@@ -1,0 +1,20 @@
+{
+  "source_id": "LYRIC-ALIGN-DEMO-001",
+  "adapter": "lyric-align",
+  "revision": "fixture",
+  "weight": 1.0,
+  "audio": {
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "duration_s": 8.0
+  },
+  "lyrics": [
+    {
+      "line_id": "L001",
+      "text": "Come explore with me!",
+      "vocal_start_s": 0.55,
+      "vocal_end_s": 2.05,
+      "confidence": 0.94,
+      "manual_review": false
+    }
+  ]
+}

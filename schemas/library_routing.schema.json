@@ -13,7 +13,17 @@
     "current_intake_status"
   ],
   "properties": {
-    "version": {"const": 1},
+    "version": {"type": "integer", "minimum": 1},
+    "supersedes": {
+      "type": "object",
+      "required": ["version", "manifest", "sha256"],
+      "properties": {
+        "version": {"type": "integer", "minimum": 1},
+        "manifest": {"type": "string", "pattern": "^manifests/library-routing\\.v[1-9][0-9]*\\.yaml$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
     "updated": {
       "type": "string",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
@@ -65,6 +75,13 @@
     }
   },
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {"properties": {"version": {"minimum": 2}}, "required": ["version"]},
+      "then": {"required": ["supersedes"]},
+      "else": {"not": {"required": ["supersedes"]}}
+    }
+  ],
   "$defs": {
     "library_path": {
       "type": "string",

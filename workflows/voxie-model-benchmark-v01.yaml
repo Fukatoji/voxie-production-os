@@ -1,0 +1,86 @@
+suite_version: "1.0"
+suite_id: VOS-MODEL-BENCHMARK-001
+status: READY
+purpose: Compare generation engines against the same locked Voxie anchors before production promotion.
+promotion_policy:
+  min_acceptance_rate: 0.80
+  max_identity_drift: 0.15
+  max_composition_drift: 0.12
+  max_keyframe_error_frames: 2
+  max_wing_count_error_rate: 0.00
+  production_promotion_requires_human_approval: true
+  licensing_review_required: true
+scenarios:
+  - scenario_id: VOS-BM-S01-HOLD
+    motion_mode: hold
+    purpose: Preserve approved identity and environment under a subtle living hold.
+    duration_s: 3.0
+    fps: 24
+    seed: 1101
+    approval_gate: NONE
+    required_metrics: [identity_drift, composition_drift, wing_count_error, face_error, runtime_s, peak_memory_gb]
+  - scenario_id: VOS-BM-S02-FIRST-LAST
+    motion_mode: first_last
+    purpose: Hit approved dance and freeze endpoints without character drift.
+    duration_s: 4.0
+    fps: 24
+    seed: 1201
+    start_anchor_asset: VOXIE_DANCE_START_APPROVED
+    end_anchor_asset: VOXIE_STAR_FREEZE_APPROVED
+    approval_gate: NONE
+    required_metrics: [identity_drift, composition_drift, keyframe_error_frames, wing_count_error, face_error, runtime_s, peak_memory_gb]
+  - scenario_id: VOS-BM-S03-MID-GUIDE
+    motion_mode: arbitrary_frame_guides
+    purpose: Hit a freeze pose at the exact cue frame, then return to reset.
+    duration_s: 5.0
+    fps: 24
+    seed: 1301
+    guide_frames:
+      - {frame: 0, asset_id: VOXIE_DANCE_START_APPROVED}
+      - {frame: 60, asset_id: VOXIE_STAR_FREEZE_APPROVED}
+      - {frame: 119, asset_id: VOXIE_MOVEMENT_RESET_APPROVED}
+    approval_gate: NONE
+    required_metrics: [identity_drift, composition_drift, keyframe_error_frames, wing_count_error, face_error, runtime_s, peak_memory_gb]
+  - scenario_id: VOS-BM-S04-MASKED-REPAIR
+    motion_mode: masked_repair
+    purpose: Repair a localized wing or face defect without regenerating the full shot.
+    duration_s: 2.0
+    fps: 24
+    seed: 1401
+    approval_gate: NONE
+    required_metrics: [identity_drift, composition_drift, wing_count_error, face_error, runtime_s, peak_memory_gb]
+  - scenario_id: VOS-BM-S05-MOTION-TRANSFER
+    motion_mode: motion_transfer
+    purpose: Drive locked Voxie from a motion reference while preserving all four wings.
+    duration_s: 4.0
+    fps: 24
+    seed: 1501
+    approval_gate: LICENSE_REVIEW
+    required_metrics: [identity_drift, composition_drift, keyframe_error_frames, wing_count_error, face_error, runtime_s, peak_memory_gb]
+adapters:
+  - adapter_id: comfyui-0.34-minimax-h3
+    execution: runpod
+    status: BLOCKED_HARDWARE
+    supported_scenarios: [VOS-BM-S03-MID-GUIDE, VOS-BM-S04-MASKED-REPAIR]
+  - adapter_id: diffusers-0.40-ltx-2.5
+    execution: runpod
+    status: BLOCKED_HARDWARE
+    supported_scenarios: [VOS-BM-S01-HOLD, VOS-BM-S02-FIRST-LAST]
+  - adapter_id: diffusers-0.40-wan-animate-2
+    execution: runpod
+    status: BLOCKED_HARDWARE
+    supported_scenarios: [VOS-BM-S05-MOTION-TRANSFER]
+  - adapter_id: ltx-desktop-1.2
+    execution: desktop
+    status: BLOCKED_HARDWARE
+    supported_scenarios: [VOS-BM-S01-HOLD, VOS-BM-S02-FIRST-LAST]
+  - adapter_id: pixverse-v6-comfyui
+    execution: cloud_api
+    status: BLOCKED_APPROVAL
+    supported_scenarios: [VOS-BM-S02-FIRST-LAST]
+recording_contract:
+  required_execution_fields: [adapter, model_revision, workflow_revision, hardware, started_at, finished_at]
+  required_sample_fields: [scenario_id, seed, prompt_sha256, input_asset_sha256s, output_sha256, runtime_s, peak_memory_gb, accepted]
+  paid_generation: BLOCKED_UNTIL_EXPLICIT_RUN_APPROVAL
+  output_storage: connected_media_storage
+  repository_storage: manifests_and_metrics_only

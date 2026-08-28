@@ -2,17 +2,29 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Model Benchmark Run",
   "type": "object",
-  "required": ["benchmark_id", "model", "samples"],
+  "required": ["benchmark_id", "model", "execution", "samples"],
   "properties": {
     "benchmark_id": {"type": "string"},
     "model": {"type": "object", "required": ["name", "revision"]},
+    "execution": {
+      "type": "object",
+      "required": ["adapter", "hardware", "started_at"],
+      "properties": {
+        "adapter": {"type": "string"},
+        "hardware": {"type": "object"},
+        "started_at": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
     "samples": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["sample_id", "accepted", "metrics"],
+        "required": ["sample_id", "scenario_id", "seed", "accepted", "metrics", "output"],
         "properties": {
           "sample_id": {"type": "string"},
+          "scenario_id": {"type": "string"},
+          "seed": {"type": "integer", "minimum": 0},
           "accepted": {"type": "boolean"},
           "duration_s": {"type": "number", "minimum": 0},
           "cost_usd": {"type": "number", "minimum": 0},
@@ -21,8 +33,18 @@
             "properties": {
               "identity_drift": {"type": "number", "minimum": 0},
               "composition_drift": {"type": "number", "minimum": 0},
-              "keyframe_error_frames": {"type": "number", "minimum": 0}
+              "keyframe_error_frames": {"type": "number", "minimum": 0},
+              "wing_count_error": {"type": "number", "minimum": 0},
+              "face_error": {"type": "number", "minimum": 0},
+              "runtime_s": {"type": "number", "minimum": 0},
+              "peak_memory_gb": {"type": "number", "minimum": 0}
             },
+            "additionalProperties": true
+          },
+          "output": {
+            "type": "object",
+            "required": ["sha256"],
+            "properties": {"sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}},
             "additionalProperties": true
           }
         },

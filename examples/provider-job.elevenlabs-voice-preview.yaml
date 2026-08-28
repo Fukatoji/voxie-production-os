@@ -1,0 +1,21 @@
+schema_version: "1.0"
+job_id: VOS-EL-VOICE-PREVIEW-001
+project_id: VWW-VOICE-QC
+provider: elevenlabs
+operation: synthesize_voice_preview
+status: APPROVAL_REQUIRED
+inputs:
+  voice_id: REQUIRED_EXACT_RUNTIME_ID
+  text_asset_id: VOXIE-VOICE-EMOTION-TEST-001
+  preview_only: true
+asset_lineage:
+  inputs:
+    - asset_id: VOXIE-VOICE-EMOTION-TEST-001
+      status: approved
+      version: v1
+      sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  output_asset_id: VOXIE-VOICE-EMOTION-PREVIEW-001
+  output_asset_version: v1
+estimated_credits: 25
+max_credits: 25
+approvals: []
