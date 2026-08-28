@@ -1,0 +1,44 @@
+asset_id: VOXIE_CANON_V1_0_MAGICLIGHT
+asset_name: "Voxie — Canon v1.0"
+asset_type: model
+status: locked
+path_or_uri: "magiclight://character/7498224955395878912"
+sha256: null
+binary_checksum:
+  algorithm: sha256
+  value: null
+  status: pending/unavailable
+  reason: MagicLight did not expose the exact preview binary hash.
+provenance:
+  provider: MagicLight
+  reusable_asset_id: "7498224955395878912"
+  preview_task_id: "7499108870617059328"
+  model: "Nano Banana 2"
+  format: "16:9"
+  outputs: 1
+  credits_used: 90
+  post_generation_balance: 86305
+approval_state: "APPROVED / LOCKED reusable character authority"
+qc_status: PASS
+qc:
+  verdict: PASS
+  rejections: none
+  replacements: none
+  hard_qc_evidence:
+    - exactly one Voxie
+    - dark-indigo visor
+    - cyan eyes with catchlights
+    - forehead V
+    - chest diamond
+    - white/dark-indigo armor
+    - correct proportions
+    - exactly four wings
+    - no extra limbs
+    - no extra accessories
+publication: none
+canon_tags:
+  - VOXIE
+  - CANON_V1_0
+  - REUSABLE_CHARACTER
+  - MAGICLIGHT
+media_committed_to_repository: false
