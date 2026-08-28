@@ -1,6 +1,6 @@
 # Voxie Production OS
 
-Version 0.2 turns the first scaffold into an executable evaluation and interchange layer for Voxie's Wonder World production.
+Version 0.3 adds approval-gated provider planning to the executable evaluation and interchange layer for Voxie's Wonder World production.
 
 ## What exists now
 
@@ -17,6 +17,7 @@ Version 0.2 turns the first scaffold into an executable evaluation and interchan
 - Real OpenTimelineIO export
 - Deterministic Remotion manifests and Premiere UXP 26.3 transaction plans
 - Read-only GitHub change-impact reporting and CI
+- Approval-gated provider contracts for MagicLight, ElevenLabs, Higgsfield, and vidIQ
 
 ## Install locally
 
@@ -77,3 +78,11 @@ voxie-os benchmark-evaluate examples/benchmark.example.json workflows/voxie-mode
 ## Current execution boundary
 
 The code and contracts are runnable here. LTX, ComfyUI, Diffusers, WhisperX/Yass, and Premiere execution still require their own isolated GPU/desktop environments. The repository records those results; it does not promote a model, export a master, spend credits, or publish automatically.
+
+Provider jobs are evaluated the same way:
+
+```bash
+voxie-os provider-plan config/providers.v1.yaml examples/provider-job.vidiq-audit.yaml
+```
+
+See `docs/PROVIDER-INTEGRATIONS.md` for the four-service capability matrix and approval model.

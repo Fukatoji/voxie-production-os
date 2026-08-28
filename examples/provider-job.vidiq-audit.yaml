@@ -1,0 +1,17 @@
+schema_version: "1.0"
+job_id: VOS-VIQ-AUDIT-001
+project_id: VWW-DISTRIBUTION
+provider: vidiq
+operation: channel_audit
+status: DRAFT
+inputs:
+  channel: VoxiesWonderWorld
+  scope: metadata_and_discoverability
+  publish: false
+asset_lineage:
+  inputs: []
+  output_asset_id: null
+  output_asset_version: null
+estimated_credits: null
+max_credits: null
+approvals: []

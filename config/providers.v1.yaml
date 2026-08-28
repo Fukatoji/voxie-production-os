@@ -1,0 +1,119 @@
+catalog_version: "1.0"
+status: ACTIVE
+policy:
+  balances: RUNTIME_ONLY
+  credentials: NEVER_STORE_IN_REPOSITORY
+  external_execution: ADAPTER_OR_BROWSER_RUNTIME
+  paid_generation: BLOCKED_UNTIL_SCOPED_APPROVAL
+  publishing: BLOCKED_UNTIL_ACTION_TIME_APPROVAL
+providers:
+  magiclight:
+    display_name: MagicLight
+    transports: [cloud_browser]
+    connection_state: RUNTIME_CHECK_REQUIRED
+    capabilities:
+      inspect_account:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      list_projects:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      create_character_preview:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [ASSET_UPLOAD, CREATE_MEDIA, CREDIT_SPEND]
+      lock_character:
+        risk_class: canon_mutation
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: [CANON_LOCK]
+      create_voice_emotion_preview:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA, CREDIT_SPEND]
+      generate_video:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [ASSET_UPLOAD, CREATE_MEDIA, CREDIT_SPEND]
+  elevenlabs:
+    display_name: ElevenLabs
+    transports: [connector, api]
+    connection_state: RUNTIME_CHECK_REQUIRED
+    capabilities:
+      list_voices:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      synthesize_voice_preview:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA, CREDIT_SPEND]
+      generate_music:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA, CREDIT_SPEND]
+      register_canonical_voice:
+        risk_class: canon_mutation
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: [CANON_LOCK]
+  higgsfield:
+    display_name: Higgsfield
+    transports: [connector, cloud_browser]
+    connection_state: RUNTIME_CHECK_REQUIRED
+    capabilities:
+      inspect_account:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      generate_image:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [ASSET_UPLOAD, CREATE_MEDIA, CREDIT_SPEND]
+      animate_keyframes:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [ASSET_UPLOAD, CREATE_MEDIA, CREDIT_SPEND]
+      conform_asset:
+        risk_class: creates_asset
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA]
+  vidiq:
+    display_name: vidIQ
+    transports: [connector]
+    connection_state: RUNTIME_CHECK_REQUIRED
+    capabilities:
+      channel_audit:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      keyword_research:
+        risk_class: read_only
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: []
+      render_motion_graphic:
+        risk_class: creates_asset
+        chargeable: true
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA, CREDIT_SPEND]
+      prepare_posting_package:
+        risk_class: creates_asset
+        chargeable: false
+        execution_status: AVAILABLE
+        approval_gates: [CREATE_MEDIA]

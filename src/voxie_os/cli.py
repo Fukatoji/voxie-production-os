@@ -9,6 +9,7 @@ from .benchmark import evaluate, summarize
 from .change_report import build_change_report, changed_files, to_markdown
 from .core import load_data, save_json, validate
 from .qc import run_manifest_qc
+from .providers import build_provider_plan
 from .timeline import to_neutral_timeline, to_premiere_plan, to_remotion_manifest, write_otio
 
 
@@ -17,7 +18,7 @@ def main() -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
 
     v = sub.add_parser("validate")
-    v.add_argument("kind", choices=["canon", "asset", "beatmap", "shot_manifest", "benchmark", "qc_report", "alignment", "benchmark_suite"])
+    v.add_argument("kind", choices=["canon", "asset", "beatmap", "shot_manifest", "benchmark", "qc_report", "alignment", "benchmark_suite", "provider_catalog", "provider_job"])
     v.add_argument("path")
 
     q = sub.add_parser("qc")
@@ -58,6 +59,11 @@ def main() -> int:
     cr.add_argument("--base", required=True)
     cr.add_argument("--head", default="HEAD")
     cr.add_argument("--out")
+
+    pp = sub.add_parser("provider-plan")
+    pp.add_argument("catalog")
+    pp.add_argument("job")
+    pp.add_argument("--out")
 
     args = p.parse_args()
     if args.cmd == "validate":
@@ -134,6 +140,20 @@ def main() -> int:
             Path(args.out).write_text(markdown, encoding="utf-8")
         print(markdown)
         return 0
+
+    if args.cmd == "provider-plan":
+        catalog = load_data(args.catalog)
+        job = load_data(args.job)
+        errors = validate("provider_catalog", catalog) + validate("provider_job", job)
+        if errors:
+            print("FAIL")
+            print("\n".join(f"- {error}" for error in errors))
+            return 1
+        result = build_provider_plan(catalog, job)
+        if args.out:
+            save_json(args.out, result)
+        print(json.dumps(result, indent=2))
+        return 1 if result["status"].startswith(("BLOCKED", "INVALID")) else 0
 
     return 2
 

@@ -1,4 +1,4 @@
-# Voxie Production OS — Architecture v0.2
+# Voxie Production OS — Architecture v0.3
 
 The Production OS is a control plane, not a single generator or NLE.
 
@@ -34,6 +34,7 @@ The alignment and generation layers are evidence mergers, not authorities:
 - Premiere UXP -> deterministic transaction plan (implemented); desktop execution pending
 - Remotion -> deterministic frame manifest (implemented); render project pending
 - YouTube / TikTok / Instagram -> publishing package + approval adapter
+- MagicLight / ElevenLabs / Higgsfield / vidIQ -> provider job catalog + scoped approval plan (implemented); live execution remains runtime-specific
 
 ## Promotion boundaries
 
@@ -41,3 +42,4 @@ The alignment and generation layers are evidence mergers, not authorities:
 - A model benchmark may become `ELIGIBLE_FOR_HUMAN_PROMOTION_REVIEW`; it never promotes itself.
 - Premiere batch export is disabled in generated plans until a separate approval is recorded.
 - GitHub reports are read-only and never merge, publish, replace assets, or authorize spend.
+- Provider plans fail closed on unknown operations, inactive catalogs, terminal or unapproved mutating jobs, wildcard approvals, approvals below maximum credit exposure, incomplete asset lineage, missing upload approval, or missing canon approval. They never claim external execution occurred.

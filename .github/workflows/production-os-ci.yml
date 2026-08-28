@@ -29,6 +29,12 @@ jobs:
           voxie-os validate shot_manifest examples/shot_manifest.example.yaml
           voxie-os validate benchmark examples/benchmark.example.json
           voxie-os validate benchmark_suite workflows/voxie-model-benchmark-v01.yaml
+          voxie-os validate provider_catalog config/providers.v1.yaml
+          voxie-os validate provider_job examples/provider-job.magiclight-character-preview.yaml
+          voxie-os validate provider_job examples/provider-job.elevenlabs-voice-preview.yaml
+          voxie-os validate provider_job examples/provider-job.higgsfield-animation.yaml
+          voxie-os validate provider_job examples/provider-job.vidiq-audit.yaml
+          voxie-os provider-plan config/providers.v1.yaml examples/provider-job.vidiq-audit.yaml
           voxie-os beatmap-audit productions/big-surprise/beatmap-001.final.json
       - name: Build read-only change report
         shell: bash
