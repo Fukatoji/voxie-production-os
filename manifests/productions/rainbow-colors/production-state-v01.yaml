@@ -1,11 +1,33 @@
 version: 1
 record_type: production_state
+recorded_at_utc: "2026-08-29T02:05:56Z"
+production_date_local: "2026-08-28"
+production_timezone: "America/Chicago"
+
 production:
   slug: rainbow-colors
   title: "Voxie's Rainbow Colors"
   status: ACTIVE
   final_master_status: NOT_COMPLETE
-updated: "2026-08-29"
+
+authority_scope:
+  decision_authority: VALID
+  decision_scope:
+    - shot_map_v01.1
+    - locked_audio_boundary
+    - S01
+    - S02
+    - S03
+    - S01_S02_transition
+  execution_authority: BLOCKED
+  execution_media_scope:
+    - S01
+    - S02
+    - S03
+  execution_blockers:
+    - MISSING_STABLE_ASSET_IDS
+    - MISSING_SHA256_CHECKSUMS
+  note: "This manifest is valid production-decision authority only. Execution using S01-S03 media remains blocked until stable external asset IDs and matching SHA-256 checksums are captured and verified."
 
 authorities:
   shot_map:
@@ -93,4 +115,6 @@ external_media:
   binaries_committed_to_git: false
   stable_asset_ids_and_checksums:
     status: PENDING_CAPTURE
-    rule: "Do not invent identifiers or checksums."
+    stable_asset_ids: []
+    sha256_checksums: {}
+    rule: "Do not invent identifiers or checksums. Capture both from authoritative external storage before media execution."

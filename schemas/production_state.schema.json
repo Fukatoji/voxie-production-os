@@ -1,0 +1,596 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Production State Manifest",
+  "type": "object",
+  "required": [
+    "version",
+    "record_type",
+    "recorded_at_utc",
+    "production_date_local",
+    "production_timezone",
+    "production",
+    "authority_scope",
+    "authorities",
+    "recorded_progress",
+    "continuation",
+    "spend_and_balance_gate",
+    "prohibitions",
+    "external_media"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "record_type": {
+      "const": "production_state"
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "production_date_local": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "production_timezone": {
+      "type": "string",
+      "pattern": "^[A-Za-z_+-]+(?:/[A-Za-z0-9_+-]+)+$"
+    },
+    "production": {
+      "type": "object",
+      "required": [
+        "slug",
+        "title",
+        "status",
+        "final_master_status"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "HOLD",
+            "PARKED",
+            "COMPLETE"
+          ]
+        },
+        "final_master_status": {
+          "enum": [
+            "NOT_COMPLETE",
+            "REVIEW",
+            "LOCKED",
+            "COMPLETE"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "authority_scope": {
+      "type": "object",
+      "required": [
+        "decision_authority",
+        "decision_scope",
+        "execution_authority",
+        "execution_media_scope",
+        "execution_blockers",
+        "note"
+      ],
+      "properties": {
+        "decision_authority": {
+          "enum": [
+            "VALID",
+            "REVIEW",
+            "SUPERSEDED"
+          ]
+        },
+        "decision_scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "execution_authority": {
+          "enum": [
+            "BLOCKED",
+            "AUTHORIZED"
+          ]
+        },
+        "execution_media_scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^S[0-9]{2}$"
+          }
+        },
+        "execution_blockers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "MISSING_STABLE_ASSET_IDS",
+              "MISSING_SHA256_CHECKSUMS",
+              "MISSING_APPROVED_SOURCE",
+              "QC_NOT_PASS",
+              "CANON_OR_LOCK_CONFLICT",
+              "CREDIT_OR_MONEY_REQUIRED",
+              "NEW_CREATIVE_DECISION_REQUIRED"
+            ]
+          }
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "execution_authority": {
+                "const": "BLOCKED"
+              }
+            },
+            "required": [
+              "execution_authority"
+            ]
+          },
+          "then": {
+            "properties": {
+              "execution_blockers": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "execution_blockers": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "authorities": {
+      "type": "object",
+      "required": [
+        "shot_map",
+        "audio"
+      ],
+      "properties": {
+        "shot_map": {
+          "type": "object",
+          "required": [
+            "active_version",
+            "status",
+            "shot_count",
+            "predecessor"
+          ],
+          "properties": {
+            "active_version": {
+              "type": "string",
+              "pattern": "^v[0-9]+(?:\\.[0-9]+)*$"
+            },
+            "status": {
+              "const": "LOCKED"
+            },
+            "shot_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "predecessor": {
+              "type": "object",
+              "required": [
+                "version",
+                "status"
+              ],
+              "properties": {
+                "version": {
+                  "type": "string",
+                  "pattern": "^v[0-9]+(?:\\.[0-9]+)*$"
+                },
+                "status": {
+                  "const": "LOCKED"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "audio": {
+          "type": "object",
+          "required": [
+            "duration_seconds",
+            "status",
+            "preserve_bytes",
+            "canonical_filename"
+          ],
+          "properties": {
+            "duration_seconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "status": {
+              "const": "LOCKED"
+            },
+            "preserve_bytes": {
+              "const": true
+            },
+            "canonical_filename": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "recorded_progress": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^S[0-9]{2}(?:_S[0-9]{2}_transition)?$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/state_record"
+      }
+    },
+    "continuation": {
+      "type": "object",
+      "required": [
+        "resume_after_shot",
+        "zero_cost_only",
+        "deterministic_existing_sources_only",
+        "qc_required",
+        "preserve_shot_timing",
+        "stop_if"
+      ],
+      "properties": {
+        "resume_after_shot": {
+          "type": "string",
+          "pattern": "^S[0-9]{2}$"
+        },
+        "zero_cost_only": {
+          "type": "boolean"
+        },
+        "deterministic_existing_sources_only": {
+          "type": "boolean"
+        },
+        "qc_required": {
+          "const": "PASS"
+        },
+        "preserve_shot_timing": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^S[0-9]{2}$"
+          }
+        },
+        "stop_if": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "credits_or_money_required",
+              "provider_generation_or_new_pixels_required",
+              "approved_source_missing",
+              "canon_or_locked_authority_conflict",
+              "qc_not_pass",
+              "locked_audio_would_change",
+              "publishing_or_distribution_requested",
+              "new_creative_decision_required"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "spend_and_balance_gate": {
+      "type": "object",
+      "required": [
+        "quoted_generation_credits",
+        "spend_authorized",
+        "recorded_post_generation_balance",
+        "separately_displayed_balance",
+        "discrepancy_credits",
+        "reconcile_before_any_future_spend"
+      ],
+      "properties": {
+        "quoted_generation_credits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "spend_authorized": {
+          "type": "boolean"
+        },
+        "recorded_post_generation_balance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "separately_displayed_balance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "discrepancy_credits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reconcile_before_any_future_spend": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "prohibitions": {
+      "type": "object",
+      "required": [
+        "recreate_missing_source_image",
+        "substitute_missing_source_image",
+        "modify_locked_sources",
+        "publish"
+      ],
+      "properties": {
+        "recreate_missing_source_image": {
+          "const": false
+        },
+        "substitute_missing_source_image": {
+          "const": false
+        },
+        "modify_locked_sources": {
+          "const": false
+        },
+        "publish": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "external_media": {
+      "type": "object",
+      "required": [
+        "storage_authority",
+        "binaries_committed_to_git",
+        "stable_asset_ids_and_checksums"
+      ],
+      "properties": {
+        "storage_authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binaries_committed_to_git": {
+          "const": false
+        },
+        "stable_asset_ids_and_checksums": {
+          "type": "object",
+          "required": [
+            "status",
+            "stable_asset_ids",
+            "sha256_checksums",
+            "rule"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "PENDING_CAPTURE",
+                "VERIFIED"
+              ]
+            },
+            "stable_asset_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sha256_checksums": {
+              "type": "object",
+              "propertyNames": {
+                "minLength": 1
+              },
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "rule": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "PENDING_CAPTURE"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "stable_asset_ids": {
+                    "maxItems": 0
+                  },
+                  "sha256_checksums": {
+                    "maxProperties": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "stable_asset_ids": {
+                    "minItems": 1
+                  },
+                  "sha256_checksums": {
+                    "minProperties": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "external_media": {
+            "properties": {
+              "stable_asset_ids_and_checksums": {
+                "properties": {
+                  "status": {
+                    "const": "PENDING_CAPTURE"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "required": [
+              "stable_asset_ids_and_checksums"
+            ]
+          }
+        },
+        "required": [
+          "external_media"
+        ]
+      },
+      "then": {
+        "properties": {
+          "authority_scope": {
+            "properties": {
+              "decision_authority": {
+                "const": "VALID"
+              },
+              "execution_authority": {
+                "const": "BLOCKED"
+              },
+              "execution_blockers": {
+                "allOf": [
+                  {
+                    "contains": {
+                      "const": "MISSING_STABLE_ASSET_IDS"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "MISSING_SHA256_CHECKSUMS"
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "decision_authority",
+              "execution_authority",
+              "execution_blockers"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "state_value": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "#/$defs/state_record"
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "$ref": "#/$defs/state_record"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "state_record": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "properties": {
+        "status": {
+          "enum": [
+            "LOCKED",
+            "APPROVED",
+            "REVIEW",
+            "PARKED",
+            "PARKED_ALTERNATE",
+            "PENDING",
+            "NOT_COMPLETE"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v[0-9]+(?:\\.[0-9]+)*$"
+        },
+        "locked": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/state_value"
+      }
+    }
+  }
+}
