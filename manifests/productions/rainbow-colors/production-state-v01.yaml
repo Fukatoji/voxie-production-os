@@ -1,0 +1,96 @@
+version: 1
+record_type: production_state
+production:
+  slug: rainbow-colors
+  title: "Voxie's Rainbow Colors"
+  status: ACTIVE
+  final_master_status: NOT_COMPLETE
+updated: "2026-08-29"
+
+authorities:
+  shot_map:
+    active_version: v01.1
+    status: LOCKED
+    shot_count: 37
+    predecessor:
+      version: v01
+      status: LOCKED
+  audio:
+    duration_seconds: 150.000
+    status: LOCKED
+    preserve_bytes: true
+    canonical_filename: NOT_RECORDED_IN_REPOSITORY
+
+recorded_progress:
+  S01:
+    opening_keyframe:
+      version: v01
+      status: LOCKED
+    wonder_light_glow_reveal:
+      version: v01
+      status: LOCKED
+  S02:
+    content_authority: "six color lights; no character"
+    opening_keyframe:
+      version: v01
+      status: LOCKED
+    motion:
+      version: v04
+      status: LOCKED
+    legacy_voxie_variant:
+      status: PARKED
+      may_substitute: false
+  S03:
+    active_source:
+      name: "stepping-pools KF-A"
+      version: v01
+      status: LOCKED
+    six_light_image:
+      status: PARKED_ALTERNATE
+      may_replace_active_source: false
+  S01_S02_transition:
+    version: v01
+    status: REVIEW
+    locked: false
+
+continuation:
+  resume_after_shot: S03
+  zero_cost_only: true
+  deterministic_existing_sources_only: true
+  qc_required: PASS
+  preserve_shot_timing:
+    - S07
+    - S08
+    - S27
+    - S28
+    - S29
+  stop_if:
+    - credits_or_money_required
+    - provider_generation_or_new_pixels_required
+    - approved_source_missing
+    - canon_or_locked_authority_conflict
+    - qc_not_pass
+    - locked_audio_would_change
+    - publishing_or_distribution_requested
+    - new_creative_decision_required
+
+spend_and_balance_gate:
+  quoted_generation_credits: 2300
+  spend_authorized: false
+  recorded_post_generation_balance: 86305
+  separately_displayed_balance: 86395
+  discrepancy_credits: 90
+  reconcile_before_any_future_spend: true
+
+prohibitions:
+  recreate_missing_source_image: false
+  substitute_missing_source_image: false
+  modify_locked_sources: false
+  publish: false
+
+external_media:
+  storage_authority: "ChatGPT Library / connected media storage"
+  binaries_committed_to_git: false
+  stable_asset_ids_and_checksums:
+    status: PENDING_CAPTURE
+    rule: "Do not invent identifiers or checksums."
