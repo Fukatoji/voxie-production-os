@@ -1,0 +1,128 @@
+alignment_version: '1.0'
+alignment_id: VWF-BIG-SURPRISE-MULTI-ALIGNER-EVAL-V01
+record_type: evaluation_plan
+status: REVIEW_REQUIRED
+project_id: VWF-BIG-SURPRISE
+objective: >-
+  Compare the existing AccurateScribe and final BeatMap timing evidence against a
+  local vocal-aware WhisperX and Yass Reloaded path, then produce a confidence
+  comparison without changing or superseding the locked BeatMap automatically.
+audio:
+  controlled_filename: VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav
+  sha256: 600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b
+  duration_s: 150.0
+  immutable: true
+  binary_mount_required: true
+sources:
+  - source_id: BEATMAP_FINAL_BASELINE
+    adapter: beatmap
+    weight: 1.0
+    revision: BeatMap-001-final
+    artifact: manifests/productions/big-surprise/beatmap-001.final.json
+    role: LOCKED_TIMING_BASELINE
+    execution_status: READY
+  - source_id: ACCURATESCRIBE_BASELINE
+    adapter: accuratescribe
+    weight: 1.0
+    revision: recorded-transcript
+    artifact: manifests/productions/big-surprise/transcript-accuratescribe.json
+    role: TRANSCRIPTION_BASELINE
+    execution_status: READY
+  - source_id: WHISPERX_VOCAL_CANDIDATE
+    adapter: whisperx
+    weight: 1.0
+    revision: null
+    artifact: null
+    role: LOCAL_FORCED_ALIGNMENT_CANDIDATE
+    execution_status: BLOCKED_LOCKED_AUDIO_BINARY_NOT_MOUNTED
+  - source_id: YASS_RELOADED_VOCAL_CANDIDATE
+    adapter: yass-reloaded
+    weight: 1.0
+    revision: null
+    artifact: null
+    role: PITCH_ENERGY_AWARE_ALIGNMENT_CANDIDATE
+    execution_status: BLOCKED_LOCKED_AUDIO_BINARY_NOT_MOUNTED
+historical_focus:
+  transcription_gap_start_s: 59.690002
+  transcription_gap_end_s: 81.11
+  transcription_gap_duration_s: 21.419998
+  note: >-
+    This is the historical generic-transcription weakness motivating the comparison;
+    it is not a claim that the final BeatMap lacks timings in this interval.
+pipeline:
+  - step_id: MOUNT_LOCKED_AUDIO_READ_ONLY
+    operation: Resolve the exact locked WAV and verify its SHA-256 before analysis.
+    changes_authority: false
+  - step_id: SEPARATE_LOCAL_VOCALS
+    operation: Produce a local analysis-only vocal stem without replacing the locked mix.
+    changes_authority: false
+  - step_id: RUN_WHISPERX
+    operation: Generate word and line timestamps from the verified vocal analysis input.
+    changes_authority: false
+  - step_id: RUN_YASS_RELOADED
+    operation: Add pitch, energy, vocal-entry, sustained-note, and melisma-aware timing evidence.
+    changes_authority: false
+  - step_id: NORMALIZE_ADAPTER_OUTPUTS
+    operation: Convert all candidate evidence into the Production OS alignment contract.
+    changes_authority: false
+  - step_id: COMPARE_TO_BASELINES
+    operation: Compare coverage, line starts, line ends, spreads, and historical gap behavior.
+    changes_authority: false
+  - step_id: BUILD_CONFIDENCE_MERGE_CANDIDATE
+    operation: Produce a review-only consensus candidate with explicit source evidence.
+    changes_authority: false
+  - step_id: HUMAN_REVIEW_EXCEPTIONS
+    operation: Require review for nonverbal cues, large timing spreads, and altered lyric text.
+    changes_authority: false
+metrics:
+  - metric_id: LYRIC_LINE_COVERAGE_RATE
+    direction: maximize
+    target: 1.0
+  - metric_id: HISTORICAL_GAP_UNRESOLVED_SECONDS
+    direction: minimize
+    target_max: 2.0
+  - metric_id: MEDIAN_ABSOLUTE_START_DELTA_SECONDS
+    direction: minimize
+    target_max: 0.12
+  - metric_id: P95_ABSOLUTE_START_DELTA_SECONDS
+    direction: minimize
+    target_max: 0.25
+  - metric_id: MEDIAN_ABSOLUTE_END_DELTA_SECONDS
+    direction: minimize
+    target_max: 0.18
+  - metric_id: MANUAL_REVIEW_EXCEPTION_COUNT
+    direction: minimize
+    target_max: 6
+promotion_policy:
+  auto_promote: false
+  locked_beatmap_remains_authority: true
+  required_acceptance_rate: 0.95
+  maximum_line_timing_spread_s: 0.25
+  lyric_text_changes_allowed: false
+  nonverbal_cues_require_human_review: true
+  successor_requires_explicit_approval: true
+execution:
+  performed: false
+  provider_calls: 0
+  credits_spent: 0
+  spend_required_for_plan: false
+  output_artifact: null
+  blocker: LOCKED_AUDIO_BINARY_NOT_MOUNTED
+output_authority:
+  owner: Voxie Production OS
+  candidate_status: REVIEW_ONLY
+  may_replace_beatmap_001: false
+  required_successor_type: reviewed_alignment_or_beatmap_revision
+lyrics: []
+summary:
+  current_state: READY_SPECIFICATION_EXECUTION_BLOCKED
+  canonical_timing_changed: false
+  locked_audio_changed: false
+  expected_decision: TEST_AND_COMPARE_DO_NOT_AUTO_PROMOTE
+review_gates:
+  - LOCKED_AUDIO_SHA256_VERIFICATION
+  - LOCAL_TOOL_AND_LICENSE_REVIEW
+  - HISTORICAL_GAP_COMPARISON
+  - NONVERBAL_CUE_REVIEW
+  - TIMING_SPREAD_EXCEPTION_REVIEW
+  - EXPLICIT_SUCCESSOR_APPROVAL
