@@ -1,0 +1,622 @@
+version: 4
+record_type: production_state
+recorded_at_utc: '2026-08-29T11:16:28Z'
+production_date_local: '2026-08-29'
+production_timezone: America/Chicago
+production:
+  slug: rainbow-colors
+  title: Voxie's Rainbow Colors
+  status: ACTIVE
+  final_master_status: NOT_COMPLETE
+authority_scope:
+  decision_authority: VALID
+  decision_scope:
+  - shot_map_v01.1
+  - locked_audio_boundary
+  - S01
+  - S02
+  - S03
+  - S01_S02_transition
+  - runtime_mount_recovery_exhausted
+  - locked_output_locator_recovery_exhausted
+  - S03_zero_credit_motion_gate
+  - S04_S37_actionable_resolution
+  - MagicLight_live_balance_revalidation_attempt
+  execution_authority: BLOCKED
+  execution_media_scope:
+  - S01
+  - S02
+  - S03
+  - S04
+  - S05
+  - S06
+  - S07
+  - S08
+  - S09
+  - S10
+  - S11
+  - S12
+  - S13
+  - S14
+  - S15
+  - S16
+  - S17
+  - S18
+  - S19
+  - S20
+  - S21
+  - S22
+  - S23
+  - S24
+  - S25
+  - S26
+  - S27
+  - S28
+  - S29
+  - S30
+  - S31
+  - S32
+  - S33
+  - S34
+  - S35
+  - S36
+  - S37
+  execution_blockers:
+  - MISSING_STABLE_ASSET_IDS
+  - MISSING_SHA256_CHECKSUMS
+  - MISSING_APPROVED_SOURCE
+  - CREDIT_OR_MONEY_REQUIRED
+  note: All currently connected zero-cost transfer, search, and account-discovery routes were exhausted without obtaining mountable locked binaries or an authenticated MagicLight balance. This successor records the exact boundary and actionable shot gates; it does not claim unavailable bytes were mounted, freshly rehashed, rendered, approved, or paid for.
+authorities:
+  shot_map:
+    active_version: v01.1
+    status: LOCKED
+    shot_count: 37
+    predecessor:
+      version: v01
+      status: LOCKED
+  audio:
+    duration_seconds: 150.0
+    status: LOCKED
+    preserve_bytes: true
+    canonical_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+continuation:
+  resume_after_shot: S03
+  zero_cost_only: true
+  deterministic_existing_sources_only: true
+  qc_required: PASS
+  preserve_shot_timing:
+  - S07
+  - S08
+  - S27
+  - S28
+  - S29
+  stop_if:
+  - credits_or_money_required
+  - provider_generation_or_new_pixels_required
+  - approved_source_missing
+  - canon_or_locked_authority_conflict
+  - qc_not_pass
+  - locked_audio_would_change
+  - publishing_or_distribution_requested
+  - new_creative_decision_required
+spend_and_balance_gate:
+  quoted_generation_credits: 2300
+  spend_authorized: false
+  recorded_post_generation_balance: 86305
+  separately_displayed_balance: 86395
+  discrepancy_credits: 90
+  reconcile_before_any_future_spend: true
+prohibitions:
+  recreate_missing_source_image: false
+  substitute_missing_source_image: false
+  modify_locked_sources: false
+  publish: false
+external_media:
+  storage_authority: ChatGPT File Library / connected Google Drive / provider-native generation records
+  binaries_committed_to_git: false
+  stable_asset_ids_and_checksums:
+    status: PENDING_CAPTURE
+    stable_asset_ids: []
+    sha256_checksums: {}
+    rule: Partial File Library references and historical SHA-256 fingerprints are recorded at shot level, but the complete active binary set is not mountable or freshly rehashable. Do not invent a runtime URI, promote a thumbnail, or mark the set VERIFIED until every required exact binary is mounted and rehashed.
+recorded_progress:
+  S00:
+    status: NOT_COMPLETE
+    control_record: true
+    purpose: runtime_mount_locator_and_balance_recovery
+    search_completed: true
+    search_routes:
+    - file_library_exact_title_id_and_hash
+    - local_runtime_filesystem
+    - google_drive_exact_and_broad_name
+    - google_drive_video_and_audio_mime
+    - provider_attachment_bridge
+    - magiclight_connector_and_plugin_discovery
+    locked_stills_identified: 3
+    mounted_binary_count: 0
+    fresh_rehash_count: 0
+    google_drive_video_matches: 0
+    google_drive_audio_matches: 0
+    local_runtime_binary_matches: 0
+    file_library_attachment_bridge_state: REJECTED_FILE_LIBRARY_REFERENCE_IS_NOT_A_CURRENT_CONVERSATION_ATTACHMENT
+    magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+    magiclight_connector_state: NO_CONNECTED_OR_INSTALLABLE_MAGICLIGHT_CONNECTOR_FOUND
+    historical_balance_math_state: RECONCILED_86395_MINUS_90_EQUALS_86305
+    spend_authorized: false
+    credits_spent: 0
+    completion_state: ALL_EXECUTABLE_RECOVERY_ROUTES_EXHAUSTED_EXTERNAL_INPUT_REQUIRED
+    locked_audio:
+      status: LOCKED
+      exact_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+      sha256: 6c5919525c0f8b465ed6625dfd9a1d59adfe38f0cd33147f3c4f453bc9650fb0
+      stable_locator_state: UNRESOLVED
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+  S01:
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_OPENING_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_0000000038f881f7a40de0921d6a73dc
+      reviewed_library_id: libfile_6ad8ef9c4e30819182b702e7f0884f43
+      recorded_sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+      transfer_attempts_exhausted: true
+    wonder_light_glow_reveal:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_GLOW_REVEAL_v01_APPROVED_LOCKED.mp4
+      recorded_sha256: 1464db416c0a6acee9baafce40e0a71e2c2d3060fda922ce631ad866628dbc55
+      stable_locator_state: UNRESOLVED
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+      recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+  S02:
+    content_authority: six color lights; no character
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_000000003bb081f786c6b3f196941e13
+      reviewed_library_id: libfile_6800219bbeac81918b78041b01de44e6
+      recorded_sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+      transfer_attempts_exhausted: true
+    motion:
+      status: LOCKED
+      version: v04
+      exact_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_MOTION_v04_APPROVED_LOCKED.mp4
+      reviewed_library_id: libfile_d0204423d9f88191a5a520a62e3223c8
+      recorded_sha256: 6c05e761a8a139081851e465635cbc0904a9d9164400e9a60063db5b94473ca9
+      stable_locator_state: UNRESOLVED
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+      recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+    legacy_voxie_variant:
+      status: PARKED
+      may_substitute: false
+  S03:
+    active_source:
+      status: LOCKED
+      version: v01
+      name: six stepping pools KF-A
+      authority_basis: latest explicit user decision supersedes the older temporary six-light S03 branch
+      exact_filename: VWF_RAINBOW_COLORS_S03_SIX_STEPPING_POOLS_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_000000007acc81f7896d61c56cfcb63f
+      reviewed_library_id: libfile_ba6e8749fd348191a4b1b5f97617ea90
+      recorded_sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+      dimensions: 1920x1080
+      bytes: 260728
+      runtime_mount_state: UNAVAILABLE
+      fresh_rehash_performed: false
+      transfer_attempts_exhausted: true
+    motion_review:
+      status: PENDING
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S03_STEPPING_POOLS_GENTLE_PUSH_v01_REVIEW.mp4
+      recipe: 119 frames at 24 fps, 4.958333 seconds, centered scale 1.0000 to 1.0250, soft S02-to-S03 dissolve, no audio
+      execution_performed: false
+      output_binary_created: false
+      credits_spent: 0
+      blocker: EXACT_LOCKED_SOURCE_BYTES_UNAVAILABLE
+      transfer_attempts_exhausted: true
+      no_substitution: true
+    six_light_image:
+      status: PARKED_ALTERNATE
+      may_replace_active_source: false
+  S01_S02_transition:
+    status: LOCKED
+    version: v01
+    exact_filename: VWF_RAINBOW_COLORS_S01-S02_OPENING_TRANSITION_v01_APPROVED_LOCKED.mp4
+    recorded_sha256: 90d719f3e3611b57e52f18eafa1d10d3ab4a7c84e3f8704bbf39473909dfed69
+    stable_locator_state: UNRESOLVED
+    runtime_mount_state: UNAVAILABLE
+    fresh_rehash_performed: false
+    recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+  S04:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 14.55
+    end_seconds: 21.0
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: 58f03d9b-a22e-4c57-8f75-42da53722700
+    candidate_sha256: f6206f6ca671a2767d0ec942f9255115626aa1257421d35af503490138570a51
+  S05:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: DEPENDENCY_READY_AFTER_S04_APPROVAL
+    start_seconds: 21.0
+    end_seconds: 25.75
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    dependency: S04 review candidate approval
+    construction: deterministic light sweep; no parked-asset substitution
+  S06:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 25.75
+    end_seconds: 30.15
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_WRONG_POSE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S07:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_EXACT_BINARY_MOUNT_REQUIRED
+    start_seconds: 30.15
+    end_seconds: 33.7
+    protected_timing: true
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_PAN_FROM_VERIFIED_POOL_SOURCE
+  S08:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_EXACT_BINARY_MOUNT_REQUIRED
+    start_seconds: 33.7
+    end_seconds: 37.8
+    protected_timing: true
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_ORDERED_PULSES_FROM_VERIFIED_POOL_SOURCE
+  S09:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 37.8
+    end_seconds: 41.65
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_CANON_FAIL
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S10:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 41.65
+    end_seconds: 45.75
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: NO_SURVIVING_HEAD_TAP_SOURCE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S11:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 45.75
+    end_seconds: 49.85
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_HEAD_TAP_MISSING_AND_SEVEN_RINGS
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S12:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 49.85
+    end_seconds: 54.35
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_WRONG_FRAMING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S13:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 54.35
+    end_seconds: 58.25
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_WAVE_NOT_STRETCH
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S14:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 58.25
+    end_seconds: 61.05
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: SAFE_WIDE_STRETCH_HOLD_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S15:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 61.05
+    end_seconds: 64.85
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: 94886dfb-ab2b-4a36-9193-e46a6bd0bbcb
+    candidate_sha256: 43d97941c65812c1b402e1426d2cbba3da5d5b366543cd3e83f496ad910f5645
+  S16:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 64.85
+    end_seconds: 67.55
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_REACH_POSE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S17:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 67.55
+    end_seconds: 70.3
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: TWO_REACH_SEQUENCE_UNSUPPORTED
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S18:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 70.3
+    end_seconds: 73.7
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: 681ee57d-63e0-472e-a24c-43a7c6dae07d
+    candidate_sha256: 56fc667c5e04b15d5fa3bb4fde7c82b553c703099d526f1e1f10259f025f7c72
+  S19:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: DEPENDENCY_READY_AFTER_S20_APPROVAL
+    start_seconds: 73.7
+    end_seconds: 77.35
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    dependency: S20 review candidate approval
+    construction: deterministic lean extraction from approved S20 source
+  S20:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 77.35
+    end_seconds: 81.9
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: c5992669-6929-4da0-a601-0fa022bbb118
+    candidate_sha256: 3d8b50e1d4bfb48710c9650264092423d20c593221a411664b51e105c6d981a3
+  S21:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 81.9
+    end_seconds: 86.35
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_EXISTING_SOURCE; RECOVERED_CANDIDATE_EXCLUDED
+  S22:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 86.35
+    end_seconds: 89.3
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: BOTH_HANDS_WAVE_SOURCE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S23:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 89.3
+    end_seconds: 91.35
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_WRONG_SECTION
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S24:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 91.35
+    end_seconds: 94.85
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: VERIFIED_EXISTING_SOURCE; PROVIDER_FRAME_NON_AUTHORITATIVE
+  S25:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 94.85
+    end_seconds: 97.8
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: QUARTER_TURN_START_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S26:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 97.8
+    end_seconds: 101.0
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: COMPLETED_TURN_SOURCE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S27:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 101.0
+    end_seconds: 104.85
+    protected_timing: true
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_LOCKED_QUIZ_TEMPLATE
+  S28:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 104.85
+    end_seconds: 108.4
+    protected_timing: true
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_LOCKED_QUIZ_TEMPLATE
+  S29:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 108.4
+    end_seconds: 112.8
+    protected_timing: true
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_BAKED_TEXT_AND_GRAPHICS
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S30:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 112.8
+    end_seconds: 117.8
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_VERIFIED_COUNTING_ASSET
+  S31:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 117.8
+    end_seconds: 122.2
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: REUSE_VERIFIED_COUNTING_ASSET
+  S32:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: CREATIVE_DECISION_CLOSED_DETERMINISTIC_NLE_CONSTRUCTION
+    start_seconds: 122.2
+    end_seconds: 128.1
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_NLE_MASKS_FROM_LOCKED_COLOR_SOURCES
+    construction: deterministic NLE masks from locked six-color sources
+    parked_assets_may_substitute: false
+  S33:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 128.1
+    end_seconds: 133.4
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: 59890099-5947-4d20-87b5-c1240bcb909e
+    candidate_sha256: 49b404c2f71db0282ad417fdaa338d3851879115c30fc12bfc52cee828216db7
+  S34:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 133.4
+    end_seconds: 138.35
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_VERIFIED_SIX_ORB_ASSET
+  S35:
+    classification: MISSING_APPROVED_SOURCE
+    resolution_state: REVIEW_CANDIDATE_READY_FOR_EXPLICIT_APPROVAL
+    start_seconds: 138.35
+    end_seconds: 143.05
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    approval_required: true
+    candidate_task_id: 899e8398-fa54-4fcd-aa1a-fb2bc4f811a3
+    candidate_sha256: 1e03f70d05924e4f6b46d359ce55a1ae7096d9c5022df8d9466fa098487f17a4
+  S36:
+    classification: NEW_PIXELS_REQUIRED
+    resolution_state: GENERATION_PACKAGE_DEFINED_BALANCE_AND_REVIEW_GATED
+    start_seconds: 143.05
+    end_seconds: 147.3
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: RECOVERED_CANDIDATE_DARK_SILHOUETTE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S37:
+    classification: READY_EXISTING_SOURCE
+    resolution_state: DETERMINISTIC_PLAN_COMPLETE_SOURCE_MOUNT_REQUIRED
+    start_seconds: 147.3
+    end_seconds: 150.0
+    protected_timing: false
+    render_authorized: false
+    creative_decision_required: false
+    reason: DETERMINISTIC_WONDER_LIGHT_CLOSING
