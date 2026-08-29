@@ -76,6 +76,18 @@ def test_referenced_repository_authority_must_exist():
     ]
 
 
+def test_referenced_repository_authority_cannot_escape_checkout():
+    record = _record()
+    record["master"]["manifest"] = "manifests/../../etc/passwd"
+
+    errors = validate("release_readiness", record)
+
+    assert errors == [
+        "master.manifest: referenced path must stay within repository: "
+        "manifests/../../etc/passwd"
+    ]
+
+
 def test_platform_names_must_be_unique():
     record = _record()
     record["platforms"][1]["platform"] = "youtube"
