@@ -36,7 +36,7 @@ def _master():
 
 
 def test_freeze_dance_release_readiness_validates():
-    assert validate("qc_report", _readiness()) == []
+    assert validate("release_readiness", _readiness()) == []
 
 
 def test_release_record_matches_review_master_authority():
@@ -115,6 +115,18 @@ def test_release_gate_fails_closed():
     ]
     assert "AUDIO_PEAK_REVIEW_NOTE_NOT_ACCEPTED" in gate["blockers"]
     assert "PUBLICATION_NOT_AUTHORIZED" in gate["blockers"]
+
+
+def test_every_release_blocker_has_a_warning_finding():
+    readiness = _readiness()
+    blockers = set(readiness["release_gate"]["blockers"])
+    warning_rules = {
+        finding["rule_id"]
+        for finding in readiness["findings"]
+        if finding["severity"] == "warning"
+    }
+
+    assert blockers == warning_rules
 
 
 def test_all_platform_packages_are_unprepared_and_blocked():
