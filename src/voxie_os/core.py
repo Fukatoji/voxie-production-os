@@ -40,6 +40,7 @@ SCHEMA_FILES = {
     "shot_manifest": "shot_manifest.schema.json",
     "benchmark": "benchmark.schema.json",
     "qc_report": "qc_report.schema.json",
+    "release_readiness": "release_readiness.schema.json",
     "library_routing": "library_routing.schema.json",
     "alignment": "alignment.schema.json",
     "benchmark_suite": "benchmark_suite.schema.json",
@@ -168,6 +169,105 @@ def _validate_production_state(data: Any) -> list[str]:
     return errors
 
 
+def _validate_release_readiness(data: Any) -> list[str]:
+    """Keep release records fail-closed and verify their repository references."""
+    errors = []
+    gate = data["release_gate"]
+    platforms = data["platforms"]
+
+    platform_names = [platform["platform"] for platform in platforms]
+    if len(platform_names) != len(set(platform_names)):
+        errors.append("platforms: platform names must be unique")
+
+    unresolved = bool(gate["required_approvals"] or gate["blockers"])
+    if unresolved:
+        if gate["execution_authority"] != "BLOCKED":
+            errors.append(
+                "release_gate.execution_authority: must be BLOCKED while "
+                "approvals or blockers remain"
+            )
+        for field in (
+            "publication_authorized",
+            "scheduling_authorized",
+            "account_write_authorized",
+        ):
+            if gate[field]:
+                errors.append(
+                    f"release_gate.{field}: must be false while approvals or blockers remain"
+                )
+        for index, platform in enumerate(platforms):
+            if platform["upload_authorized"]:
+                errors.append(
+                    f"platforms.{index}.upload_authorized: must be false while "
+                    "approvals or blockers remain"
+                )
+            if platform["publish_authorized"]:
+                errors.append(
+                    f"platforms.{index}.publish_authorized: must be false while "
+                    "approvals or blockers remain"
+                )
+
+    if not gate["account_write_authorized"]:
+        for index, platform in enumerate(platforms):
+            if platform["upload_authorized"]:
+                errors.append(
+                    f"platforms.{index}.upload_authorized: cannot be true while "
+                    "account writes are unauthorized"
+                )
+
+    if not gate["publication_authorized"]:
+        for index, platform in enumerate(platforms):
+            if platform["publish_authorized"]:
+                errors.append(
+                    f"platforms.{index}.publish_authorized: cannot be true while "
+                    "publication is unauthorized"
+                )
+
+    finding_rules = {
+        finding["rule_id"]
+        for finding in data["findings"]
+        if finding["severity"] in {"warning", "error"}
+    }
+    missing_findings = sorted(set(gate["blockers"]) - finding_rules)
+    if missing_findings:
+        errors.append(
+            "release_gate.blockers: every blocker requires a warning or error finding; "
+            f"missing {', '.join(missing_findings)}"
+        )
+
+    referenced_paths = [("master.manifest", data["master"]["manifest"])]
+    if "final_review_record" in data["master"]:
+        referenced_paths.append(
+            ("master.final_review_record", data["master"]["final_review_record"])
+        )
+    timing = data.get("timing_authority", {})
+    for field in ("beatmap", "shot_manifest"):
+        if field in timing:
+            referenced_paths.append((f"timing_authority.{field}", timing[field]))
+    distribution = data.get("distribution_package", {})
+    if "authority_source" in distribution:
+        referenced_paths.append(
+            ("distribution_package.authority_source", distribution["authority_source"])
+        )
+
+    for field, relative_path in referenced_paths:
+        target = ROOT / relative_path
+        if not target.is_file():
+            errors.append(f"{field}: referenced repository file does not exist: {relative_path}")
+
+    if data["status"] == "RELEASED":
+        if not gate["publication_authorized"]:
+            errors.append(
+                "release_gate.publication_authorized: must be true when status is RELEASED"
+            )
+        if not any(platform["publish_authorized"] for platform in platforms):
+            errors.append(
+                "platforms: at least one platform must be publish-authorized when status is RELEASED"
+            )
+
+    return errors
+
+
 def validate(kind: str, data: Any) -> list[str]:
     validator = FiniteNumberValidator(schema_for(kind))
     errors = []
@@ -178,6 +278,8 @@ def validate(kind: str, data: Any) -> list[str]:
         errors.extend(_validate_library_routing_state(data))
     if kind == "production_state" and not errors:
         errors.extend(_validate_production_state(data))
+    if kind == "release_readiness" and not errors:
+        errors.extend(_validate_release_readiness(data))
     return errors
 
 
