@@ -15,19 +15,16 @@
   ],
   "properties": {
     "lock_version": {
-      "type": "string",
-      "minLength": 1
+      "const": "1.0"
     },
     "lock_id": {
-      "type": "string",
-      "pattern": "^[A-Z0-9_-]+$"
+      "const": "VOS-AUTHORITY-CONTENT-LOCK-V01"
     },
     "record_type": {
       "const": "authority_lock"
     },
     "index_id": {
-      "type": "string",
-      "pattern": "^[A-Z0-9_-]+$"
+      "const": "VOS-AUTHORITY-INDEX-V01"
     },
     "index_path": {
       "const": "manifests/control/authority-index-v01.yaml"
