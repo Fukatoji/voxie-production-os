@@ -1,0 +1,490 @@
+version: 2
+record_type: production_state
+recorded_at_utc: '2026-08-29T02:53:11Z'
+production_date_local: '2026-08-28'
+production_timezone: America/Chicago
+production:
+  slug: rainbow-colors
+  title: Voxie's Rainbow Colors
+  status: ACTIVE
+  final_master_status: NOT_COMPLETE
+authority_scope:
+  decision_authority: VALID
+  decision_scope:
+  - shot_map_v01.1
+  - locked_audio_boundary
+  - S01
+  - S02
+  - S03
+  - S01_S02_transition
+  - S04_S37_zero_cost_preflight
+  - MagicLight_balance_reconciliation
+  execution_authority: BLOCKED
+  execution_media_scope:
+  - S01
+  - S02
+  - S03
+  - S04
+  - S05
+  - S06
+  - S07
+  - S08
+  - S09
+  - S10
+  - S11
+  - S12
+  - S13
+  - S14
+  - S15
+  - S16
+  - S17
+  - S18
+  - S19
+  - S20
+  - S21
+  - S22
+  - S23
+  - S24
+  - S25
+  - S26
+  - S27
+  - S28
+  - S29
+  - S30
+  - S31
+  - S32
+  - S33
+  - S34
+  - S35
+  - S36
+  - S37
+  execution_blockers:
+  - MISSING_STABLE_ASSET_IDS
+  - MISSING_SHA256_CHECKSUMS
+  - MISSING_APPROVED_SOURCE
+  - NEW_CREATIVE_DECISION_REQUIRED
+  note: Successor to production-state-v01. Verified File Library IDs and hashes are captured per artifact where evidence exists. Full media execution
+    remains blocked because several locked MP4 binary locators, required shot sources, and later-shot remap decisions remain unresolved.
+authorities:
+  shot_map:
+    active_version: v01.1
+    status: LOCKED
+    shot_count: 37
+    predecessor:
+      version: v01
+      status: LOCKED
+  audio:
+    duration_seconds: 150.0
+    status: LOCKED
+    preserve_bytes: true
+    canonical_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+recorded_progress:
+  S01:
+    status: LOCKED
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      locked_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_OPENING_KF-A_v01_APPROVED_LOCKED.png
+      stable_asset_id: chatgpt-file-library://file_0000000038f881f7a40de0921d6a73dc
+      reviewed_library_id: libfile_6ad8ef9c4e30819182b702e7f0884f43
+      sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+      storage_location: ChatGPT File Library
+      provider_task_id: NONE_DETERMINISTIC_LOCAL
+    wonder_light_glow_reveal:
+      status: LOCKED
+      version: v01
+      locked_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_GLOW_REVEAL_v01_APPROVED_LOCKED.mp4
+      stable_asset_id: NOT_SURFACED_IN_RECOVERY
+      sha256: 1464db416c0a6acee9baafce40e0a71e2c2d3060fda922ce631ad866628dbc55
+      storage_location: ChatGPT File Library record; binary locator unresolved
+      provider_task_id: NONE_DETERMINISTIC_LOCAL
+  S02:
+    status: LOCKED
+    content_authority: six color lights; no character
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      locked_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_KF-A_v01_APPROVED_LOCKED.png
+      stable_asset_id: chatgpt-file-library://file_000000003bb081f786c6b3f196941e13
+      reviewed_library_id: libfile_6800219bbeac81918b78041b01de44e6
+      sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+      storage_location: ChatGPT File Library
+      provider_task_id: NONE_DETERMINISTIC_LOCAL
+    motion:
+      status: LOCKED
+      version: v04
+      locked_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_MOTION_v04_APPROVED_LOCKED.mp4
+      stable_asset_id: NOT_SURFACED_IN_RECOVERY
+      reviewed_library_id: libfile_d0204423d9f88191a5a520a62e3223c8
+      sha256: 6c05e761a8a139081851e465635cbc0904a9d9164400e9a60063db5b94473ca9
+      storage_location: ChatGPT File Library record; locked binary locator unresolved
+      provider_task_id: NONE_DETERMINISTIC_LOCAL
+    legacy_voxie_variant:
+      status: PARKED
+      may_substitute: false
+  S03:
+    status: LOCKED
+    active_source:
+      status: LOCKED
+      version: v01
+      name: six stepping pools KF-A
+      locked_filename: VWF_RAINBOW_COLORS_S03_SIX_STEPPING_POOLS_KF-A_v01_APPROVED_LOCKED.png
+      stable_asset_id: chatgpt-file-library://file_000000007acc81f7896d61c56cfcb63f
+      reviewed_library_id: libfile_ba6e8749fd348191a4b1b5f97617ea90
+      sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+      storage_location: ChatGPT File Library
+      provider_task_id: NONE_DETERMINISTIC_LOCAL
+    active_motion:
+      status: PENDING
+      reason: No approved motion exists from the active stepping-pools source. The next allowed operation is a zero-credit 119-frame gentle-push
+        review.
+    historical_six_light_keyframe:
+      status: LOCKED
+      version: v02
+      active: false
+      locked_filename: VWF_RAINBOW_COLORS_S03_SIX_COLOR_LIGHTS_KF-A_v02_APPROVED_LOCKED.png
+      stable_asset_id: chatgpt-file-library://file_000000003bb081f786c6b3f196941e13
+      sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+      authority_note: Historical lock preserved. Latest explicit S03 authority is the stepping-pools v01 source.
+    historical_six_light_motion:
+      status: LOCKED
+      version: v01
+      active: false
+      locked_filename: VWF_RAINBOW_COLORS_S03_GENTLE_PUSH_v01_APPROVED_LOCKED.mp4
+      stable_asset_id: NOT_SURFACED_IN_RECOVERY
+      sha256: b4824868e825c35d3c6b1302d6c6e99b6267d9628e590ebb9568c33b8ef8595d
+      authority_note: Historical lock preserved; it does not replace the active stepping-pools source.
+    six_light_image_alternate:
+      status: PARKED_ALTERNATE
+      version: v01
+      controlled_filename: VWF_RAINBOW_COLORS_S03_SIX_COLOR_LIGHTS_ALT_v01_PARKED.png
+      original_filename: exec-04f445da-3693-443f-a0ff-88c210d1242b.png
+      stable_asset_id: NOT_RECORDED
+      sha256: 521119aebd08c09de70e3e921849605131b4c0bef8533c9cfcc5eee204180801
+      provider_task_id: NOT_RECORDED_CHATGPT_IMAGE_GENERATION
+      may_replace_active_source: false
+  S01_S02_transition:
+    status: LOCKED
+    version: v01
+    locked: true
+    locked_filename: VWF_RAINBOW_COLORS_S01-S02_OPENING_TRANSITION_v01_APPROVED_LOCKED.mp4
+    stable_asset_id: NOT_SURFACED_IN_RECOVERY
+    sha256: 90d719f3e3611b57e52f18eafa1d10d3ab4a7c84e3f8704bbf39473909dfed69
+    storage_location: ChatGPT File Library record; locked binary locator unresolved
+    provider_task_id: NONE_DETERMINISTIC_LOCAL
+  S04:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 14.55
+    end_seconds: 21.0
+    timing_locked: true
+    spend_authorized: false
+    rejected_candidate_job_id: a389f84f-75c9-4402-94aa-10dc9f70f9ee
+    rejected_candidate_source_sha256: 31c8bc012a55f276e93e60969ad8da4e4cabc2fdc61e834cda0adc4918644bc9
+  S05:
+    status: PENDING
+    classification: CREATIVE_DECISION_REQUIRED
+    start_seconds: 21.0
+    end_seconds: 25.75
+    timing_locked: true
+    spend_authorized: false
+  S06:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 25.75
+    end_seconds: 30.15
+    timing_locked: true
+    spend_authorized: false
+  S07:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 30.15
+    end_seconds: 33.7
+    timing_locked: true
+    spend_authorized: false
+    timing_change_prohibited: true
+    verified_source_id: chatgpt-file-library://file_000000007acc81f7896d61c56cfcb63f
+    verified_source_sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+    mount_required_before_render: true
+  S08:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 33.7
+    end_seconds: 37.8
+    timing_locked: true
+    spend_authorized: false
+    timing_change_prohibited: true
+    verified_source_id: chatgpt-file-library://file_000000007acc81f7896d61c56cfcb63f
+    verified_source_sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+    mount_required_before_render: true
+  S09:
+    status: PENDING
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 37.8
+    end_seconds: 41.65
+    timing_locked: true
+    spend_authorized: false
+  S10:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 41.65
+    end_seconds: 45.75
+    timing_locked: true
+    spend_authorized: false
+  S11:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 45.75
+    end_seconds: 49.85
+    timing_locked: true
+    spend_authorized: false
+  S12:
+    status: PENDING
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 49.85
+    end_seconds: 54.35
+    timing_locked: true
+    spend_authorized: false
+  S13:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 54.35
+    end_seconds: 58.25
+    timing_locked: true
+    spend_authorized: false
+  S14:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 58.25
+    end_seconds: 61.05
+    timing_locked: true
+    spend_authorized: false
+  S15:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 61.05
+    end_seconds: 64.85
+    timing_locked: true
+    spend_authorized: false
+  S16:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 64.85
+    end_seconds: 67.55
+    timing_locked: true
+    spend_authorized: false
+  S17:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 67.55
+    end_seconds: 70.3
+    timing_locked: true
+    spend_authorized: false
+  S18:
+    status: PENDING
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 70.3
+    end_seconds: 73.7
+    timing_locked: true
+    spend_authorized: false
+  S19:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 73.7
+    end_seconds: 77.35
+    timing_locked: true
+    spend_authorized: false
+  S20:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 77.35
+    end_seconds: 81.9
+    timing_locked: true
+    spend_authorized: false
+  S21:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 81.9
+    end_seconds: 86.35
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_0000000038f881f7a40de0921d6a73dc
+    verified_source_sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+    mount_required_before_render: true
+  S22:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 86.35
+    end_seconds: 89.3
+    timing_locked: true
+    spend_authorized: false
+  S23:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 89.3
+    end_seconds: 91.35
+    timing_locked: true
+    spend_authorized: false
+  S24:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 91.35
+    end_seconds: 94.85
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_0000000038f881f7a40de0921d6a73dc
+    verified_source_sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+    mount_required_before_render: true
+  S25:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 94.85
+    end_seconds: 97.8
+    timing_locked: true
+    spend_authorized: false
+  S26:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 97.8
+    end_seconds: 101.0
+    timing_locked: true
+    spend_authorized: false
+  S27:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 101.0
+    end_seconds: 104.85
+    timing_locked: true
+    spend_authorized: false
+    timing_change_prohibited: true
+    verified_source_id: chatgpt-file-library://file_000000007acc81f7896d61c56cfcb63f
+    verified_source_sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+    mount_required_before_render: true
+  S28:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 104.85
+    end_seconds: 108.4
+    timing_locked: true
+    spend_authorized: false
+    timing_change_prohibited: true
+    verified_source_id: chatgpt-file-library://file_000000007acc81f7896d61c56cfcb63f
+    verified_source_sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+    mount_required_before_render: true
+  S29:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 108.4
+    end_seconds: 112.8
+    timing_locked: true
+    spend_authorized: false
+    timing_change_prohibited: true
+  S30:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 112.8
+    end_seconds: 117.8
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_000000003bb081f786c6b3f196941e13
+    verified_source_sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+    mount_required_before_render: true
+  S31:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 117.8
+    end_seconds: 122.2
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_000000003bb081f786c6b3f196941e13
+    verified_source_sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+    mount_required_before_render: true
+  S32:
+    status: PENDING
+    classification: CREATIVE_DECISION_REQUIRED
+    start_seconds: 122.2
+    end_seconds: 128.1
+    timing_locked: true
+    spend_authorized: false
+  S33:
+    status: PENDING
+    classification: CREATIVE_DECISION_REQUIRED
+    start_seconds: 128.1
+    end_seconds: 133.4
+    timing_locked: true
+    spend_authorized: false
+  S34:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 133.4
+    end_seconds: 138.35
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_000000003bb081f786c6b3f196941e13
+    verified_source_sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+    mount_required_before_render: true
+  S35:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 138.35
+    end_seconds: 143.05
+    timing_locked: true
+    spend_authorized: false
+  S36:
+    status: PENDING
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 143.05
+    end_seconds: 147.3
+    timing_locked: true
+    spend_authorized: false
+  S37:
+    status: PENDING
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 147.3
+    end_seconds: 150.0
+    timing_locked: true
+    spend_authorized: false
+    verified_source_id: chatgpt-file-library://file_0000000038f881f7a40de0921d6a73dc
+    verified_source_sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+    mount_required_before_render: true
+continuation:
+  resume_after_shot: S03
+  zero_cost_only: true
+  deterministic_existing_sources_only: true
+  qc_required: PASS
+  preserve_shot_timing:
+  - S07
+  - S08
+  - S27
+  - S28
+  - S29
+  stop_if:
+  - credits_or_money_required
+  - provider_generation_or_new_pixels_required
+  - approved_source_missing
+  - canon_or_locked_authority_conflict
+  - qc_not_pass
+  - locked_audio_would_change
+  - publishing_or_distribution_requested
+  - new_creative_decision_required
+spend_and_balance_gate:
+  quoted_generation_credits: 2300
+  spend_authorized: false
+  recorded_post_generation_balance: 86305
+  separately_displayed_balance: 86395
+  discrepancy_credits: 90
+  reconcile_before_any_future_spend: true
+prohibitions:
+  recreate_missing_source_image: false
+  substitute_missing_source_image: false
+  modify_locked_sources: false
+  publish: false
+external_media:
+  storage_authority: ChatGPT File Library / connected media storage
+  binaries_committed_to_git: false
+  stable_asset_ids_and_checksums:
+    status: PENDING_CAPTURE
+    stable_asset_ids: []
+    sha256_checksums: {}
+    rule: Partial verified lineage is recorded per artifact. Do not mark the full set VERIFIED until every required active binary has a stable
+      locator and matching SHA-256, including the active S03 motion and locked deterministic MP4s.
