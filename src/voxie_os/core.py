@@ -35,6 +35,7 @@ SCHEMAS = ROOT / "schemas"
 
 SCHEMA_FILES = {
     "canon": "canon.schema.json",
+    "character_status": "character_status.schema.json",
     "asset": "asset.schema.json",
     "beatmap": "beatmap.schema.json",
     "shot_manifest": "shot_manifest.schema.json",
@@ -66,6 +67,25 @@ def schema_for(kind: str) -> dict[str, Any]:
     if kind not in SCHEMA_FILES:
         raise KeyError(f"Unknown schema kind: {kind}")
     return json.loads((SCHEMAS / SCHEMA_FILES[kind]).read_text(encoding="utf-8"))
+
+
+def _append_repository_file_error(
+    errors: list[str], field: str, relative_path: str
+) -> None:
+    """Require a repository-local reference to resolve to an existing file."""
+    repository_root = ROOT.resolve()
+    target = (ROOT / relative_path).resolve()
+    try:
+        target.relative_to(repository_root)
+    except ValueError:
+        errors.append(
+            f"{field}: referenced path must stay within repository: {relative_path}"
+        )
+        return
+    if not target.is_file():
+        errors.append(
+            f"{field}: referenced repository file does not exist: {relative_path}"
+        )
 
 
 def _validate_library_routing_state(data: Any) -> list[str]:
@@ -250,18 +270,8 @@ def _validate_release_readiness(data: Any) -> list[str]:
             ("distribution_package.authority_source", distribution["authority_source"])
         )
 
-    repository_root = ROOT.resolve()
     for field, relative_path in referenced_paths:
-        target = (ROOT / relative_path).resolve()
-        try:
-            target.relative_to(repository_root)
-        except ValueError:
-            errors.append(
-                f"{field}: referenced path must stay within repository: {relative_path}"
-            )
-            continue
-        if not target.is_file():
-            errors.append(f"{field}: referenced repository file does not exist: {relative_path}")
+        _append_repository_file_error(errors, field, relative_path)
 
     if data["status"] == "RELEASED":
         if not gate["publication_authorized"]:
@@ -272,6 +282,121 @@ def _validate_release_readiness(data: Any) -> list[str]:
             errors.append(
                 "platforms: at least one platform must be publish-authorized when status is RELEASED"
             )
+
+    return errors
+
+
+def _validate_character_status(data: Any) -> list[str]:
+    """Validate character lock, routing, branch, and reference relationships."""
+    errors = []
+    required_categories = {
+        "LOCKED_CANON",
+        "APPROVED_BUT_UNLOCKED",
+        "PARKED_ALTERNATIVE",
+        "NEEDS_RECONCILIATION",
+    }
+    categories = set(data["status_categories"])
+    if categories != required_categories:
+        missing = sorted(required_categories - categories)
+        extra = sorted(categories - required_categories)
+        details = []
+        if missing:
+            details.append(f"missing {', '.join(missing)}")
+        if extra:
+            details.append(f"unexpected {', '.join(extra)}")
+        errors.append(
+            "status_categories: must contain the four canonical categories"
+            + (f"; {'; '.join(details)}" if details else "")
+        )
+
+    try:
+        datetime.strptime(data["recorded_date"], "%Y-%m-%d")
+    except ValueError:
+        errors.append("recorded_date: must be a real calendar date")
+
+    character_ids = [character["character_id"] for character in data["characters"]]
+    if len(character_ids) != len(set(character_ids)):
+        errors.append("characters: character IDs must be unique")
+
+    for index, character in enumerate(data["characters"]):
+        prefix = f"characters.{index}"
+        status = character["status_category"]
+        production_use = character["production_use"]
+
+        for ref_index, relative_path in enumerate(character["reference_assets"]):
+            _append_repository_file_error(
+                errors, f"{prefix}.reference_assets.{ref_index}", relative_path
+            )
+
+        if status == "LOCKED_CANON":
+            if character["lock_level"] != "hard":
+                errors.append(
+                    f"{prefix}.lock_level: LOCKED_CANON requires hard lock level"
+                )
+            if production_use != "ALLOWED_WITH_LOCK":
+                errors.append(
+                    f"{prefix}.production_use: LOCKED_CANON requires ALLOWED_WITH_LOCK"
+                )
+            if not character["reference_assets"]:
+                errors.append(
+                    f"{prefix}.reference_assets: LOCKED_CANON requires at least one repository authority"
+                )
+            provider = character.get("provider_authority")
+            if provider is not None and provider["qc_status"] != "PASS":
+                errors.append(
+                    f"{prefix}.provider_authority.qc_status: locked provider authority must be PASS"
+                )
+        elif production_use == "ALLOWED_WITH_LOCK":
+            errors.append(
+                f"{prefix}.production_use: only LOCKED_CANON may use ALLOWED_WITH_LOCK"
+            )
+
+        blockers = character.get("blockers", [])
+        if status == "APPROVED_BUT_UNLOCKED":
+            if production_use != "BLOCKED_UNTIL_PREVIEW_LOCK":
+                errors.append(
+                    f"{prefix}.production_use: APPROVED_BUT_UNLOCKED requires BLOCKED_UNTIL_PREVIEW_LOCK"
+                )
+            if not blockers:
+                errors.append(
+                    f"{prefix}.blockers: APPROVED_BUT_UNLOCKED requires unresolved blockers"
+                )
+
+        if status == "NEEDS_RECONCILIATION":
+            if production_use != "BLOCKED_UNTIL_RECONCILED":
+                errors.append(
+                    f"{prefix}.production_use: NEEDS_RECONCILIATION requires BLOCKED_UNTIL_RECONCILED"
+                )
+            branches = character.get("branches", [])
+            if len(branches) < 2:
+                errors.append(
+                    f"{prefix}.branches: NEEDS_RECONCILIATION requires at least two branches"
+                )
+            branch_ids = [branch["branch_id"] for branch in branches]
+            if len(branch_ids) != len(set(branch_ids)):
+                errors.append(f"{prefix}.branches: branch IDs must be unique")
+            for branch_index, branch in enumerate(branches):
+                if branch["status"] != "HISTORICAL_PRODUCTION_BRANCH":
+                    errors.append(
+                        f"{prefix}.branches.{branch_index}.status: reconciliation branches must remain HISTORICAL_PRODUCTION_BRANCH"
+                    )
+            if not blockers:
+                errors.append(
+                    f"{prefix}.blockers: NEEDS_RECONCILIATION requires unresolved blockers"
+                )
+
+        if status == "PARKED_ALTERNATIVE" and production_use not in {"PARKED", "BLOCKED"}:
+            errors.append(
+                f"{prefix}.production_use: PARKED_ALTERNATIVE must remain PARKED or BLOCKED"
+            )
+
+        for alternative_index, alternative in enumerate(
+            character.get("parked_alternatives", [])
+        ):
+            if alternative["may_replace_locked_canon"]:
+                errors.append(
+                    f"{prefix}.parked_alternatives.{alternative_index}.may_replace_locked_canon: must be false"
+                )
 
     return errors
 
@@ -288,6 +413,8 @@ def validate(kind: str, data: Any) -> list[str]:
         errors.extend(_validate_production_state(data))
     if kind == "release_readiness" and not errors:
         errors.extend(_validate_release_readiness(data))
+    if kind == "character_status" and not errors:
+        errors.extend(_validate_character_status(data))
     return errors
 
 
