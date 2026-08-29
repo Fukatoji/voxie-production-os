@@ -98,9 +98,25 @@ findings:
   shot_id: null
   message: Repository evidence does not enumerate package filenames, checksums, metadata, thumbnails, or platform-specific formats; publication cannot rely on inferred package contents.
 - severity: warning
+  rule_id: PLATFORM_METADATA_NOT_RECORDED
+  shot_id: null
+  message: Platform titles, descriptions, captions, hashtags, and other release metadata are not recorded.
+- severity: warning
+  rule_id: THUMBNAIL_NOT_RECORDED
+  shot_id: null
+  message: No approved thumbnail authority is recorded for the locked master.
+- severity: warning
+  rule_id: MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+  shot_id: null
+  message: The YouTube Made for Kids configuration requires explicit review.
+- severity: warning
   rule_id: CAPTION_ACCESSIBILITY_DECISION_PENDING
   shot_id: null
   message: Captions were intentionally omitted because several sung words remain low-confidence; release requires explicit accessibility approval of the caption or no-caption decision.
+- severity: warning
+  rule_id: RELEASE_SCHEDULE_NOT_APPROVED
+  shot_id: null
+  message: No publishing date or cross-platform schedule is authorized.
 - severity: warning
   rule_id: PUBLICATION_NOT_AUTHORIZED
   shot_id: null
