@@ -1,0 +1,212 @@
+index_version: '1.0'
+index_id: VOS-AUTHORITY-INDEX-V01
+record_type: authority_index
+status: ACTIVE
+recorded_date: '2026-08-29'
+repository: Fukatoji/voxie-production-os
+default_branch: main
+policy:
+  current_entries_only: true
+  publication_requires_explicit_approval: true
+  media_binaries_committed: false
+  unknown_paths_fail_closed: true
+entries:
+- authority_id: VOS_LIBRARY_ROUTING_V2
+  authority_type: library_routing
+  project_id: VOS
+  path: manifests/library-routing.v2.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: READ_ONLY
+  publication_authorized: false
+  source_of_truth_for:
+  - canonical workspace routing
+  - production and library placement policy
+  validation_kind: library_routing
+  predecessors:
+  - manifests/library-routing.v1.yaml
+- authority_id: VOXIE_CANON_V1_0_MAGICLIGHT
+  authority_type: asset
+  project_id: VWW-CANON
+  path: manifests/assets/voxie-canon-v1.0.magiclight.yaml
+  authority_state: LOCKED
+  current: true
+  execution_scope: PRODUCTION_ALLOWED_WITH_LOCK
+  publication_authorized: false
+  source_of_truth_for:
+  - reusable Voxie character authority
+  - MagicLight asset and preview provenance
+  validation_kind: asset
+- authority_id: VWW_CHARACTER_STATUS_V01
+  authority_type: character_status
+  project_id: VWW-CANON
+  path: manifests/characters/status-register-v01.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: READ_ONLY
+  publication_authorized: false
+  source_of_truth_for:
+  - priority character lock status
+  - parked alternatives and reconciliation gates
+  validation_kind: character_status
+- authority_id: BIG_SURPRISE_BEATMAP_001
+  authority_type: beatmap
+  project_id: VWF-BIG-SURPRISE
+  path: manifests/productions/big-surprise/beatmap-001.final.json
+  authority_state: FINAL
+  current: true
+  execution_scope: PRODUCTION_ALLOWED_WITH_LOCK
+  publication_authorized: false
+  source_of_truth_for:
+  - locked 150-second lyric timing
+  - final audio fingerprint and line boundaries
+  validation_kind: beatmap
+- authority_id: BIG_SURPRISE_SHOT_MANIFEST_V01
+  authority_type: shot_manifest
+  project_id: VWF-BIG-SURPRISE
+  path: manifests/productions/big-surprise/shot-manifest-v01.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - 27-unit timing structure
+  - visual-assignment execution boundary
+  validation_kind: shot_manifest
+- authority_id: BIG_SURPRISE_REVIEW_MASTER_V01
+  authority_type: review_master
+  project_id: VWF-BIG-SURPRISE
+  path: manifests/productions/big-surprise/review-master-v01.json
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - final-review master fingerprint
+  - technical media properties and subtitle state
+  validation_kind: null
+- authority_id: BIG_SURPRISE_RELEASE_READINESS_V01
+  authority_type: release_readiness
+  project_id: VWF-BIG-SURPRISE
+  path: manifests/distribution/big-surprise/release-readiness-v01.yaml
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - Big Surprise distribution blockers
+  - platform package and publication authorization state
+  validation_kind: release_readiness
+- authority_id: FREEZE_DANCE_REVIEW_MASTER_V21
+  authority_type: review_master
+  project_id: VWF-FREEZE-DANCE
+  path: manifests/productions/freeze-dance/review-master-v21.json
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - Freeze Dance V2.1 review master fingerprint
+  - hard-freeze verification evidence
+  validation_kind: null
+- authority_id: FREEZE_DANCE_FINAL_REVIEW_V21
+  authority_type: review_master
+  project_id: VWF-FREEZE-DANCE
+  path: manifests/productions/freeze-dance/final-review-v21.md
+  authority_state: REVIEW
+  current: true
+  execution_scope: READ_ONLY
+  publication_authorized: false
+  source_of_truth_for:
+  - final review findings and delivery evidence
+  - audio review note and lock-copy evidence
+  validation_kind: null
+- authority_id: FREEZE_DANCE_RELEASE_READINESS_V01
+  authority_type: release_readiness
+  project_id: VWF-FREEZE-DANCE
+  path: manifests/distribution/freeze-dance/release-readiness-v01.yaml
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - Freeze Dance distribution blockers
+  - finalization and publication gates
+  validation_kind: release_readiness
+- authority_id: COLORFUL_DAY_MASTER_STATUS_V01
+  authority_type: master_status
+  project_id: VWF-COLORFUL-DAY
+  path: manifests/productions/colorful-day/master-status-v01.md
+  authority_state: APPROVED_LOCKED
+  current: true
+  execution_scope: PRODUCTION_ALLOWED_WITH_LOCK
+  publication_authorized: false
+  source_of_truth_for:
+  - approved locked Colorful Day master
+  - master QC and soundtrack authority
+  validation_kind: null
+- authority_id: COLORFUL_DAY_RELEASE_READINESS_V01
+  authority_type: release_readiness
+  project_id: VWF-COLORFUL-DAY
+  path: manifests/distribution/colorful-day/release-readiness-v01.yaml
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - Colorful Day distribution evidence boundary
+  - platform and accessibility release gates
+  validation_kind: release_readiness
+- authority_id: RAINBOW_COLORS_PRODUCTION_STATE_V04
+  authority_type: production_state
+  project_id: VWF-RAINBOW-COLORS
+  path: manifests/productions/rainbow-colors/production-state-v04.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - current Rainbow Colors decision authority
+  - runtime recovery boundary and S04-S37 classifications
+  - MagicLight balance and spend gate
+  validation_kind: production_state
+  predecessors:
+  - manifests/productions/rainbow-colors/production-state-v01.yaml
+  - manifests/productions/rainbow-colors/production-state-v02.yaml
+  - manifests/productions/rainbow-colors/production-state-v03.yaml
+- authority_id: PROVIDER_CATALOG_V1
+  authority_type: provider_catalog
+  project_id: VOS
+  path: config/providers.v1.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: READ_ONLY
+  publication_authorized: false
+  source_of_truth_for:
+  - provider capabilities and risk classes
+  - approval, spend, and transport planning
+  validation_kind: provider_catalog
+- authority_id: VOXIE_MODEL_BENCHMARK_V01
+  authority_type: workflow
+  project_id: VOS-RND
+  path: workflows/voxie-model-benchmark-v01.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - controlled model benchmark scenarios
+  - promotion thresholds and adapter inventory
+  validation_kind: benchmark_suite
+- authority_id: BIG_SURPRISE_MULTI_ALIGNER_V01
+  authority_type: workflow
+  project_id: VWF-BIG-SURPRISE
+  path: workflows/big-surprise-multi-aligner-evaluation-v01.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - provider-neutral alignment evaluation procedure
+  - review-only successor timing experiment
+  validation_kind: alignment
