@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie Character Status Register",
+  "type": "object",
+  "required": [
+    "canon_version",
+    "register_id",
+    "register_status",
+    "recorded_date",
+    "authority_scope",
+    "status_categories",
+    "characters"
+  ],
+  "properties": {
+    "canon_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "register_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_-]+$"
+    },
+    "register_status": {
+      "enum": ["DRAFT", "ACTIVE", "SUPERSEDED"]
+    },
+    "recorded_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "authority_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status_categories": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "LOCKED_CANON",
+          "APPROVED_BUT_UNLOCKED",
+          "PARKED_ALTERNATIVE",
+          "NEEDS_RECONCILIATION"
+        ]
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/character"
+      }
+    }
+  },
+  "$defs": {
+    "repository_path": {
+      "type": "string",
+      "pattern": "^manifests/[^\\s]+$"
+    },
+    "branch": {
+      "type": "object",
+      "required": ["branch_id", "description", "status"],
+      "properties": {
+        "branch_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_-]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "parked_alternative": {
+      "type": "object",
+      "required": ["name", "status_category", "may_replace_locked_canon"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status_category": {
+          "const": "PARKED_ALTERNATIVE"
+        },
+        "permitted_uses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "may_replace_locked_canon": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "character": {
+      "type": "object",
+      "required": [
+        "character_id",
+        "name",
+        "lock_level",
+        "status_category",
+        "production_use",
+        "identity_rules",
+        "reference_assets",
+        "forbidden_assets",
+        "next_gate"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lock_level": {
+          "enum": ["hard", "layered", "experimental"]
+        },
+        "status_category": {
+          "enum": [
+            "LOCKED_CANON",
+            "APPROVED_BUT_UNLOCKED",
+            "PARKED_ALTERNATIVE",
+            "NEEDS_RECONCILIATION"
+          ]
+        },
+        "production_use": {
+          "enum": [
+            "ALLOWED_WITH_LOCK",
+            "BLOCKED_UNTIL_PREVIEW_LOCK",
+            "BLOCKED_UNTIL_RECONCILED",
+            "BLOCKED",
+            "PARKED"
+          ]
+        },
+        "identity_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reference_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repository_path"
+          },
+          "uniqueItems": true
+        },
+        "forbidden_assets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "provider_authority": {
+          "type": "object",
+          "required": ["provider", "reusable_asset_id", "preview_task_id", "qc_status"],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reusable_asset_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "preview_task_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "qc_status": {
+              "enum": ["PASS", "REVIEW", "FAIL"]
+            }
+          },
+          "additionalProperties": true
+        },
+        "parked_alternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parked_alternative"
+          }
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/branch"
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "uniqueItems": true
+        },
+        "next_gate": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
