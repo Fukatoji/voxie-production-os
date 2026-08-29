@@ -1,0 +1,119 @@
+report_version: '1.0'
+report_id: VWF-FREEZE-DANCE-RELEASE-READINESS-V01
+record_type: release_readiness
+project_id: VWF-FREEZE-DANCE
+project_title: Voxie's Wonder Freeze Dance
+status: REVIEW
+master:
+  manifest: manifests/productions/freeze-dance/review-master-v21.json
+  final_review_record: manifests/productions/freeze-dance/final-review-v21.md
+  status: COMPLETE_FOR_FINAL_REVIEW
+  controlled_filename: VWF_FREEZE_DANCE_V21_COMPLETE_FOR_FINAL_REVIEW.mp4
+  source_filename: Voxie_Wonder_Freeze_Dance_V2.1_HARD-FREEZE_AUDIO-MASTER__REVIEW_FINAL.mp4
+  final_review_lock_copy: VWF_FREEZE_DANCE_V21_FINAL_REVIEW_LOCKED.mp4
+  sha256: 6b1b5bc0c4439c6d3c4bdf2de67d5e24c0e086d9678da809421588674d78ebd8
+  source_and_lock_hash_match: true
+  duration_seconds: 175.833333
+  resolution: 1920x1080
+  fps: 30
+  video_codec: H.264
+  audio_codec: AAC
+  audio_sample_rate_hz: 44100
+  audio_channels: 2
+  source_audio_preserved: true
+review_delivery:
+  controlled_filename: VWF_FREEZE_DANCE_V21_FINAL_REVIEW_DELIVERY.mp4
+  sha256: b3b57247e6da8e92a53f8725f15f48b582957446258442a2efa742f29c6ee9bb
+  duration_seconds: 175.833333
+  resolution: 1920x1080
+  fps: 30
+  audio_stream_copied_unchanged: true
+qc:
+  hard_freeze_count: 7
+  locked_freeze_references_present: true
+  verified_reference_match_times_seconds:
+  - 43.5
+  - 68.5
+  - 89.5
+  - 112.0
+  - 133.5
+  - 155.5
+  - 175.5
+  full_decode: PASS
+  frame_integrity: PASS
+  black_frame_scan: PASS
+  character_consistency: PASS
+  four_wing_topology: PASS
+  playground_continuity: PASS
+  toddler_safe_presentation: PASS
+  audio_program_continuity: PASS
+  integrated_loudness_lufs_approx: -12.4
+  peak_dbfs_approx: -0.1
+  gain_adjustment_performed: false
+  audio_review_note_required: true
+release_gate:
+  execution_authority: BLOCKED
+  publication_authorized: false
+  scheduling_authorized: false
+  account_write_authorized: false
+  required_approvals:
+  - USER_FINALIZATION
+  - PLATFORM_METADATA_APPROVAL
+  - THUMBNAIL_APPROVAL
+  - MADE_FOR_KIDS_CONFIGURATION
+  - ACCESSIBILITY_AND_AUDIO_REVIEW
+  - SCHEDULE_APPROVAL
+  - EXPLICIT_PUBLICATION_APPROVAL
+  blockers:
+  - FINAL_USER_REVIEW_PENDING
+  - PLATFORM_METADATA_NOT_PREPARED
+  - THUMBNAIL_NOT_APPROVED
+  - MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+  - AUDIO_PEAK_REVIEW_NOTE_NOT_ACCEPTED
+  - RELEASE_SCHEDULE_NOT_APPROVED
+  - PUBLICATION_NOT_AUTHORIZED
+platforms:
+- platform: youtube
+  format: LONGFORM_16_9
+  package_status: NOT_PREPARED
+  upload_authorized: false
+  publish_authorized: false
+- platform: tiktok
+  format: VERTICAL_DERIVATIVE_REQUIRED
+  package_status: NOT_PREPARED
+  upload_authorized: false
+  publish_authorized: false
+- platform: instagram
+  format: VERTICAL_DERIVATIVE_REQUIRED
+  package_status: NOT_PREPARED
+  upload_authorized: false
+  publish_authorized: false
+findings:
+- severity: info
+  rule_id: MASTER_TECHNICAL_QC_PASS
+  shot_id: null
+  message: Final-review master decode, frame integrity, black-frame scan, runtime continuity, character consistency, and audio continuity are recorded as passing.
+- severity: info
+  rule_id: HARD_FREEZE_REFERENCE_MATCH_PASS
+  shot_id: null
+  message: Seven locked freeze references are present at the recorded verification times.
+- severity: warning
+  rule_id: FINAL_USER_REVIEW_PENDING
+  shot_id: null
+  message: The V2.1 master is complete for final review but has not received public-release approval.
+- severity: warning
+  rule_id: AUDIO_PEAK_REVIEW_NOTE
+  shot_id: null
+  message: Embedded delivery audio measures approximately -12.4 LUFS and -0.1 dBFS peak; source audio was preserved and requires explicit acceptance rather than silent gain adjustment.
+- severity: warning
+  rule_id: PLATFORM_PACKAGES_NOT_PREPARED
+  shot_id: null
+  message: Platform metadata, thumbnail, Made for Kids configuration, accessibility review, and vertical derivatives are not yet approved.
+- severity: warning
+  rule_id: PUBLICATION_NOT_AUTHORIZED
+  shot_id: null
+  message: Uploading, scheduling, account writes, and public release remain blocked until explicit approval.
+next_action: >-
+  Route the final-review master to 04 — Publishing & Social Media for finalization,
+  metadata, thumbnail, Made for Kids, accessibility and audio-note review, vertical
+  derivatives, scheduling, and explicit publication approval.
