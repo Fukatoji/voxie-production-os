@@ -1,6 +1,7 @@
 # Rainbow Colors S01–S03 production-state sync
 
-Recorded at (UTC): **2026-08-29T02:05:56Z**  
+Recorded at (UTC): **2026-08-29T01:44:58Z**  
+Timestamp evidence: **initial production-state commit `44b412fcc15fbc07167f9a06114a8f46657b8d56` author date**  
 Local production date: **2026-08-28**  
 Production timezone: **America/Chicago**  
 Production: **Voxie's Rainbow Colors**  
@@ -8,7 +9,7 @@ Repository action: **record-only / zero credits / no media binaries**
 
 ## Audit convention
 
-Production-state records use an exact RFC 3339 UTC timestamp ending in `Z`. When an operating-day boundary matters, the record also carries the corresponding local production date and IANA timezone. The schema verifies that the UTC timestamp resolves to the stated local date.
+Production-state records use an exact RFC 3339 UTC timestamp ending in `Z`. When an operating-day boundary matters, the record also carries the corresponding local production date and IANA timezone. The schema verifies that the UTC timestamp resolves to the stated local date. The timestamp above is grounded in the Git commit that first created this record; it is not an inferred wall-clock value.
 
 ## Durable production decisions recorded
 
@@ -40,7 +41,7 @@ S07, S08, and S27–S29 timing must remain unchanged.
 
 ## Spend and balance boundary
 
-The quoted 2,300-credit generation is not authorized. Before any later spend decision, reconcile the displayed 86,395 balance against the recorded 86,305 post-generation balance. The verified discrepancy is 90 credits. This record spends **0 credits** and grants no publishing, provider, or merge authority.
+The quoted 2,300-credit generation is not authorized. The displayed 86,395 balance and recorded 86,305 post-generation balance differ arithmetically by 90 credits, but the underlying account balance remains unresolved. Reconcile it before any later spend decision. This record spends **0 credits** and grants no publishing, provider, or merge authority.
 
 ## Validation added in this PR
 
