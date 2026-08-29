@@ -31,9 +31,9 @@ def test_index_contains_unique_current_control_authorities():
         "media_binaries_committed": False,
         "unknown_paths_fail_closed": True,
     }
-    assert len(entries) == 16
-    assert len({entry["authority_id"] for entry in entries}) == 16
-    assert len({entry["path"] for entry in entries}) == 16
+    assert len(entries) == 18
+    assert len({entry["authority_id"] for entry in entries}) == 18
+    assert len({entry["path"] for entry in entries}) == 18
     assert all(entry["current"] is True for entry in entries)
     assert all(entry["publication_authorized"] is False for entry in entries)
 
@@ -47,11 +47,13 @@ def test_index_covers_priority_canon_production_distribution_and_workflows():
         "manifests/productions/big-surprise/beatmap-001.final.json",
         "manifests/productions/big-surprise/shot-manifest-v01.yaml",
         "manifests/distribution/big-surprise/release-readiness-v01.yaml",
+        "manifests/productions/humpty-rolling-short-film/review-master-v01.json",
         "manifests/distribution/freeze-dance/release-readiness-v01.yaml",
         "manifests/distribution/colorful-day/release-readiness-v01.yaml",
         "manifests/productions/rainbow-colors/production-state-v04.yaml",
         "config/providers.v1.yaml",
         "workflows/voxie-model-benchmark-v01.yaml",
+        "workflows/lyric-alignment-benchmark-v01.yaml",
         "workflows/big-surprise-multi-aligner-evaluation-v01.yaml",
     }.issubset(paths)
     assert all((ROOT / path).is_file() for path in paths)

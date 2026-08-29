@@ -97,6 +97,18 @@ entries:
   - Big Surprise distribution blockers
   - platform package and publication authorization state
   validation_kind: release_readiness
+- authority_id: HUMPTY_ROLLING_SHORT_FILM_REVIEW_MASTER_V01
+  authority_type: review_master
+  project_id: VWF-HUMPTY-ROLLING-SHORT-FILM
+  path: manifests/productions/humpty-rolling-short-film/review-master-v01.json
+  authority_state: REVIEW
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - Humpty rolling short-film final-review master
+  - vertical master provenance, QC, and spend evidence
+  validation_kind: null
 - authority_id: FREEZE_DANCE_REVIEW_MASTER_V21
   authority_type: review_master
   project_id: VWF-FREEZE-DANCE
@@ -198,6 +210,18 @@ entries:
   - controlled model benchmark scenarios
   - promotion thresholds and adapter inventory
   validation_kind: benchmark_suite
+- authority_id: LYRIC_ALIGNMENT_BENCHMARK_V01
+  authority_type: workflow
+  project_id: VOS-RND
+  path: workflows/lyric-alignment-benchmark-v01.yaml
+  authority_state: ACTIVE
+  current: true
+  execution_scope: BLOCKED
+  publication_authorized: false
+  source_of_truth_for:
+  - provider-neutral lyric-alignment benchmark candidates
+  - consensus and human-review promotion policy
+  validation_kind: null
 - authority_id: BIG_SURPRISE_MULTI_ALIGNER_V01
   authority_type: workflow
   project_id: VWF-BIG-SURPRISE

@@ -29,6 +29,7 @@ jobs:
           voxie-os validate canon examples/canon.voxie.v1.yaml
           voxie-os validate character_status manifests/characters/status-register-v01.yaml
           voxie-os validate authority_index manifests/control/authority-index-v01.yaml
+          voxie-os authority-audit manifests/control/authority-index-v01.yaml --out /tmp/authority-audit.json
           voxie-os validate beatmap examples/beatmap.example.json
           voxie-os validate shot_manifest examples/shot_manifest.example.yaml
           voxie-os validate shot_manifest manifests/productions/big-surprise/shot-manifest-v01.yaml
