@@ -6,6 +6,11 @@ import sys
 
 from .alignment import audit_beatmap, build_consensus
 from .authority import build_authority_coverage_report
+from .authority_lock import (
+    DEFAULT_LOCK_ID,
+    build_authority_lock,
+    verify_authority_lock,
+)
 from .benchmark import evaluate, summarize
 from .change_report import build_change_report, changed_files, to_markdown
 from .core import SCHEMA_FILES, load_data, save_json, validate
@@ -63,6 +68,16 @@ def main() -> int:
     aa = sub.add_parser("authority-audit")
     aa.add_argument("index")
     aa.add_argument("--out")
+
+    alb = sub.add_parser("authority-lock-build")
+    alb.add_argument("index")
+    alb.add_argument("--out", required=True)
+    alb.add_argument("--lock-id", default=DEFAULT_LOCK_ID)
+
+    alv = sub.add_parser("authority-lock-verify")
+    alv.add_argument("index")
+    alv.add_argument("lock")
+    alv.add_argument("--out")
 
     cr = sub.add_parser("change-report")
     cr.add_argument("--base", required=True)
@@ -152,6 +167,32 @@ def main() -> int:
 
     if args.cmd == "authority-audit":
         report = build_authority_coverage_report(load_data(args.index))
+        if args.out:
+            save_json(args.out, report)
+        print(json.dumps(report, indent=2))
+        return 1 if report["status"] == "FAIL" else 0
+
+    if args.cmd == "authority-lock-build":
+        try:
+            lock = build_authority_lock(
+                load_data(args.index),
+                index_path=args.index,
+                lock_id=args.lock_id,
+            )
+        except ValueError as error:
+            print("FAIL")
+            print(f"- {error}")
+            return 1
+        save_json(args.out, lock)
+        print(json.dumps(lock, indent=2))
+        return 0
+
+    if args.cmd == "authority-lock-verify":
+        report = verify_authority_lock(
+            load_data(args.index),
+            load_data(args.lock),
+            index_path=args.index,
+        )
         if args.out:
             save_json(args.out, report)
         print(json.dumps(report, indent=2))

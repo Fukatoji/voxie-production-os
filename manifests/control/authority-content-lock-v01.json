@@ -1,0 +1,102 @@
+{
+  "lock_version": "1.0",
+  "lock_id": "VOS-AUTHORITY-CONTENT-LOCK-V01",
+  "record_type": "authority_lock",
+  "index_id": "VOS-AUTHORITY-INDEX-V01",
+  "index_path": "manifests/control/authority-index-v01.yaml",
+  "index_sha256": "120211376bacd4f2fa0470417ea2ca266a019f2bf81fbc248f751f8ea0a03861",
+  "algorithm": "sha256",
+  "entry_count": 18,
+  "entries": [
+    {
+      "authority_id": "BIG_SURPRISE_BEATMAP_001",
+      "path": "manifests/productions/big-surprise/beatmap-001.final.json",
+      "sha256": "74801f010aa83860f216701caa40d533544e85124acccd54033b535750c5223a"
+    },
+    {
+      "authority_id": "BIG_SURPRISE_MULTI_ALIGNER_V01",
+      "path": "workflows/big-surprise-multi-aligner-evaluation-v01.yaml",
+      "sha256": "88961ac77dff7fe4dbfd4b04ec554bdb2003d54d8b3719e4feae983e89b2cf99"
+    },
+    {
+      "authority_id": "BIG_SURPRISE_RELEASE_READINESS_V01",
+      "path": "manifests/distribution/big-surprise/release-readiness-v01.yaml",
+      "sha256": "28a450b20b8fbcc479ee1e471c3c1f5efcf2f4134372beb97d6b30a7877c34eb"
+    },
+    {
+      "authority_id": "BIG_SURPRISE_REVIEW_MASTER_V01",
+      "path": "manifests/productions/big-surprise/review-master-v01.json",
+      "sha256": "f9dd79b59d0c9a0210cf76916b9467a97071f3c324c8920f7ea3142a52ab8d7e"
+    },
+    {
+      "authority_id": "BIG_SURPRISE_SHOT_MANIFEST_V01",
+      "path": "manifests/productions/big-surprise/shot-manifest-v01.yaml",
+      "sha256": "88e641a91bbd518d6d2b5cba4f82d7827f17cf08d409bf70799b6b0cf689f86c"
+    },
+    {
+      "authority_id": "COLORFUL_DAY_MASTER_STATUS_V01",
+      "path": "manifests/productions/colorful-day/master-status-v01.md",
+      "sha256": "30be9d07446fae3f3161bf096e241fa6589b454bee573eab7733a6b4434af7d1"
+    },
+    {
+      "authority_id": "COLORFUL_DAY_RELEASE_READINESS_V01",
+      "path": "manifests/distribution/colorful-day/release-readiness-v01.yaml",
+      "sha256": "d19772254c96dcfd8299c2490a18d18f03d0927158c9e6c88803c995d11f57a7"
+    },
+    {
+      "authority_id": "FREEZE_DANCE_FINAL_REVIEW_V21",
+      "path": "manifests/productions/freeze-dance/final-review-v21.md",
+      "sha256": "a4b2335fa23dfcd367c94ebfb4f3225f0123299cc290d73a49e0343eec8f8316"
+    },
+    {
+      "authority_id": "FREEZE_DANCE_RELEASE_READINESS_V01",
+      "path": "manifests/distribution/freeze-dance/release-readiness-v01.yaml",
+      "sha256": "35026195bbe2fbccd9adc5d9c72cb82c39b7348982dd39a67a58bf76a42902fd"
+    },
+    {
+      "authority_id": "FREEZE_DANCE_REVIEW_MASTER_V21",
+      "path": "manifests/productions/freeze-dance/review-master-v21.json",
+      "sha256": "fd7f1523f10a5062d9fddd225c91ef7a1c268f28cccab9e8096cdda54feb93f0"
+    },
+    {
+      "authority_id": "HUMPTY_ROLLING_SHORT_FILM_REVIEW_MASTER_V01",
+      "path": "manifests/productions/humpty-rolling-short-film/review-master-v01.json",
+      "sha256": "87b999866117427d48a211ebd46936ed7903bcc29f9f7a06c5a625c233067482"
+    },
+    {
+      "authority_id": "LYRIC_ALIGNMENT_BENCHMARK_V01",
+      "path": "workflows/lyric-alignment-benchmark-v01.yaml",
+      "sha256": "6b3b10f5f72e761d89a4cdf1a38d20a3565865f31ccb7a556b1ab657202ba82d"
+    },
+    {
+      "authority_id": "PROVIDER_CATALOG_V1",
+      "path": "config/providers.v1.yaml",
+      "sha256": "32ffca86e4f1a807bba05648eca198c0fa213a14f16c3d328268364032bf2cf5"
+    },
+    {
+      "authority_id": "RAINBOW_COLORS_PRODUCTION_STATE_V04",
+      "path": "manifests/productions/rainbow-colors/production-state-v04.yaml",
+      "sha256": "bc94d6a42e5d6bd4e15dd2df2be0ea0150665b66e5d5e17c083f21f79fd5504f"
+    },
+    {
+      "authority_id": "VOS_LIBRARY_ROUTING_V2",
+      "path": "manifests/library-routing.v2.yaml",
+      "sha256": "c826543f6041f2d471142c0f1fa4b03b5ef33012bcc2274ed470b08ad98294ba"
+    },
+    {
+      "authority_id": "VOXIE_CANON_V1_0_MAGICLIGHT",
+      "path": "manifests/assets/voxie-canon-v1.0.magiclight.yaml",
+      "sha256": "f5a38eaef7aae0bc4d86ae9e5c3b7edeba77a64c0de883f9180ab915b5814758"
+    },
+    {
+      "authority_id": "VOXIE_MODEL_BENCHMARK_V01",
+      "path": "workflows/voxie-model-benchmark-v01.yaml",
+      "sha256": "a326dfb8adbbab562889e49a64be87507e928398f84059e2e2bc2134af416a94"
+    },
+    {
+      "authority_id": "VWW_CHARACTER_STATUS_V01",
+      "path": "manifests/characters/status-register-v01.yaml",
+      "sha256": "46605e75e58f99ca5a803a198b4c4d9a19c5067c5c53cfc6980941bf77a45cd9"
+    }
+  ]
+}
