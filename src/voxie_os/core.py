@@ -90,7 +90,7 @@ def _validate_library_routing_state(data: Any) -> list[str]:
 
 
 def _validate_production_state(data: Any) -> list[str]:
-    """Validate cross-field audit, balance, and external-lineage relationships."""
+    """Validate cross-field audit, balance, spend, and lineage relationships."""
     errors = []
 
     try:
@@ -136,6 +136,23 @@ def _validate_production_state(data: Any) -> list[str]:
         errors.append(
             "spend_and_balance_gate.discrepancy_credits: expected "
             f"{expected_discrepancy}, got {balance['discrepancy_credits']}"
+        )
+
+    if expected_discrepancy > 0 and not balance["reconcile_before_any_future_spend"]:
+        errors.append(
+            "spend_and_balance_gate.reconcile_before_any_future_spend: "
+            "must be true while account balances differ"
+        )
+
+    spend_blocked = (
+        expected_discrepancy > 0
+        or balance["reconcile_before_any_future_spend"]
+        or data["continuation"]["zero_cost_only"]
+    )
+    if balance["spend_authorized"] and spend_blocked:
+        errors.append(
+            "spend_and_balance_gate.spend_authorized: must be false while "
+            "balance reconciliation is required or continuation is zero-cost-only"
         )
 
     lineage = data["external_media"]["stable_asset_ids_and_checksums"]
