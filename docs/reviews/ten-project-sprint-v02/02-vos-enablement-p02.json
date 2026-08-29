@@ -1,1 +1,144 @@
-{"packet_version":"1.0","project_number":2,"packet_id":"VOS-ENABLEMENT-P02","title":"Rainbow Colors surviving-source candidate review package","domain":"RAINBOW_CANDIDATES","status":"READY_FOR_REVIEW","recorded_at_utc":"2026-08-29T16:32:10Z","local_date":"2026-08-29","timezone":"America/Chicago","authority":{"source_paths":["manifests/productions/rainbow-colors/production-state-v04.yaml"],"decisions_preserved":true,"execution_authorized":false,"merge_authorized":false,"publication_authorized":false},"plan":{"objective":"Present the six surviving provider candidates as explicit shot-source approval decisions without promoting them automatically.","steps":["Review each candidate at full resolution against shot purpose, Voxie canon, color count, pose, composition, and child-safety pacing.","Approve, reject, or request revision per shot.","Keep S05 dependent on S04 approval and S19 dependent on S20 approval.","Record approved source IDs and hashes in a successor production state."],"deliverables":["Six-candidate decision matrix","Per-shot approve/reject checklist","Successor-state update instructions"]},"gates":{"required_approvals":["S04_SOURCE_APPROVAL","S15_SOURCE_APPROVAL","S18_SOURCE_APPROVAL","S20_SOURCE_APPROVAL","S33_SOURCE_APPROVAL","S35_SOURCE_APPROVAL"],"blockers":[],"spend_permission_provided":true,"spend_authorized":false,"credits_spent":0,"provider_execution_performed":false},"evidence":{"drive_items":[],"provider_items":[{"provider":"Higgsfield","task_id":"58f03d9b-a22e-4c57-8f75-42da53722700","shot_ids":["S04"],"sha256":"f6206f6ca671a2767d0ec942f9255115626aa1257421d35af503490138570a51","state":"REVIEW_CANDIDATE"},{"provider":"Higgsfield","task_id":"94886dfb-ab2b-4a36-9193-e46a6bd0bbcb","shot_ids":["S15"],"sha256":"43d97941c65812c1b402e1426d2cbba3da5d5b366543cd3e83f496ad910f5645","state":"REVIEW_CANDIDATE"},{"provider":"Higgsfield","task_id":"681ee57d-63e0-472e-a24c-43a7c6dae07d","shot_ids":["S18"],"sha256":"56fc667c5e04b15d5fa3bb4fde7c82b553c703099d526f1e1f10259f025f7c72","state":"REVIEW_CANDIDATE"},{"provider":"Higgsfield","task_id":"c5992669-6929-4da0-a601-0fa022bbb118","shot_ids":["S20"],"sha256":"3d8b50e1d4bfb48710c9650264092423d20c593221a411664b51e105c6d981a3","state":"REVIEW_CANDIDATE"},{"provider":"Higgsfield","task_id":"59890099-5947-4d20-87b5-c1240bcb909e","shot_ids":["S33"],"sha256":"49b404c2f71db0282ad417fdaa338d3851879115c30fc12bfc52cee828216db7","state":"REVIEW_CANDIDATE"},{"provider":"Higgsfield","task_id":"899e8398-fa54-4fcd-aa1a-fb2bc4f811a3","shot_ids":["S35"],"sha256":"1e03f70d05924e4f6b46d359ce55a1ae7096d9c5022df8d9466fa098487f17a4","state":"REVIEW_CANDIDATE"}],"findings":[{"severity":"info","rule_id":"SIX_REVIEW_CANDIDATES_READY","message":"Six provider results survived technical and canon screening and are ready for explicit shot-source review.","disposition":"READY_FOR_REVIEW"},{"severity":"warning","rule_id":"NO_AUTOMATIC_PROMOTION","message":"Provider completion and prior screening do not constitute approved production authority.","disposition":"APPROVAL_REQUIRED"}]},"review":{"result":"PASS","reviewer_context":"OWNER_CONTEXT","independent_review":"NOT_CLAIMED","process_complete":true},"details":{"candidate_count":6,"dependent_shots":{"S05":"S04","S19":"S20"},"approval_outcomes":["APPROVE","REJECT","REVISION_REQUIRED"]},"next_gate":"Show the six candidates for explicit shot-by-shot approval and record only approved outcomes."}
+{
+  "packet_version": "1.0",
+  "project_number": 2,
+  "packet_id": "VOS-ENABLEMENT-P02",
+  "title": "Rainbow Colors surviving-source candidate review package",
+  "domain": "RAINBOW_CANDIDATES",
+  "status": "READY_FOR_REVIEW",
+  "recorded_at_utc": "2026-08-29T16:32:10Z",
+  "local_date": "2026-08-29",
+  "timezone": "America/Chicago",
+  "authority": {
+    "source_paths": [
+      "manifests/productions/rainbow-colors/production-state-v04.yaml"
+    ],
+    "decisions_preserved": true,
+    "execution_authorized": false,
+    "merge_authorized": false,
+    "publication_authorized": false
+  },
+  "plan": {
+    "objective": "Present the six surviving provider candidates as explicit shot-source approval decisions without promoting them automatically.",
+    "steps": [
+      "Review each candidate at full resolution against shot purpose, Voxie canon, color count, pose, composition, and child-safety pacing.",
+      "Approve, reject, or request revision per shot.",
+      "Keep S05 dependent on S04 approval and S19 dependent on S20 approval.",
+      "Record approved source IDs and hashes in a successor production state."
+    ],
+    "deliverables": [
+      "Six-candidate decision matrix",
+      "Per-shot approve/reject checklist",
+      "Successor-state update instructions"
+    ]
+  },
+  "gates": {
+    "required_approvals": [
+      "S04_SOURCE_APPROVAL",
+      "S15_SOURCE_APPROVAL",
+      "S18_SOURCE_APPROVAL",
+      "S20_SOURCE_APPROVAL",
+      "S33_SOURCE_APPROVAL",
+      "S35_SOURCE_APPROVAL"
+    ],
+    "blockers": [],
+    "spend_permission_provided": true,
+    "spend_authorized": false,
+    "credits_spent": 0,
+    "provider_execution_performed": false
+  },
+  "evidence": {
+    "drive_items": [
+      {
+        "id": "17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w",
+        "title": "VWF_RAINBOW_COLORS_ACTION_ANCHOR_RECOVERY_QC_v01_REVIEW",
+        "mime_type": "application/vnd.google-apps.presentation",
+        "url": "https://docs.google.com/presentation/d/17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w/edit?usp=drivesdk",
+        "role": "six-candidate visual review carrier",
+        "state": "REVIEW"
+      }
+    ],
+    "provider_items": [
+      {
+        "provider": "Higgsfield",
+        "task_id": "58f03d9b-a22e-4c57-8f75-42da53722700",
+        "shot_ids": ["S04"],
+        "sha256": "f6206f6ca671a2767d0ec942f9255115626aa1257421d35af503490138570a51",
+        "state": "REVIEW_CANDIDATE"
+      },
+      {
+        "provider": "Higgsfield",
+        "task_id": "94886dfb-ab2b-4a36-9193-e46a6bd0bbcb",
+        "shot_ids": ["S15"],
+        "sha256": "43d97941c65812c1b402e1426d2cbba3da5d5b366543cd3e83f496ad910f5645",
+        "state": "REVIEW_CANDIDATE"
+      },
+      {
+        "provider": "Higgsfield",
+        "task_id": "681ee57d-63e0-472e-a24c-43a7c6dae07d",
+        "shot_ids": ["S18"],
+        "sha256": "56fc667c5e04b15d5fa3bb4fde7c82b553c703099d526f1e1f10259f025f7c72",
+        "state": "REVIEW_CANDIDATE"
+      },
+      {
+        "provider": "Higgsfield",
+        "task_id": "c5992669-6929-4da0-a601-0fa022bbb118",
+        "shot_ids": ["S20"],
+        "sha256": "3d8b50e1d4bfb48710c9650264092423d20c593221a411664b51e105c6d981a3",
+        "state": "REVIEW_CANDIDATE"
+      },
+      {
+        "provider": "Higgsfield",
+        "task_id": "59890099-5947-4d20-87b5-c1240bcb909e",
+        "shot_ids": ["S33"],
+        "sha256": "49b404c2f71db0282ad417fdaa338d3851879115c30fc12bfc52cee828216db7",
+        "state": "REVIEW_CANDIDATE"
+      },
+      {
+        "provider": "Higgsfield",
+        "task_id": "899e8398-fa54-4fcd-aa1a-fb2bc4f811a3",
+        "shot_ids": ["S35"],
+        "sha256": "1e03f70d05924e4f6b46d359ce55a1ae7096d9c5022df8d9466fa098487f17a4",
+        "state": "REVIEW_CANDIDATE"
+      }
+    ],
+    "findings": [
+      {
+        "severity": "info",
+        "rule_id": "SIX_REVIEW_CANDIDATES_READY",
+        "message": "Six provider results survived technical and canon screening and are ready for explicit shot-source review.",
+        "disposition": "READY_FOR_REVIEW"
+      },
+      {
+        "severity": "warning",
+        "rule_id": "NO_AUTOMATIC_PROMOTION",
+        "message": "Provider completion and prior screening do not constitute approved production authority.",
+        "disposition": "APPROVAL_REQUIRED"
+      },
+      {
+        "severity": "info",
+        "rule_id": "CANDIDATE_DECK_IS_REVIEW_ONLY",
+        "message": "The Rainbow Colors QC presentation is the visual carrier for this candidate review and does not grant source approval by itself.",
+        "disposition": "NO_AUTHORITY_PROMOTION"
+      }
+    ]
+  },
+  "review": {
+    "result": "PASS",
+    "reviewer_context": "OWNER_CONTEXT",
+    "independent_review": "NOT_CLAIMED",
+    "process_complete": true
+  },
+  "details": {
+    "candidate_count": 6,
+    "dependent_shots": {
+      "S05": "S04",
+      "S19": "S20"
+    },
+    "approval_outcomes": [
+      "APPROVE",
+      "REJECT",
+      "REVISION_REQUIRED"
+    ]
+  },
+  "next_gate": "Show the six candidates for explicit shot-by-shot approval and record only approved outcomes."
+}
