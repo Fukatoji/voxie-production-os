@@ -1,0 +1,109 @@
+canon_version: status-register-v1
+register_id: VWW-CHARACTER-STATUS-V01
+register_status: ACTIVE
+recorded_date: '2026-08-29'
+authority_scope: >-
+  Status and routing authority for character identity work. This register does not
+  create, redesign, or promote character pixels. Locked traits may not be silently
+  changed, recolored, substituted, or overwritten.
+status_categories:
+  - LOCKED_CANON
+  - APPROVED_BUT_UNLOCKED
+  - PARKED_ALTERNATIVE
+  - NEEDS_RECONCILIATION
+characters:
+  - character_id: VOXIE
+    name: Voxie
+    lock_level: hard
+    status_category: LOCKED_CANON
+    production_use: ALLOWED_WITH_LOCK
+    identity_rules:
+      - Preserve the glossy dark-indigo visor and luminous cyan eyes with catchlights.
+      - Preserve the centered forehead V and cyan chest diamond.
+      - Preserve the white and dark-indigo segmented armor and compact child-friendly proportions.
+      - Preserve exactly four translucent lavender-blue-cyan wings.
+      - Do not add limbs, wings, accessories, costume changes, recolors, or proportion drift.
+    reference_assets:
+      - manifests/assets/voxie-canon-v1.0.magiclight.yaml
+    forbidden_assets:
+      - Voxie.png
+    provider_authority:
+      provider: MagicLight
+      reusable_asset_id: '7498224955395878912'
+      preview_task_id: '7499108870617059328'
+      qc_status: PASS
+    integrity_note: Exact preview-binary SHA-256 remains unavailable from MagicLight.
+    parked_alternatives:
+      - name: Bubble Voxie
+        status_category: PARKED_ALTERNATIVE
+        permitted_uses:
+          - younger form
+          - magical intro or transformation
+          - dream or play variant
+          - future distinct character seed
+        may_replace_locked_canon: false
+    next_gate: USE_LOCKED_AUTHORITY_ONLY
+  - character_id: LUMI
+    name: Lumi the Wonder Scout
+    lock_level: layered
+    status_category: APPROVED_BUT_UNLOCKED
+    production_use: BLOCKED_UNTIL_PREVIEW_LOCK
+    identity_rules:
+      - Preserve the explorer-scout role and separate identity from Voxie.
+      - Preserve the explorer suit, dark visor face, luminous blue expressions, glowing star chest medallion, and translucent blue-light cape or wings.
+      - Preserve the observant, optimistic, and cautious personality profile.
+      - Do not treat Lumi as a Voxie recolor or production-specific costume.
+    reference_assets: []
+    forbidden_assets: []
+    evidence:
+      - Command Center name and profile approval recorded 2026-08-27.
+    blockers:
+      - NO_APPROVED_PROVIDER_PREVIEW
+      - NO_REUSABLE_ASSET_ID
+      - NO_LOCKED_REFERENCE_PACKAGE
+    next_gate: CREATE_PREVIEW_THEN_REQUIRE_EXPLICIT_LOCK_APPROVAL
+  - character_id: NAVI
+    name: Navi
+    lock_level: experimental
+    status_category: NEEDS_RECONCILIATION
+    production_use: BLOCKED_UNTIL_RECONCILED
+    identity_rules:
+      - Keep the robotic-fairy branch and organic leaf-fairy branch separate until an explicit reconciliation decision.
+      - Do not merge traits across branches or silently select one as global canon.
+      - Preserve each completed production exactly as historical production evidence.
+    reference_assets: []
+    forbidden_assets: []
+    branches:
+      - branch_id: NAVI_ROBOTIC_FAIRY
+        description: White and dark robotic fairy with cyan digital features, V emblem, chest diamond, and wings.
+        status: HISTORICAL_PRODUCTION_BRANCH
+      - branch_id: NAVI_ORGANIC_LEAF_FAIRY
+        description: Teal-haired organic fairy with green leaf dress.
+        status: HISTORICAL_PRODUCTION_BRANCH
+    blockers:
+      - MULTIPLE_ESTABLISHED_VISUAL_IDENTITIES
+      - NO_SINGLE_GLOBAL_CANON_DECISION
+    next_gate: EXPLICIT_BRANCH_RECONCILIATION_OR_SEPARATE_CHARACTER_DECISION
+  - character_id: HUMPTY
+    name: Humpty
+    lock_level: experimental
+    status_category: NEEDS_RECONCILIATION
+    production_use: BLOCKED_UNTIL_RECONCILED
+    identity_rules:
+      - Keep the rainbow-patchwork and cream-blue-accessory branches separate until an explicit reconciliation decision.
+      - Do not silently merge shell patterns, accessories, or proportions across productions.
+      - Preserve completed-production appearances as historical evidence rather than global canon.
+    reference_assets: []
+    forbidden_assets: []
+    branches:
+      - branch_id: HUMPTY_RAINBOW_PATCHWORK
+        description: Rainbow or patchwork Humpty design used with the robotic-fairy Navi branch.
+        status: HISTORICAL_PRODUCTION_BRANCH
+      - branch_id: HUMPTY_CREAM_BLUE
+        description: Cream Humpty with blue bow and blue-yellow hat used with the organic-fairy Navi branch.
+        status: HISTORICAL_PRODUCTION_BRANCH
+    blockers:
+      - MULTIPLE_ESTABLISHED_VISUAL_IDENTITIES
+      - DUPLICATE_CHARACTER_DEFECT_IN_PARKED_PRODUCTION
+      - NO_SINGLE_GLOBAL_CANON_DECISION
+    next_gate: EXPLICIT_BRANCH_RECONCILIATION_OR_SEPARATE_CHARACTER_DECISION
