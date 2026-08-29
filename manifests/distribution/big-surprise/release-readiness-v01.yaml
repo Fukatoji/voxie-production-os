@@ -1,0 +1,92 @@
+report_version: '1.0'
+report_id: VWF-BIG-SURPRISE-RELEASE-READINESS-V01
+record_type: release_readiness
+project_id: VWF-BIG-SURPRISE
+project_title: Voxie's Big Surprise
+status: REVIEW
+master:
+  manifest: manifests/productions/big-surprise/review-master-v01.json
+  status: COMPLETE_FOR_FINAL_REVIEW
+  controlled_filename: VWF_BIG_SURPRISE_VIDEO_v01_COMPLETE_FOR_FINAL_REVIEW.mp4
+  sha256: 561e9ff9963d6e5ce55b05ce2ea2b5b5e34b81e964fa963a66371013d9415fd7
+  duration_seconds: 150.0
+  resolution: 1920x1080
+  fps: 30
+  video_codec: H.264
+  audio_codec: AAC
+  subtitle_track_present: true
+  subtitle_language: eng
+  source_audio_preserved: true
+timing_authority:
+  beatmap: manifests/productions/big-surprise/beatmap-001.final.json
+  shot_manifest: manifests/productions/big-surprise/shot-manifest-v01.yaml
+  duration_seconds: 150.0
+  shot_units: 27
+  contiguous: true
+release_gate:
+  execution_authority: BLOCKED
+  publication_authorized: false
+  scheduling_authorized: false
+  account_write_authorized: false
+  required_approvals:
+    - USER_FINALIZATION
+    - PLATFORM_METADATA_APPROVAL
+    - THUMBNAIL_APPROVAL
+    - MADE_FOR_KIDS_CONFIGURATION
+    - SCHEDULE_APPROVAL
+    - EXPLICIT_PUBLICATION_APPROVAL
+  blockers:
+    - FINAL_USER_REVIEW_PENDING
+    - PLATFORM_METADATA_NOT_PREPARED
+    - THUMBNAIL_NOT_APPROVED
+    - MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+    - RELEASE_SCHEDULE_NOT_APPROVED
+    - PUBLICATION_NOT_AUTHORIZED
+platforms:
+  - platform: youtube
+    format: LONGFORM_16_9
+    package_status: NOT_PREPARED
+    upload_authorized: false
+    publish_authorized: false
+  - platform: tiktok
+    format: VERTICAL_DERIVATIVE_REQUIRED
+    package_status: NOT_PREPARED
+    upload_authorized: false
+    publish_authorized: false
+  - platform: instagram
+    format: VERTICAL_DERIVATIVE_REQUIRED
+    package_status: NOT_PREPARED
+    upload_authorized: false
+    publish_authorized: false
+findings:
+  - severity: info
+    rule_id: MASTER_TECHNICAL_QC_PASS
+    shot_id: null
+    message: Review master technical checks, runtime, subtitle presence, and locked-audio preservation are recorded as passing.
+  - severity: warning
+    rule_id: FINAL_USER_REVIEW_PENDING
+    shot_id: null
+    message: The review master is complete for final review but has not received final public-release approval.
+  - severity: warning
+    rule_id: PLATFORM_METADATA_NOT_PREPARED
+    shot_id: null
+    message: Titles, descriptions, captions, hashtags, and platform-specific metadata are not yet approved.
+  - severity: warning
+    rule_id: THUMBNAIL_NOT_APPROVED
+    shot_id: null
+    message: No approved release thumbnail is recorded for the master.
+  - severity: warning
+    rule_id: MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+    shot_id: null
+    message: The YouTube Made for Kids configuration requires explicit release-package review.
+  - severity: warning
+    rule_id: RELEASE_SCHEDULE_NOT_APPROVED
+    shot_id: null
+    message: No publishing date or cross-platform schedule is authorized.
+  - severity: warning
+    rule_id: PUBLICATION_NOT_AUTHORIZED
+    shot_id: null
+    message: Uploading, scheduling, account writes, and public release remain blocked until explicit approval.
+next_action: >-
+  Route the locked review master to 04 — Publishing & Social Media for metadata,
+  thumbnail, Made for Kids, accessibility, schedule, and explicit publication gates.
