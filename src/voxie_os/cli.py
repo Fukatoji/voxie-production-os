@@ -5,6 +5,7 @@ import json
 import sys
 
 from .alignment import audit_beatmap, build_consensus
+from .authority import build_authority_coverage_report
 from .benchmark import evaluate, summarize
 from .change_report import build_change_report, changed_files, to_markdown
 from .core import SCHEMA_FILES, load_data, save_json, validate
@@ -58,6 +59,10 @@ def main() -> int:
     ba = sub.add_parser("beatmap-audit")
     ba.add_argument("beatmap")
     ba.add_argument("--out")
+
+    aa = sub.add_parser("authority-audit")
+    aa.add_argument("index")
+    aa.add_argument("--out")
 
     cr = sub.add_parser("change-report")
     cr.add_argument("--base", required=True)
@@ -144,6 +149,13 @@ def main() -> int:
             save_json(args.out, result)
         print(json.dumps(result, indent=2))
         return 1 if result["status"] == "FAIL" else 0
+
+    if args.cmd == "authority-audit":
+        report = build_authority_coverage_report(load_data(args.index))
+        if args.out:
+            save_json(args.out, report)
+        print(json.dumps(report, indent=2))
+        return 1 if report["status"] == "FAIL" else 0
 
     if args.cmd == "change-report":
         report = build_change_report(changed_files(args.base, args.head))
