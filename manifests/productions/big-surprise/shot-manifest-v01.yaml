@@ -1,0 +1,219 @@
+manifest_version: '1.0'
+project_id: VWF-BIG-SURPRISE
+status: TIMING_AUTHORITY_READY_VISUALS_UNASSIGNED
+duration_s: 150.0
+source_beatmap:
+  path: manifests/productions/big-surprise/beatmap-001.final.json
+  beatmap_id: VWF-BIG-SURPRISE-BEATMAP-001
+  status: FINAL_APPROVED_FOR_PRODUCTION
+source_audio:
+  controlled_filename: VWF_BIG_SURPRISE_AUDIO_MASTER_v01B_APPROVED_LOCKED.wav
+  sha256: 600a2443ee20dafa0867cff7cddb0a74aeb430f91b755f5e7a918b50fa146c6b
+  byte_identity_verified: true
+  preserve_unchanged: true
+boundary_policy:
+  unit_count: 27
+  lyric_lines_consumed: 26
+  coverage_start_s: 0.0
+  coverage_end_s: 150.0
+  contiguous: true
+  rule: >-
+    S001 covers 0.000 seconds to L01 vocal start. S002-S027 begin at L01-L26 vocal starts
+    and end at the next lyric start or 150.000 seconds.
+visual_authority:
+  status: UNASSIGNED_REQUIRES_APPROVAL
+  execution_authorized: false
+  rule: >-
+    Do not infer, generate, substitute, or promote visuals from lyric text, the review master,
+    or unrelated production assets. Add visual authority only through a reviewed successor manifest.
+publication_authorized: false
+shots:
+- shot_id: S001
+  duration_s: 4.64
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 0.0, end_s: 4.64}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: structure, label: INTRO_PRELUDE, at_s: 0.0}]
+- shot_id: S002
+  duration_s: 10.575
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 4.64, end_s: 15.215}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L01, at_s: 0.0, source_vocal_start_s: 4.64, source_vocal_end_s: 10.48, confidence: 0.99}]
+- shot_id: S003
+  duration_s: 4.8
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 15.215, end_s: 20.015}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L02, at_s: 0.0, source_vocal_start_s: 15.215, source_vocal_end_s: 17.775, confidence: 0.99}]
+- shot_id: S004
+  duration_s: 8.735
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 20.015, end_s: 28.75}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L03, at_s: 0.0, source_vocal_start_s: 20.015, source_vocal_end_s: 27.07, confidence: 0.99}]
+- shot_id: S005
+  duration_s: 2.32
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 28.75, end_s: 31.07}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L04, at_s: 0.0, source_vocal_start_s: 28.75, source_vocal_end_s: 30.67, confidence: 0.99}]
+- shot_id: S006
+  duration_s: 5.2
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 31.07, end_s: 36.27}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L05, at_s: 0.0, source_vocal_start_s: 31.07, source_vocal_end_s: 35.15, confidence: 0.99}]
+- shot_id: S007
+  duration_s: 11.925
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 36.27, end_s: 48.195}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L06, at_s: 0.0, source_vocal_start_s: 36.27, source_vocal_end_s: 37.39, confidence: 0.99}]
+- shot_id: S008
+  duration_s: 4.775
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 48.195, end_s: 52.97}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L07, at_s: 0.0, source_vocal_start_s: 48.195, source_vocal_end_s: 50.355003, confidence: 0.99}]
+- shot_id: S009
+  duration_s: 13.965005
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 52.97, end_s: 66.935005}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L08, at_s: 0.0, source_vocal_start_s: 52.97, source_vocal_end_s: 59.690002, confidence: 0.99}]
+- shot_id: S010
+  duration_s: 4.159995
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 66.935005, end_s: 71.095}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L09, at_s: 0.0, source_vocal_start_s: 66.935005, source_vocal_end_s: 69.415, confidence: 0.99}]
+- shot_id: S011
+  duration_s: 4.08
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 71.095, end_s: 75.175}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L10, at_s: 0.0, source_vocal_start_s: 71.095, source_vocal_end_s: 74.135, confidence: 0.99}]
+- shot_id: S012
+  duration_s: 5.935
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 75.175, end_s: 81.11}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L11, at_s: 0.0, source_vocal_start_s: 75.175, source_vocal_end_s: 79.33501, confidence: 0.98}]
+- shot_id: S013
+  duration_s: 4.8
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 81.11, end_s: 85.91}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L12, at_s: 0.0, source_vocal_start_s: 81.11, source_vocal_end_s: 83.67, confidence: 0.99}]
+- shot_id: S014
+  duration_s: 7.075
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 85.91, end_s: 92.985}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L13, at_s: 0.0, source_vocal_start_s: 85.91, source_vocal_end_s: 90.31, confidence: 0.99}]
+- shot_id: S015
+  duration_s: 4.64
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 92.985, end_s: 97.625}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L14, at_s: 0.0, source_vocal_start_s: 92.985, source_vocal_end_s: 95.305, confidence: 0.99}]
+- shot_id: S016
+  duration_s: 5.92
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 97.625, end_s: 103.545}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L15, at_s: 0.0, source_vocal_start_s: 97.625, source_vocal_end_s: 100.025, confidence: 0.99}]
+- shot_id: S017
+  duration_s: 2.32
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 103.545, end_s: 105.865}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L16, at_s: 0.0, source_vocal_start_s: 103.545, source_vocal_end_s: 104.745, confidence: 0.96}]
+- shot_id: S018
+  duration_s: 2.325
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 105.865, end_s: 108.19}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L17, at_s: 0.0, source_vocal_start_s: 105.865, source_vocal_end_s: 106.744995, confidence: 0.99}]
+- shot_id: S019
+  duration_s: 1.36
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 108.19, end_s: 109.55}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L18, at_s: 0.0, source_vocal_start_s: 108.19, source_vocal_end_s: 109.39, confidence: 0.96}]
+- shot_id: S020
+  duration_s: 4.0
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 109.55, end_s: 113.55}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L19, at_s: 0.0, source_vocal_start_s: 109.55, source_vocal_end_s: 111.950005, confidence: 0.99}]
+- shot_id: S021
+  duration_s: 7.040004
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 113.55, end_s: 120.590004}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L20, at_s: 0.0, source_vocal_start_s: 113.55, source_vocal_end_s: 120.590004, confidence: 0.99}]
+- shot_id: S022
+  duration_s: 2.674996
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 120.590004, end_s: 123.265}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L21, at_s: 0.0, source_vocal_start_s: 120.590004, source_vocal_end_s: 123.265, confidence: 0.97}]
+- shot_id: S023
+  duration_s: 9.36
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 123.265, end_s: 132.625}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L22, at_s: 0.0, source_vocal_start_s: 123.265, source_vocal_end_s: 128.065, confidence: 0.97}]
+- shot_id: S024
+  duration_s: 5.14499
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 132.625, end_s: 137.76999}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L23, at_s: 0.0, source_vocal_start_s: 132.625, source_vocal_end_s: 137.53, confidence: 0.99}]
+- shot_id: S025
+  duration_s: 4.40001
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 137.76999, end_s: 142.17}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L24, at_s: 0.0, source_vocal_start_s: 137.76999, source_vocal_end_s: 142.17, confidence: 0.99}]
+- shot_id: S026
+  duration_s: 4.31999
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 142.17, end_s: 146.48999}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L25, at_s: 0.0, source_vocal_start_s: 142.17, source_vocal_end_s: 145.77, confidence: 0.99}]
+- shot_id: S027
+  duration_s: 3.51001
+  characters: []
+  execution_authorized: false
+  source_window: {start_s: 146.48999, end_s: 150.0}
+  motion: {mode: hold, planning_placeholder: true, execution_authorized: false}
+  markers: [{type: lyric, line_id: L26, at_s: 0.0, source_vocal_start_s: 146.48999, source_vocal_end_s: 148.73, confidence: 0.99}]
