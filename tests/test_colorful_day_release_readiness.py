@@ -25,7 +25,7 @@ def _readiness():
 
 
 def test_colorful_day_release_readiness_validates():
-    assert validate("qc_report", _readiness()) == []
+    assert validate("release_readiness", _readiness()) == []
 
 
 def test_master_authority_matches_locked_status_record():
@@ -105,6 +105,18 @@ def test_release_gate_fails_closed_until_evidence_and_approvals_exist():
     assert "DISTRIBUTION_PACKAGE_DETAILS_NOT_ENUMERATED" in gate["blockers"]
     assert "CAPTION_ACCESSIBILITY_DECISION_PENDING" in gate["blockers"]
     assert "PUBLICATION_NOT_AUTHORIZED" in gate["blockers"]
+
+
+def test_every_release_blocker_has_a_warning_finding():
+    readiness = _readiness()
+    blockers = set(readiness["release_gate"]["blockers"])
+    warning_rules = {
+        finding["rule_id"]
+        for finding in readiness["findings"]
+        if finding["severity"] == "warning"
+    }
+
+    assert blockers == warning_rules
 
 
 def test_platform_state_preserves_approval_but_blocks_execution():
