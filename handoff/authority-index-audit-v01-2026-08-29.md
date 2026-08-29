@@ -45,9 +45,18 @@ The audit fails when:
 - a path is simultaneously current and predecessor evidence
 - the authority index itself is invalid
 
+## First-run findings and correction
+
+The first CI run found two genuine control records that the original index had missed:
+
+- `manifests/productions/humpty-rolling-short-film/review-master-v01.json`
+- `workflows/lyric-alignment-benchmark-v01.yaml`
+
+Both were added as current, publication-blocked authorities. Discovery was not weakened and neither record was promoted beyond its existing review or blocked execution state.
+
 ## Current expected state
 
-The v01 index contains 16 current authorities and four predecessor records. Together they cover the complete discovered control-authority set.
+The v01 index now contains 18 current authorities and four predecessor records. Together they cover all 22 discovered control-authority paths.
 
 ## CI and regression scope
 
@@ -55,7 +64,7 @@ Production OS CI now runs the coverage audit after schema and nested authority-i
 
 ## Safety
 
-- authority state changed: **no**
+- authority state changed beyond indexing existing evidence: **no**
 - media generated or modified: **none**
 - provider execution: **none**
 - publication or scheduling: **none**
