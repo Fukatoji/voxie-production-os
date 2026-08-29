@@ -250,8 +250,16 @@ def _validate_release_readiness(data: Any) -> list[str]:
             ("distribution_package.authority_source", distribution["authority_source"])
         )
 
+    repository_root = ROOT.resolve()
     for field, relative_path in referenced_paths:
-        target = ROOT / relative_path
+        target = (ROOT / relative_path).resolve()
+        try:
+            target.relative_to(repository_root)
+        except ValueError:
+            errors.append(
+                f"{field}: referenced path must stay within repository: {relative_path}"
+            )
+            continue
         if not target.is_file():
             errors.append(f"{field}: referenced repository file does not exist: {relative_path}")
 
