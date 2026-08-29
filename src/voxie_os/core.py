@@ -36,6 +36,7 @@ SCHEMAS = ROOT / "schemas"
 SCHEMA_FILES = {
     "canon": "canon.schema.json",
     "character_status": "character_status.schema.json",
+    "authority_index": "authority_index.schema.json",
     "asset": "asset.schema.json",
     "beatmap": "beatmap.schema.json",
     "shot_manifest": "shot_manifest.schema.json",
@@ -401,6 +402,81 @@ def _validate_character_status(data: Any) -> list[str]:
     return errors
 
 
+def _validate_authority_index(data: Any) -> list[str]:
+    """Validate current authority uniqueness, lineage, references, and nested contracts."""
+    errors = []
+
+    try:
+        datetime.strptime(data["recorded_date"], "%Y-%m-%d")
+    except ValueError:
+        errors.append("recorded_date: must be a real calendar date")
+
+    authority_ids = [entry["authority_id"] for entry in data["entries"]]
+    if len(authority_ids) != len(set(authority_ids)):
+        errors.append("entries: authority IDs must be unique")
+
+    paths = [entry["path"] for entry in data["entries"]]
+    if len(paths) != len(set(paths)):
+        errors.append("entries: authority paths must be unique")
+
+    media_extensions = {
+        ".aac",
+        ".flac",
+        ".jpeg",
+        ".jpg",
+        ".m4a",
+        ".mov",
+        ".mp3",
+        ".mp4",
+        ".png",
+        ".wav",
+        ".webm",
+    }
+
+    for index, entry in enumerate(data["entries"]):
+        prefix = f"entries.{index}"
+        path = entry["path"]
+
+        if data["policy"]["current_entries_only"] and not entry["current"]:
+            errors.append(
+                f"{prefix}.current: must be true while policy.current_entries_only is true"
+            )
+
+        if Path(path).suffix.lower() in media_extensions:
+            errors.append(
+                f"{prefix}.path: authority index must reference control records, not media binaries"
+            )
+
+        before_reference_errors = len(errors)
+        _append_repository_file_error(errors, f"{prefix}.path", path)
+        target_is_valid = len(errors) == before_reference_errors
+
+        predecessors = entry.get("predecessors", [])
+        if path in predecessors:
+            errors.append(f"{prefix}.predecessors: cannot include the current path")
+        for predecessor_index, predecessor in enumerate(predecessors):
+            _append_repository_file_error(
+                errors,
+                f"{prefix}.predecessors.{predecessor_index}",
+                predecessor,
+            )
+
+        if entry["publication_authorized"] and entry["authority_state"] != "RELEASED":
+            errors.append(
+                f"{prefix}.publication_authorized: requires authority_state RELEASED"
+            )
+
+        validation_kind = entry.get("validation_kind")
+        if validation_kind is not None and target_is_valid:
+            nested_errors = validate(validation_kind, load_data(ROOT / path))
+            for nested_error in nested_errors:
+                errors.append(
+                    f"{prefix}.validation_kind: {path} failed {validation_kind}: {nested_error}"
+                )
+
+    return errors
+
+
 def validate(kind: str, data: Any) -> list[str]:
     validator = FiniteNumberValidator(schema_for(kind))
     errors = []
@@ -415,6 +491,8 @@ def validate(kind: str, data: Any) -> list[str]:
         errors.extend(_validate_release_readiness(data))
     if kind == "character_status" and not errors:
         errors.extend(_validate_character_status(data))
+    if kind == "authority_index" and not errors:
+        errors.extend(_validate_authority_index(data))
     return errors
 
 
