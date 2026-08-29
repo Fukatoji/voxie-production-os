@@ -140,3 +140,37 @@ def test_balance_discrepancy_must_reconcile():
     assert validate("production_state", manifest) == [
         "spend_and_balance_gate.discrepancy_credits: expected 90, got 91"
     ]
+
+
+def test_balance_difference_requires_reconciliation_gate():
+    manifest = _manifest()
+    manifest["spend_and_balance_gate"]["reconcile_before_any_future_spend"] = False
+
+    assert validate("production_state", manifest) == [
+        "spend_and_balance_gate.reconcile_before_any_future_spend: "
+        "must be true while account balances differ"
+    ]
+
+
+def test_unresolved_balance_cannot_authorize_spend():
+    manifest = _manifest()
+    manifest["spend_and_balance_gate"]["spend_authorized"] = True
+
+    assert validate("production_state", manifest) == [
+        "spend_and_balance_gate.spend_authorized: must be false while "
+        "balance reconciliation is required or continuation is zero-cost-only"
+    ]
+
+
+def test_zero_cost_continuation_cannot_authorize_spend():
+    manifest = _manifest()
+    balance = manifest["spend_and_balance_gate"]
+    balance["recorded_post_generation_balance"] = 86395
+    balance["discrepancy_credits"] = 0
+    balance["reconcile_before_any_future_spend"] = False
+    balance["spend_authorized"] = True
+
+    assert validate("production_state", manifest) == [
+        "spend_and_balance_gate.spend_authorized: must be false while "
+        "balance reconciliation is required or continuation is zero-cost-only"
+    ]
