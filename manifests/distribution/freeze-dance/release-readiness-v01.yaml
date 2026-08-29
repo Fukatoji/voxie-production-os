@@ -102,13 +102,25 @@ findings:
   shot_id: null
   message: The V2.1 master is complete for final review but has not received public-release approval.
 - severity: warning
-  rule_id: AUDIO_PEAK_REVIEW_NOTE
+  rule_id: PLATFORM_METADATA_NOT_PREPARED
   shot_id: null
-  message: Embedded delivery audio measures approximately -12.4 LUFS and -0.1 dBFS peak; source audio was preserved and requires explicit acceptance rather than silent gain adjustment.
+  message: Platform titles, descriptions, captions, hashtags, and other release metadata are not yet approved.
 - severity: warning
-  rule_id: PLATFORM_PACKAGES_NOT_PREPARED
+  rule_id: THUMBNAIL_NOT_APPROVED
   shot_id: null
-  message: Platform metadata, thumbnail, Made for Kids configuration, accessibility review, and vertical derivatives are not yet approved.
+  message: No approved release thumbnail is recorded for the V2.1 master.
+- severity: warning
+  rule_id: MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+  shot_id: null
+  message: The YouTube Made for Kids configuration requires explicit release-package review.
+- severity: warning
+  rule_id: AUDIO_PEAK_REVIEW_NOTE_NOT_ACCEPTED
+  shot_id: null
+  message: Embedded delivery audio measures approximately -12.4 LUFS and -0.1 dBFS peak; source audio was preserved and requires explicit accessibility and audio-note acceptance rather than silent gain adjustment.
+- severity: warning
+  rule_id: RELEASE_SCHEDULE_NOT_APPROVED
+  shot_id: null
+  message: No publishing date or cross-platform schedule is authorized.
 - severity: warning
   rule_id: PUBLICATION_NOT_AUTHORIZED
   shot_id: null
