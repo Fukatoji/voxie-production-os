@@ -27,6 +27,7 @@ jobs:
       - name: Validate controlled examples and workflows
         run: |
           voxie-os validate canon examples/canon.voxie.v1.yaml
+          voxie-os validate canon manifests/characters/status-register-v01.yaml
           voxie-os validate beatmap examples/beatmap.example.json
           voxie-os validate shot_manifest examples/shot_manifest.example.yaml
           voxie-os validate shot_manifest manifests/productions/big-surprise/shot-manifest-v01.yaml
