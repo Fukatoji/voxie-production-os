@@ -1,6 +1,7 @@
 from copy import deepcopy
 from pathlib import Path
 import sys
+import zoneinfo
 
 from jsonschema import Draft202012Validator
 
@@ -23,6 +24,17 @@ def test_production_state_schema_is_registered_and_valid():
 
 def test_rainbow_colors_production_state_validates():
     assert validate("production_state", _manifest()) == []
+
+
+def test_timezone_validation_has_packaged_iana_fallback():
+    original_tzpath = zoneinfo.TZPATH
+    zoneinfo.reset_tzpath(())
+    zoneinfo.ZoneInfo.clear_cache()
+    try:
+        assert validate("production_state", _manifest()) == []
+    finally:
+        zoneinfo.reset_tzpath(original_tzpath)
+        zoneinfo.ZoneInfo.clear_cache()
 
 
 def test_cli_validates_rainbow_colors_production_state(monkeypatch, capsys):

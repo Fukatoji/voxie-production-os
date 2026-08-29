@@ -47,7 +47,8 @@ The quoted 2,300-credit generation is not authorized. Before any later spend dec
 - `schemas/production_state.schema.json` defines the machine-readable contract.
 - `production_state` is registered with the Production OS validator and CLI.
 - CI validates the Rainbow Colors production-state manifest directly.
-- Regression tests enforce timestamp/local-date consistency, balance reconciliation, pending-lineage execution blocking, and exact asset-ID/checksum mapping for verified lineage.
+- The first-party `tzdata` fallback is declared so IANA timezone validation remains portable on Windows and minimal systems.
+- Regression tests enforce timestamp/local-date consistency, packaged timezone fallback, balance reconciliation, pending-lineage execution blocking, and exact asset-ID/checksum mapping for verified lineage.
 
 ## Repository effect
 
