@@ -38,8 +38,8 @@ def _readiness():
     return load_data(READINESS_PATH)
 
 
-def test_big_surprise_release_readiness_validates_as_qc_report():
-    assert validate("qc_report", _readiness()) == []
+def test_big_surprise_release_readiness_validates():
+    assert validate("release_readiness", _readiness()) == []
 
 
 def test_release_readiness_matches_review_master_authority():
