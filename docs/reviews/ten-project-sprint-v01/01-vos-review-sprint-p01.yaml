@@ -1,0 +1,54 @@
+review_version: '1.0'
+project_number: 1
+project_id: VOS-REVIEW-SPRINT-P01
+title: Process compliance remediation review
+category: PROCESS_COMPLIANCE
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - .github/pull_request_template.md
+  - manifests/control/authority-index-v01.yaml
+  - manifests/control/authority-content-lock-v01.json
+  drive_items: []
+  external_links: []
+  findings:
+  - severity: warning
+    rule_id: OWNER_CONTEXT_REVIEW_NOT_INDEPENDENT
+    message: Prior manual review comments were owner-context checks and must not be represented as independent approval.
+    disposition: REMEDIATED_BY_EXPLICIT_CLASSIFICATION
+  - severity: warning
+    rule_id: MAIN_BRANCH_UNPROTECTED
+    message: GitHub reports main as unprotected; required CI and review are procedural rather than enforced.
+    disposition: EXTERNAL_ADMIN_ACTION_PENDING
+  - severity: info
+    rule_id: CURRENT_REQUEST_NO_MERGE_AUTHORIZATION
+    message: The current instruction authorizes completion and review, but does not explicitly authorize merging this sprint.
+    disposition: PR_MUST_REMAIN_OPEN
+  - severity: info
+    rule_id: NO_UNSAFE_PRODUCTION_DEVIATION_FOUND
+    message: The audit found no media generation, publication, or credit spend that requires rollback.
+    disposition: CLOSED_NO_ROLLBACK
+outputs:
+- Process deviation inventory
+- Remediation and external-action map
+- Explicit merge/publication boundary
+next_gate: Obtain independent review and a separate explicit merge instruction; apply branch protection through repository administration.

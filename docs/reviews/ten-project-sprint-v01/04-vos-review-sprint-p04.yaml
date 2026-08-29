@@ -1,0 +1,67 @@
+review_version: '1.0'
+project_number: 4
+project_id: VOS-REVIEW-SPRINT-P04
+title: Spend and provider authorization ledger
+category: SPEND_GOVERNANCE
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - config/providers.v1.yaml
+  - manifests/productions/rainbow-colors/production-state-v04.yaml
+  drive_items:
+  - id: 1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0
+    title: Voxie_Ready_Set_Play_FINAL_MIX_v2_APPROVED_LOCKED.wav
+    mime_type: audio/wav
+    url: https://drive.google.com/file/d/1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0/view?usp=drivesdk
+    role: verified locked audio evidence
+    state: LOCKED
+  external_links: []
+  findings:
+  - severity: info
+    rule_id: GENERAL_SPEND_PERMISSION_PRESENT
+    message: The user allowed spending when needed for the ten-project sprint.
+    disposition: RECORDED
+  - severity: warning
+    rule_id: MAGICLIGHT_LIVE_BALANCE_UNVERIFIED
+    message: No authenticated MagicLight account-reading session is available; current balance cannot authorize provider spend.
+    disposition: SPEND_BLOCKED_FOR_MAGICLIGHT
+  - severity: info
+    rule_id: ACTUAL_SPEND_ZERO
+    message: All ten selected projects are control and evidence work and require no paid generation.
+    disposition: CLOSED_ZERO_SPEND
+  - severity: warning
+    rule_id: PROVIDER_SPECIFIC_GATE_REQUIRED
+    message: General permission does not override provider balance, operation, asset-lineage, QC, or publication gates.
+    disposition: FAIL_CLOSED
+outputs:
+- Spend ledger
+- Provider-specific authorization rule
+- MagicLight hold state
+next_gate: Authenticate MagicLight and verify the live balance before any MagicLight credit authorization.
+metrics:
+  credits_spent: 0
+  money_spent_usd: 0
+  magiclight_live_balance: UNVERIFIED
+  historical_balances:
+  - 86395
+  - 86305
+  historical_difference_credits: 90

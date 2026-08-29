@@ -1,0 +1,55 @@
+review_version: '1.0'
+project_number: 3
+project_id: VOS-REVIEW-SPRINT-P03
+title: Merge authorization ledger and current repository gate
+category: MERGE_GOVERNANCE
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: NOT_CLAIMED
+  process_complete: true
+evidence:
+  repository_paths:
+  - manifests/control/authority-index-v01.yaml
+  - manifests/control/authority-content-lock-v01.json
+  drive_items: []
+  external_links:
+  - https://github.com/Fukatoji/voxie-production-os/pull/22
+  - https://github.com/Fukatoji/voxie-production-os/pull/23
+  - https://github.com/Fukatoji/voxie-production-os/commit/a77d3f176f9d0e6d65d1ba84d58fad1df0cfba55
+  findings:
+  - severity: info
+    rule_id: LATEST_MAIN_VERIFIED
+    message: The audit began with main at a77d3f176f9d0e6d65d1ba84d58fad1df0cfba55, the verified merge of PR #23.
+    disposition: BASELINE_CAPTURED
+  - severity: info
+    rule_id: OPEN_PR_COUNT_ZERO_AT_START
+    message: GitHub reported no open pull requests before this sprint branch was created.
+    disposition: BASELINE_CAPTURED
+  - severity: warning
+    rule_id: SPRINT_MERGE_NOT_AUTHORIZED
+    message: This sprint may be completed and reviewed but must not merge under the current instruction.
+    disposition: OPEN_FOR_DECISION
+outputs:
+- Merge authorization ledger
+- Current-main baseline
+- No-auto-merge decision
+next_gate: Return the reviewed pull request for explicit merge or hold instruction.
+metrics:
+  baseline_main_sha: a77d3f176f9d0e6d65d1ba84d58fad1df0cfba55
+  open_prs_at_start: 0

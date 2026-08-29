@@ -1,0 +1,73 @@
+review_version: '1.0'
+project_number: 6
+project_id: VOS-REVIEW-SPRINT-P06
+title: Image asset inventory review
+category: IMAGE_INVENTORY
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: NOT_CLAIMED
+  process_complete: true
+evidence:
+  repository_paths: []
+  drive_items:
+  - id: 1YzS2HLj43I_UjNM1iUJfx5PIoVEmyLFR
+    title: RSP_S16_TOP_Slide_Ready_LOCKED.png
+    mime_type: image/png
+    url: https://drive.google.com/file/d/1YzS2HLj43I_UjNM1iUJfx5PIoVEmyLFR/view?usp=drivesdk
+    role: locked endpoint still
+    state: LOCKED
+  - id: 1Lqii-NrJrSH0nimV7U6xeRFFn_Ly0Uof
+    title: RSP_S15_START_Slide_Climb_LOCKED.png
+    mime_type: image/png
+    url: https://drive.google.com/file/d/1Lqii-NrJrSH0nimV7U6xeRFFn_Ly0Uof/view?usp=drivesdk
+    role: locked endpoint still
+    state: LOCKED
+  - id: 1uohnYE4A7dWzDLsCMkDkRqiD58BG6M4H
+    title: RSP_S13_START_Tunnel_Entry_LOCKED.png
+    mime_type: image/png
+    url: https://drive.google.com/file/d/1uohnYE4A7dWzDLsCMkDkRqiD58BG6M4H/view?usp=drivesdk
+    role: locked endpoint still
+    state: LOCKED
+  external_links: []
+  findings:
+  - severity: info
+    rule_id: THREE_LOCKED_PNGS_OBSERVED
+    message: Three locked endpoint PNG binaries were directly listed in the audited RSP stills workspace.
+    disposition: INVENTORIED
+  - severity: info
+    rule_id: IMAGE_BYTES_RECORDED
+    message: The three observed images total 6,355,979 bytes.
+    disposition: INVENTORIED
+  - severity: warning
+    rule_id: INVENTORY_SCOPE_LIMITED
+    message: This count covers the audited Drive folders, not every image in all linked accounts or File Library cards.
+    disposition: SCOPE_DISCLOSED
+  - severity: info
+    rule_id: NO_IMAGE_MODIFICATION
+    message: No image was regenerated, edited, moved, renamed, or promoted during this sprint.
+    disposition: CLOSED_UNCHANGED
+outputs:
+- Image inventory with stable Drive links
+- Locked-state review
+- Scope limitation
+next_gate: Use the Drive IDs as evidence locators; obtain checksums before any cross-system binary execution.
+metrics:
+  observed_image_files: 3
+  observed_image_bytes: 6355979
+  modified_images: 0

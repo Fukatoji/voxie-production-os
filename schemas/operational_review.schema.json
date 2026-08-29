@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie Operational Review Project",
+  "type": "object",
+  "required": [
+    "review_version",
+    "project_number",
+    "project_id",
+    "title",
+    "category",
+    "status",
+    "recorded_at_utc",
+    "local_date",
+    "timezone",
+    "authorization",
+    "review",
+    "evidence",
+    "outputs",
+    "next_gate"
+  ],
+  "properties": {
+    "review_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_number": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "enum": [
+        "PROCESS_COMPLIANCE",
+        "REVIEW_GOVERNANCE",
+        "MERGE_GOVERNANCE",
+        "SPEND_GOVERNANCE",
+        "BRANCH_PROTECTION",
+        "IMAGE_INVENTORY",
+        "VIDEO_AUDIO_INVENTORY",
+        "DOCUMENT_INVENTORY",
+        "BLOCKER_ROUTING",
+        "COMMAND_CENTER"
+      ]
+    },
+    "status": {
+      "enum": [
+        "COMPLETED_REVIEWED",
+        "READY_EXTERNAL_ADMIN_APPLY"
+      ]
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "local_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "timezone": {
+      "const": "America/Chicago"
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "user_authorized",
+        "authorization_scope",
+        "merge_authorized",
+        "publication_authorized",
+        "spend_permission_provided",
+        "spend_exercised",
+        "credits_spent"
+      ],
+      "properties": {
+        "user_authorized": {
+          "const": true
+        },
+        "authorization_scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        },
+        "merge_authorized": {
+          "type": "boolean"
+        },
+        "publication_authorized": {
+          "type": "boolean"
+        },
+        "spend_permission_provided": {
+          "type": "boolean"
+        },
+        "spend_exercised": {
+          "type": "boolean"
+        },
+        "credits_spent": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "reviewer_context",
+        "independent_review",
+        "process_complete"
+      ],
+      "properties": {
+        "result": {
+          "enum": [
+            "PASS",
+            "PASS_WITH_EXTERNAL_BLOCKERS"
+          ]
+        },
+        "reviewer_context": {
+          "const": "OWNER_CONTEXT"
+        },
+        "independent_review": {
+          "enum": [
+            "NOT_CLAIMED",
+            "PENDING_EXTERNAL"
+          ]
+        },
+        "process_complete": {
+          "const": true
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_paths",
+        "drive_items",
+        "external_links",
+        "findings"
+      ],
+      "properties": {
+        "repository_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "drive_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "title",
+              "mime_type",
+              "url",
+              "role",
+              "state"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mime_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https://(drive\\.google\\.com|docs\\.google\\.com)/"
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "external_links": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^https://github\\.com/"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "severity",
+              "rule_id",
+              "message",
+              "disposition"
+            ],
+            "properties": {
+              "severity": {
+                "enum": [
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              },
+              "rule_id": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]+$"
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              },
+              "disposition": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "next_gate": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metrics": {
+      "type": "object"
+    },
+    "ideas": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,66 @@
+review_version: '1.0'
+project_number: 7
+project_id: VOS-REVIEW-SPRINT-P07
+title: Video and audio asset inventory review
+category: VIDEO_AUDIO_INVENTORY
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - manifests/productions/big-surprise/review-master-v01.json
+  - manifests/productions/freeze-dance/review-master-v21.json
+  - manifests/productions/colorful-day/master-status-v01.md
+  - manifests/productions/humpty-rolling-short-film/review-master-v01.json
+  drive_items:
+  - id: 1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0
+    title: Voxie_Ready_Set_Play_FINAL_MIX_v2_APPROVED_LOCKED.wav
+    mime_type: audio/wav
+    url: https://drive.google.com/file/d/1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0/view?usp=drivesdk
+    role: locked audio binary
+    state: LOCKED
+  external_links: []
+  findings:
+  - severity: info
+    rule_id: ONE_LOCKED_AUDIO_BINARY_OBSERVED
+    message: The audited RSP audio LOCKED folder contains one 50,311,674-byte WAV binary.
+    disposition: INVENTORIED
+  - severity: warning
+    rule_id: NO_VIDEO_BINARIES_OBSERVED_IN_AUDITED_RSP_VIDEO_FOLDERS
+    message: The audited Raw_Generations, Salvaged, and LOCKED video folders exposed no files.
+    disposition: EXTERNAL_MEDIA_LOCATORS_REQUIRED
+  - severity: info
+    rule_id: VIDEO_AUTHORITY_RECORDS_PRESENT
+    message: Repository records preserve review/master authority for Big Surprise, Freeze Dance, Colorful Day, and the Humpty rolling short film.
+    disposition: CONTROL_RECORDS_VERIFIED
+  - severity: warning
+    rule_id: CONTROL_RECORD_NOT_BINARY
+    message: A review-master manifest or master-status document does not substitute for the original video bytes.
+    disposition: FAIL_CLOSED
+outputs:
+- Video authority inventory
+- Audio binary inventory
+- External locator gap report
+next_gate: Expose original video binaries through downloadable Drive or attachment locators and verify their hashes before processing.
+metrics:
+  observed_video_binaries: 0
+  observed_audio_binaries: 1
+  observed_audio_bytes: 50311674
+  repository_video_authority_records: 4
