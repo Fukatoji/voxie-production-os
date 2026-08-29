@@ -29,6 +29,14 @@ def _by_number():
     return {project["project_number"]: project for project in _projects()}
 
 
+def _all_drive_items():
+    return [
+        item
+        for project in _projects()
+        for item in project["evidence"]["drive_items"]
+    ]
+
+
 def test_enablement_schema_is_valid_and_all_ten_packets_validate():
     schema = _load(SCHEMA_PATH)
     Draft202012Validator.check_schema(schema)
@@ -54,7 +62,6 @@ def test_index_references_exactly_ten_unique_existing_packets():
 
 
 def test_sprint_summary_matches_packet_statuses():
-    summary = _index()["summary"]
     observed = {}
     for project in _projects():
         observed[project["status"]] = observed.get(project["status"], 0) + 1
@@ -64,7 +71,7 @@ def test_sprint_summary_matches_packet_statuses():
         "BLOCKED_EXTERNAL": 4,
         "READY_FOR_EXTERNAL_APPLY": 1,
     }
-    assert summary == {
+    assert _index()["summary"] == {
         "ready_for_review": 5,
         "blocked_external": 4,
         "ready_for_external_apply": 1,
@@ -137,9 +144,10 @@ def test_rainbow_binary_intake_has_complete_seven_item_matrix():
     }
 
 
-def test_rainbow_candidate_packet_has_six_unique_review_sources():
+def test_rainbow_candidate_packet_has_six_sources_and_owns_its_review_deck():
     project = _by_number()[2]
     candidates = project["evidence"]["provider_items"]
+    drive_items = project["evidence"]["drive_items"]
 
     assert project["status"] == "READY_FOR_REVIEW"
     assert project["details"]["candidate_count"] == len(candidates) == 6
@@ -155,6 +163,19 @@ def test_rainbow_candidate_packet_has_six_unique_review_sources():
     assert len({candidate["sha256"] for candidate in candidates}) == 6
     assert all(candidate["state"] == "REVIEW_CANDIDATE" for candidate in candidates)
     assert project["details"]["dependent_shots"] == {"S05": "S04", "S19": "S20"}
+    assert drive_items == [
+        {
+            "id": "17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w",
+            "title": "VWF_RAINBOW_COLORS_ACTION_ANCHOR_RECOVERY_QC_v01_REVIEW",
+            "mime_type": "application/vnd.google-apps.presentation",
+            "url": (
+                "https://docs.google.com/presentation/d/"
+                "17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w/edit?usp=drivesdk"
+            ),
+            "role": "six-candidate visual review carrier",
+            "state": "REVIEW",
+        }
+    ]
 
 
 def test_rainbow_generation_packet_has_exact_fifteen_shot_queue_and_zero_budget():
@@ -184,7 +205,7 @@ def test_rainbow_generation_packet_has_exact_fifteen_shot_queue_and_zero_budget(
     assert project["gates"]["spend_authorized"] is False
 
 
-def test_rsp_media_packet_matches_image_audio_and_document_evidence():
+def test_rsp_media_packet_matches_only_rsp_image_audio_and_document_evidence():
     project = _by_number()[4]
     items = project["evidence"]["drive_items"]
     details = project["details"]
@@ -197,15 +218,39 @@ def test_rsp_media_packet_matches_image_audio_and_document_evidence():
         "video_binary_count": 0,
         "document_count": 2,
         "spreadsheet_count": 1,
-        "presentation_count": 1,
+        "presentation_count": 0,
     }
-    assert sum(item.get("bytes", 0) for item in items if item["mime_type"] == "image/png") == 6355979
-    assert sum(item.get("bytes", 0) for item in items if item["mime_type"] == "audio/wav") == 50311674
+    assert sum(
+        item.get("bytes", 0)
+        for item in items
+        if item["mime_type"] == "image/png"
+    ) == 6355979
+    assert sum(
+        item.get("bytes", 0)
+        for item in items
+        if item["mime_type"] == "audio/wav"
+    ) == 50311674
     assert len([item for item in items if item["mime_type"] == "image/png"]) == 3
     assert len([item for item in items if item["mime_type"] == "audio/wav"]) == 1
-    assert len([item for item in items if item["mime_type"] == "application/vnd.google-apps.document"]) == 2
-    assert len([item for item in items if item["mime_type"] == "application/vnd.google-apps.spreadsheet"]) == 1
-    assert len([item for item in items if item["mime_type"] == "application/vnd.google-apps.presentation"]) == 1
+    assert len(
+        [
+            item
+            for item in items
+            if item["mime_type"] == "application/vnd.google-apps.document"
+        ]
+    ) == 2
+    assert len(
+        [
+            item
+            for item in items
+            if item["mime_type"] == "application/vnd.google-apps.spreadsheet"
+        ]
+    ) == 1
+    assert not any(
+        item["mime_type"] == "application/vnd.google-apps.presentation"
+        for item in items
+    )
+    assert all("RAINBOW_COLORS" not in item["title"] for item in items)
 
 
 def test_lumi_packet_is_preview_only_and_cannot_lock_or_substitute_voxie():
@@ -234,7 +279,10 @@ def test_navi_and_humpty_packages_preserve_two_branches_and_five_options():
 
         assert len(branches) == 2
         assert {branch["branch_id"] for branch in branches} == expected_ids
-        assert all(branch["state"] == "HISTORICAL_PRODUCTION_BRANCH" for branch in branches)
+        assert all(
+            branch["state"] == "HISTORICAL_PRODUCTION_BRANCH"
+            for branch in branches
+        )
         assert len(options) == 5
         assert "CONTINUE_HOLD" in options
         assert project["authority"]["execution_authorized"] is False
@@ -258,12 +306,15 @@ def test_publishing_matrix_has_three_projects_and_no_upload_or_publication():
 def test_big_surprise_alignment_packet_matches_final_beatmap_audio_authority():
     project = _by_number()[9]
     beatmap = json.loads(
-        (ROOT / "manifests/productions/big-surprise/beatmap-001.final.json").read_text(
-            encoding="utf-8"
-        )
+        (
+            ROOT
+            / "manifests/productions/big-surprise/beatmap-001.final.json"
+        ).read_text(encoding="utf-8")
     )
 
-    assert project["details"]["audio_filename"] == beatmap["source_audio"]["controlled_filename"]
+    assert project["details"]["audio_filename"] == beatmap["source_audio"][
+        "controlled_filename"
+    ]
     assert project["details"]["audio_sha256"] == beatmap["source_audio"]["sha256"]
     assert project["details"]["duration_seconds"] == beatmap["duration_s"] == 150.0
     assert project["details"]["auto_promote"] is False
@@ -286,18 +337,53 @@ def test_branch_protection_packet_is_exact_but_not_claimed_applied():
         "allow_deletions": False,
         "allow_direct_pushes": False,
     }
-    assert "SAFE_BRANCH_RULESET_WRITE_UNAVAILABLE_IN_CURRENT_SESSION" in project["gates"]["blockers"]
+    assert (
+        "SAFE_BRANCH_RULESET_WRITE_UNAVAILABLE_IN_CURRENT_SESSION"
+        in project["gates"]["blockers"]
+    )
 
 
-def test_index_media_summary_matches_rsp_packet():
-    summary = _index()["media_summary"]
-    rsp = _by_number()[4]["details"]
-
-    assert summary == {
-        "images_referenced": rsp["image_count"],
-        "video_binaries_referenced": rsp["video_binary_count"],
-        "audio_binaries_referenced": rsp["audio_count"],
-        "documents_referenced": rsp["document_count"],
-        "spreadsheets_referenced": rsp["spreadsheet_count"],
-        "presentations_referenced": rsp["presentation_count"],
+def test_index_media_summary_matches_all_enablement_packet_evidence():
+    items = _all_drive_items()
+    mime_counts = {
+        "images_referenced": len(
+            [item for item in items if item["mime_type"].startswith("image/")]
+        ),
+        "video_binaries_referenced": len(
+            [item for item in items if item["mime_type"].startswith("video/")]
+        ),
+        "audio_binaries_referenced": len(
+            [item for item in items if item["mime_type"].startswith("audio/")]
+        ),
+        "documents_referenced": len(
+            [
+                item
+                for item in items
+                if item["mime_type"] == "application/vnd.google-apps.document"
+            ]
+        ),
+        "spreadsheets_referenced": len(
+            [
+                item
+                for item in items
+                if item["mime_type"] == "application/vnd.google-apps.spreadsheet"
+            ]
+        ),
+        "presentations_referenced": len(
+            [
+                item
+                for item in items
+                if item["mime_type"] == "application/vnd.google-apps.presentation"
+            ]
+        ),
     }
+
+    assert mime_counts == {
+        "images_referenced": 3,
+        "video_binaries_referenced": 0,
+        "audio_binaries_referenced": 1,
+        "documents_referenced": 2,
+        "spreadsheets_referenced": 1,
+        "presentations_referenced": 1,
+    }
+    assert _index()["media_summary"] == mime_counts

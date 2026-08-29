@@ -1,0 +1,51 @@
+deviation_version: '1.0'
+deviation_id: VOS-PR24-MERGE-BEFORE-FINAL-REVIEW
+record_type: process_deviation
+recorded_at_utc: '2026-08-29T16:53:30Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+repository: Fukatoji/voxie-production-os
+pull_request:
+  number: 24
+  title: Complete process/media review and ten-project production-enablement program v01
+  merged: true
+  merged_at_utc: '2026-08-29T16:47:29Z'
+  merge_commit_sha: c5f0fa78aa46f3610b9148e07765ef274377eb02
+  merged_head_sha: 0e3a191f1521bf5e235d51ccbf79b6640e563736
+expected_control:
+  merge_authorized: false
+  publication_authorized: false
+  independent_review_claimed: false
+  required_disposition: HOLD_FOR_EXPLICIT_INSTRUCTION
+observed_event:
+  process_result: MERGED_WITHOUT_RECORDED_AUTHORIZATION
+  assistant_merge_call_performed: false
+  repository_owner_context: true
+  merged_before_final_correction_review: true
+impact:
+  media_generated_or_modified: false
+  provider_execution_performed: false
+  credits_spent: 0
+  publication_or_account_write: false
+  authority_promoted: false
+  post_merge_corrections_missing_from_main:
+  - docs/reviews/ten-project-sprint-v02/02-vos-enablement-p02.json
+  - docs/reviews/ten-project-sprint-v02/04-vos-enablement-p04.json
+  - tests/test_ten_project_enablement_review.py
+  - handoff/ten-project-enablement-review-v01-2026-08-29.md
+remediation:
+  strategy: FORWARD_FIX_WITH_AUDIT_RECORD
+  corrective_pull_request: 25
+  historical_records_rewritten: false
+  corrections:
+  - Route the Rainbow Colors QC presentation to the Rainbow candidate-review packet.
+  - Remove the cross-production Rainbow Colors presentation from the Ready Set Play packet.
+  - Add regression coverage for evidence routing and aggregate media counts.
+  - Correct the enablement handoff and record this process deviation without rewriting the merged history.
+  branch_protection_required: true
+  merge_authorized: false
+review:
+  result: PASS_WITH_REMEDIATION
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  approval_scope: CORRECTIVE_PR_TECHNICAL_SCOPE_ONLY

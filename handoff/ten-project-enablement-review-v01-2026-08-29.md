@@ -22,13 +22,13 @@ The packages preserve the standing workspace boundaries: character decisions rem
    Defines all seven required binaries, recorded fingerprints, known File Library references, rejection rules, and the fresh-hash acceptance sequence. Execution remains blocked because mounted byte streams are unavailable.
 
 2. **Rainbow Colors surviving-source candidate review package**  
-   Presents S04, S15, S18, S20, S33, and S35 as six explicit review candidates with provider task IDs and SHA-256 fingerprints. No candidate is promoted automatically; S05 and S19 remain dependent on approved parent sources.
+   Presents S04, S15, S18, S20, S33, and S35 as six explicit review candidates with provider task IDs and SHA-256 fingerprints. The Rainbow Colors action-anchor QC presentation is routed here as the visual review carrier. It does not approve any source by itself. No candidate is promoted automatically; S05 and S19 remain dependent on approved parent sources.
 
 3. **Rainbow Colors fifteen-shot new-pixel generation gate**  
    Fixes the exact 15-shot generation queue and the per-shot preview, QC, lock, cost, and balance ledger. MagicLight execution remains spend-blocked until an authenticated current balance and fresh quote exist.
 
 4. **Ready Set Play canonical media-authority draft**  
-   Connects three locked endpoint PNGs and one locked WAV to the master asset-index spreadsheet, approved 23-shot timeline, finish gate, and QC reference deck. Missing video binaries and fresh hashes remain blockers.
+   Connects three locked endpoint PNGs and one locked WAV to the RSP master asset-index spreadsheet, approved 23-shot timeline, and finish gate. It contains no cross-production Rainbow Colors presentation. Missing video binaries and fresh hashes remain blockers.
 
 5. **Lumi MagicLight preview-only creation package**  
    Provides a single-output character-preview prompt and hard-QC constraints. Lumi remains separate from Voxie, approved but unlocked, and unavailable for production until preview approval and explicit lock.
@@ -71,12 +71,23 @@ Master and review records for completed productions remain control evidence rath
 
 ### Documents, spreadsheet, and presentation
 
+Ready Set Play evidence:
+
 - Approved timeline: `Voxie_RSP_23_Shot_Timeline_v2_APPROVED`
 - Finish gate: `RSP_Finish_Gate_2026-08-28_AUDIO_CLEARED_VISUAL_QC`
 - Master spreadsheet: `Voxie_RSP_Master_Asset_Index`
+
+Rainbow Colors candidate-review evidence:
+
 - Review presentation: `VWF_RAINBOW_COLORS_ACTION_ANCHOR_RECOVERY_QC_v01_REVIEW`
 
-The enablement sprint directly references **2 documents, 1 spreadsheet, and 1 presentation**. This is the package evidence count, not a global Drive total.
+Across all ten enablement packets, the sprint directly references **2 documents, 1 spreadsheet, and 1 presentation**. This is the package evidence count, not a global Drive total.
+
+## Review corrections made before final validation
+
+- The Navi deliverable label was corrected from “four-option” to “five-option” so it matches the five recorded choices.
+- The Rainbow Colors QC presentation was removed from the Ready Set Play packet and placed in the Rainbow candidate-review packet, preventing cross-production evidence contamination.
+- Regression coverage now verifies both corrections and aggregates media/document counts across all ten packets rather than assuming one packet owns every artifact type.
 
 ## Process remediation carried forward
 
@@ -94,7 +105,7 @@ No process defect requiring rollback was found. The open work is correctly repre
 
 ## Validation and review boundary
 
-`schemas/production_enablement_review.schema.json` defines the common packet contract. `tests/test_ten_project_enablement_review.py` verifies all ten packets, source authorities, authorization boundaries, status totals, media counts, candidate lists, generation queue, character branches, release matrix, alignment authority, and branch-protection settings.
+`schemas/production_enablement_review.schema.json` defines the common packet contract. `tests/test_ten_project_enablement_review.py` verifies all ten packets, source authorities, authorization boundaries, status totals, media counts and routing, candidate lists, generation queue, character branches, release matrix, alignment authority, and branch-protection settings.
 
 The manual review is performed in the repository owner context. Independent review is not claimed. The PR must remain open unless a later instruction explicitly authorizes merge.
 
