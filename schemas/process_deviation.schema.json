@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie Production OS Process Deviation",
+  "type": "object",
+  "required": [
+    "deviation_version",
+    "deviation_id",
+    "record_type",
+    "recorded_at_utc",
+    "local_date",
+    "timezone",
+    "repository",
+    "pull_request",
+    "expected_control",
+    "observed_event",
+    "impact",
+    "remediation",
+    "review"
+  ],
+  "properties": {
+    "deviation_version": {"type": "string", "minLength": 1},
+    "deviation_id": {"type": "string", "pattern": "^[A-Z0-9_-]+$"},
+    "record_type": {"const": "process_deviation"},
+    "recorded_at_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "local_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "timezone": {"const": "America/Chicago"},
+    "repository": {"const": "Fukatoji/voxie-production-os"},
+    "pull_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "title", "merged", "merged_at_utc", "merge_commit_sha", "merged_head_sha"],
+      "properties": {
+        "number": {"const": 24},
+        "title": {"type": "string", "minLength": 1},
+        "merged": {"const": true},
+        "merged_at_utc": {"const": "2026-08-29T16:47:29Z"},
+        "merge_commit_sha": {"const": "c5f0fa78aa46f3610b9148e07765ef274377eb02"},
+        "merged_head_sha": {"const": "0e3a191f1521bf5e235d51ccbf79b6640e563736"}
+      }
+    },
+    "expected_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["merge_authorized", "publication_authorized", "independent_review_claimed", "required_disposition"],
+      "properties": {
+        "merge_authorized": {"const": false},
+        "publication_authorized": {"const": false},
+        "independent_review_claimed": {"const": false},
+        "required_disposition": {"const": "HOLD_FOR_EXPLICIT_INSTRUCTION"}
+      }
+    },
+    "observed_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process_result", "assistant_merge_call_performed", "repository_owner_context", "merged_before_final_correction_review"],
+      "properties": {
+        "process_result": {"const": "MERGED_WITHOUT_RECORDED_AUTHORIZATION"},
+        "assistant_merge_call_performed": {"const": false},
+        "repository_owner_context": {"const": true},
+        "merged_before_final_correction_review": {"const": true}
+      }
+    },
+    "impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "media_generated_or_modified",
+        "provider_execution_performed",
+        "credits_spent",
+        "publication_or_account_write",
+        "authority_promoted",
+        "post_merge_corrections_missing_from_main"
+      ],
+      "properties": {
+        "media_generated_or_modified": {"const": false},
+        "provider_execution_performed": {"const": false},
+        "credits_spent": {"const": 0},
+        "publication_or_account_write": {"const": false},
+        "authority_promoted": {"const": false},
+        "post_merge_corrections_missing_from_main": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "remediation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "corrective_pull_request",
+        "historical_records_rewritten",
+        "corrections",
+        "branch_protection_required",
+        "merge_authorized"
+      ],
+      "properties": {
+        "strategy": {"const": "FORWARD_FIX_WITH_AUDIT_RECORD"},
+        "corrective_pull_request": {"const": 25},
+        "historical_records_rewritten": {"const": false},
+        "corrections": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "branch_protection_required": {"const": true},
+        "merge_authorized": {"const": false}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "reviewer_context", "independent_review", "approval_scope"],
+      "properties": {
+        "result": {"const": "PASS_WITH_REMEDIATION"},
+        "reviewer_context": {"const": "OWNER_CONTEXT"},
+        "independent_review": {"const": "PENDING_EXTERNAL"},
+        "approval_scope": {"const": "CORRECTIVE_PR_TECHNICAL_SCOPE_ONLY"}
+      }
+    }
+  },
+  "additionalProperties": false
+}
