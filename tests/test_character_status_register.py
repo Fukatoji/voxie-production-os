@@ -16,8 +16,8 @@ def _by_id():
     return {item["character_id"]: item for item in _register()["characters"]}
 
 
-def test_character_status_register_validates_as_canon_record():
-    assert validate("canon", _register()) == []
+def test_character_status_register_validates():
+    assert validate("character_status", _register()) == []
 
 
 def test_register_starts_with_four_required_characters():
