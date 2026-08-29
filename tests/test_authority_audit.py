@@ -24,7 +24,7 @@ def test_current_authority_index_covers_discovery_policy():
     report = build_authority_coverage_report(_index())
 
     assert report["status"] == "PASS"
-    assert report["counts"]["current"] == 16
+    assert report["counts"]["current"] == 18
     assert report["counts"]["predecessors"] == 4
     assert report["counts"]["discovered"] == report["counts"]["covered"]
     assert report["missing_from_index"] == []
