@@ -11,7 +11,7 @@ master:
   sha256: b23fd47f3ad1f1da03b1e98cb79183e74ad362bdb0c2f7ea46eb8ea172dd83ea
   duration_seconds: 190.0
   resolution: 1920x1080
-  aspect_ratio: 16:9
+  aspect_ratio: '16:9'
   progressive: true
   pixel_format: yuv420p
   fps: 24
