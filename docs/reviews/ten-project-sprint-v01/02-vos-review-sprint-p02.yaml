@@ -1,0 +1,49 @@
+review_version: '1.0'
+project_number: 2
+project_id: VOS-REVIEW-SPRINT-P02
+title: Review and approval separation register
+category: REVIEW_GOVERNANCE
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - .github/pull_request_template.md
+  - AGENTS.md
+  drive_items: []
+  external_links: []
+  findings:
+  - severity: info
+    rule_id: USER_AUTHORIZATION_CAPTURED
+    message: The user authorized completion, review, reporting, and spending if necessary for ten bounded projects.
+    disposition: APPROVED_SCOPE_RECORDED
+  - severity: warning
+    rule_id: OWNER_REVIEW_IS_NOT_INDEPENDENT
+    message: A review submitted through the repository owner identity is a useful quality check but not separation of duties.
+    disposition: INDEPENDENT_REVIEW_PENDING
+  - severity: info
+    rule_id: MERGE_AND_PUBLICATION_SEPARATE
+    message: Project review approval does not imply merge or publication approval.
+    disposition: CONTROL_BOUNDARY_LOCKED
+outputs:
+- Review-state vocabulary
+- Approval-scope separation
+- Independent-review requirement
+next_gate: An independent reviewer may submit APPROVED; merge still requires a separate explicit user instruction.

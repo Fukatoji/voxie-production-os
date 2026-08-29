@@ -1,0 +1,60 @@
+review_version: '1.0'
+project_number: 9
+project_id: VOS-REVIEW-SPRINT-P09
+title: On-hold blocker and restart register
+category: BLOCKER_ROUTING
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - manifests/characters/status-register-v01.yaml
+  - manifests/productions/rainbow-colors/production-state-v04.yaml
+  - manifests/distribution/big-surprise/release-readiness-v01.yaml
+  - manifests/distribution/freeze-dance/release-readiness-v01.yaml
+  - manifests/distribution/colorful-day/release-readiness-v01.yaml
+  drive_items: []
+  external_links: []
+  findings:
+  - severity: warning
+    rule_id: RAINBOW_BINARY_AND_MAGICLIGHT_BLOCK
+    message: Rainbow Colors requires exact mounted binaries, fresh hashes, and an authenticated MagicLight balance before paid or binary execution.
+    disposition: ROUTE_TO_90_UNTIL_EXTERNAL_PREREQUISITES
+  - severity: warning
+    rule_id: LUMI_PREVIEW_LOCK_PENDING
+    message: Lumi remains approved but unlocked and cannot enter production.
+    disposition: ROUTE_TO_01_CANON
+  - severity: warning
+    rule_id: NAVI_HUMPTY_RECONCILIATION_PENDING
+    message: Navi and Humpty remain branch-reconciliation projects.
+    disposition: ROUTE_TO_01_CANON
+  - severity: warning
+    rule_id: RELEASE_PACKAGES_PENDING
+    message: Big Surprise, Freeze Dance, and Colorful Day remain publication-blocked.
+    disposition: ROUTE_TO_04_PUBLISHING
+  - severity: info
+    rule_id: RSP_AUDIO_BINARY_AVAILABLE
+    message: RSP has a locked audio binary and visual/QC documents but no observed video binaries in the audited folders.
+    disposition: ROUTE_TO_02_ACTIVE_PRODUCTION_FOR_VISUAL_COMPLETION
+outputs:
+- On-hold register
+- Restart conditions
+- Workspace routing map
+next_gate: Move each item out of 90 only when its exact restart condition is met and report the state change to 00 Command Center.

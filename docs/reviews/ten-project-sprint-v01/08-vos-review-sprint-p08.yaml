@@ -1,0 +1,86 @@
+review_version: '1.0'
+project_number: 8
+project_id: VOS-REVIEW-SPRINT-P08
+title: Document, spreadsheet, and presentation inventory review
+category: DOCUMENT_INVENTORY
+status: COMPLETED_REVIEWED
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: NOT_CLAIMED
+  process_complete: true
+evidence:
+  repository_paths: []
+  drive_items:
+  - id: 1KrY3rEurbKJPYhF11OLmjlnuTWAjxv6OcEmRr0yrPmA
+    title: Voxie_RSP_Master_Asset_Index
+    mime_type: application/vnd.google-apps.spreadsheet
+    url: https://docs.google.com/spreadsheets/d/1KrY3rEurbKJPYhF11OLmjlnuTWAjxv6OcEmRr0yrPmA/edit?usp=drivesdk
+    role: master asset index
+    state: ACTIVE
+  - id: 17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w
+    title: VWF_RAINBOW_COLORS_ACTION_ANCHOR_RECOVERY_QC_v01_REVIEW
+    mime_type: application/vnd.google-apps.presentation
+    url: https://docs.google.com/presentation/d/17bQpup57kWQG3o8IzDoWJmdGVmyNsVDKIEZJ_HeSd7w/edit?usp=drivesdk
+    role: visual QC review deck
+    state: REVIEW
+  - id: 1kc-8hMUjO5zYfoo9IgNNpk7BV5He4ao8xEUho2P-xTU
+    title: Voxie_RSP_23_Shot_Timeline_v2_APPROVED
+    mime_type: application/vnd.google-apps.document
+    url: https://docs.google.com/document/d/1kc-8hMUjO5zYfoo9IgNNpk7BV5He4ao8xEUho2P-xTU/edit?usp=drivesdk
+    role: approved timeline
+    state: APPROVED
+  - id: 1N_X5MvzqvzZfevDhLjd1Kic3FlgEaD0tVYjz9v1heXk
+    title: RSP_Finish_Gate_2026-08-28_AUDIO_CLEARED_VISUAL_QC
+    mime_type: application/vnd.google-apps.document
+    url: https://docs.google.com/document/d/1N_X5MvzqvzZfevDhLjd1Kic3FlgEaD0tVYjz9v1heXk/edit?usp=drivesdk
+    role: finish gate
+    state: REVIEW
+  - id: 1EtdrMLncqzpIuDvVfaearRnkiu-l2A1_lU00olCwurQ
+    title: Voxie_Canon_v1.0_RECOVERY_CONTROL
+    mime_type: application/vnd.google-apps.document
+    url: https://docs.google.com/document/d/1EtdrMLncqzpIuDvVfaearRnkiu-l2A1_lU00olCwurQ/edit?usp=drivesdk
+    role: canon recovery control
+    state: CONTROL
+  external_links: []
+  findings:
+  - severity: info
+    rule_id: AUDITED_DOCUMENT_TOTAL
+    message: Twenty-five Google Docs were observed across the audited Command Center and RSP folders.
+    disposition: INVENTORIED
+  - severity: info
+    rule_id: ONE_SHEET_AND_ONE_PRESENTATION
+    message: The audited set includes one master asset-index spreadsheet and one Rainbow Colors QC presentation.
+    disposition: INVENTORIED
+  - severity: warning
+    rule_id: DOCUMENT_COUNT_IS_AUDIT_SCOPE_COUNT
+    message: The count is limited to the folders directly enumerated in this review and is not a global Drive total.
+    disposition: SCOPE_DISCLOSED
+  - severity: info
+    rule_id: PUBLISHING_FOLDER_EMPTY
+    message: The audited RSP 07_Publishing folder exposed no files.
+    disposition: ROUTING_GAP_RECORDED
+outputs:
+- Document inventory
+- Key evidence links
+- Publishing-folder gap
+next_gate: Use the master asset index as the RSP inventory entry point and route approved publishing artifacts into 07_Publishing.
+metrics:
+  observed_google_docs: 25
+  observed_spreadsheets: 1
+  observed_presentations: 1
+  empty_audited_publishing_folders: 1

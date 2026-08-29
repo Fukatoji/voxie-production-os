@@ -1,0 +1,58 @@
+review_version: '1.0'
+project_number: 5
+project_id: VOS-REVIEW-SPRINT-P05
+title: Main branch protection readiness review
+category: BRANCH_PROTECTION
+status: READY_EXTERNAL_ADMIN_APPLY
+recorded_at_utc: '2026-08-29T16:07:06Z'
+local_date: '2026-08-29'
+timezone: America/Chicago
+authorization:
+  user_authorized: true
+  authorization_scope:
+  - COMPLETE_TEN_BOUNDED_PROJECTS
+  - REVIEW_PROCESS_AND_POLICY_COMPLIANCE
+  - REPORT_IMAGES_VIDEOS_AND_DOCUMENTS
+  merge_authorized: false
+  publication_authorized: false
+  spend_permission_provided: true
+  spend_exercised: false
+  credits_spent: 0
+review:
+  result: PASS_WITH_EXTERNAL_BLOCKERS
+  reviewer_context: OWNER_CONTEXT
+  independent_review: PENDING_EXTERNAL
+  process_complete: true
+evidence:
+  repository_paths:
+  - .github/workflows/production-os-ci.yml
+  - .github/pull_request_template.md
+  drive_items: []
+  external_links: []
+  findings:
+  - severity: warning
+    rule_id: MAIN_BRANCH_UNPROTECTED
+    message: The branch API reports protection disabled and no required status checks.
+    disposition: READY_FOR_ADMIN_REMEDIATION
+  - severity: info
+    rule_id: RECOMMENDED_REQUIRED_CHECK
+    message: Production OS CI should be a required status check before merge.
+    disposition: POLICY_READY
+  - severity: info
+    rule_id: RECOMMENDED_REVIEW_GATE
+    message: Require at least one approving review and resolved conversations; block direct pushes and force pushes.
+    disposition: POLICY_READY
+  - severity: info
+    rule_id: NO_ADMIN_WRITE_PERFORMED
+    message: Available repository tools expose branch-protection reads but not a safe ruleset write in this session.
+    disposition: EXTERNAL_ADMIN_ACTION_PENDING
+outputs:
+- Branch-protection settings specification
+- Admin application checklist
+- Verification checklist
+next_gate: Apply the settings through GitHub repository administration, then verify with the branch-protection read endpoint.
+metrics:
+  branch: main
+  protected: false
+  required_status_checks: []
+  recommended_approving_reviews: 1
