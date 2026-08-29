@@ -174,3 +174,91 @@ def test_zero_cost_continuation_cannot_authorize_spend():
         "spend_and_balance_gate.spend_authorized: must be false while "
         "balance reconciliation is required or continuation is zero-cost-only"
     ]
+
+
+V03_MANIFEST = ROOT / "manifests/productions/rainbow-colors/production-state-v03.yaml"
+
+
+def _v03_manifest():
+    return deepcopy(load_data(V03_MANIFEST))
+
+
+def test_rainbow_colors_v03_validates():
+    assert validate("production_state", _v03_manifest()) == []
+
+
+def test_v03_classifies_every_s04_s37_shot_once():
+    manifest = _v03_manifest()
+    expected = {
+        "READY_EXISTING_SOURCE": 11,
+        "MISSING_APPROVED_SOURCE": 8,
+        "NEW_PIXELS_REQUIRED": 15,
+    }
+    observed = {}
+    for number in range(4, 38):
+        shot = manifest["recorded_progress"][f"S{number:02d}"]
+        observed[shot["classification"]] = observed.get(shot["classification"], 0) + 1
+
+    assert observed == expected
+    assert sum(observed.values()) == 34
+
+
+def test_v03_preserves_protected_timing_and_s03_review_gate():
+    manifest = _v03_manifest()
+    protected = {
+        "S07": (30.15, 33.70),
+        "S08": (33.70, 37.80),
+        "S27": (101.00, 104.85),
+        "S28": (104.85, 108.40),
+        "S29": (108.40, 112.80),
+    }
+
+    for shot_id, (start, end) in protected.items():
+        shot = manifest["recorded_progress"][shot_id]
+        assert shot["protected_timing"] is True
+        assert shot["start_seconds"] == start
+        assert shot["end_seconds"] == end
+
+    motion = manifest["recorded_progress"]["S03"]["motion_review"]
+    assert motion["status"] == "PENDING"
+    assert motion["execution_performed"] is False
+    assert motion["credits_spent"] == 0
+    assert motion["blocker"] == "LOCKED_SOURCE_BINARY_NOT_MOUNTED"
+    assert motion["no_substitution"] is True
+
+
+def test_v03_closes_creative_bucket_without_authorizing_generation():
+    manifest = _v03_manifest()
+    classifications = {
+        manifest["recorded_progress"][f"S{number:02d}"]["classification"]
+        for number in range(4, 38)
+    }
+    assert "CREATIVE_DECISION_REQUIRED" not in classifications
+    assert manifest["recorded_progress"]["S05"]["dependency"] == (
+        "S04 review candidate approval"
+    )
+    assert manifest["recorded_progress"]["S32"]["parked_assets_may_substitute"] is False
+    assert manifest["recorded_progress"]["S33"]["classification"] == (
+        "MISSING_APPROVED_SOURCE"
+    )
+
+
+def test_v03_magiclight_and_new_pixel_gates_fail_closed():
+    manifest = _v03_manifest()
+    assert manifest["spend_and_balance_gate"]["spend_authorized"] is False
+    assert manifest["spend_and_balance_gate"]["reconcile_before_any_future_spend"] is True
+
+    new_pixel_shots = [
+        manifest["recorded_progress"][f"S{number:02d}"]
+        for number in range(4, 38)
+        if manifest["recorded_progress"][f"S{number:02d}"]["classification"]
+        == "NEW_PIXELS_REQUIRED"
+    ]
+    assert len(new_pixel_shots) == 15
+    for shot in new_pixel_shots:
+        gate = shot["credit_gate"]
+        assert gate["required_before_generation"] is True
+        assert gate["spend_authorized"] is False
+        assert gate["magiclight_live_balance_state"] == (
+            "UNVERIFIED_NO_AUTHENTICATED_SESSION"
+        )

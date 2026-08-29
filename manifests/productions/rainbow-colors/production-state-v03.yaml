@@ -1,0 +1,500 @@
+version: 3
+record_type: production_state
+recorded_at_utc: '2026-08-29T03:57:23Z'
+production_date_local: '2026-08-28'
+production_timezone: America/Chicago
+production:
+  slug: rainbow-colors
+  title: Voxie's Rainbow Colors
+  status: ACTIVE
+  final_master_status: NOT_COMPLETE
+authority_scope:
+  decision_authority: VALID
+  decision_scope:
+  - shot_map_v01.1
+  - locked_audio_boundary
+  - S01
+  - S02
+  - S03
+  - S01_S02_transition
+  - binary_recovery_audit
+  - provider_review_candidate_inventory
+  - S04_S37_reclassified_preflight
+  - MagicLight_live_balance_gate
+  execution_authority: BLOCKED
+  execution_media_scope:
+  - S01
+  - S02
+  - S03
+  - S04
+  - S05
+  - S06
+  - S07
+  - S08
+  - S09
+  - S10
+  - S11
+  - S12
+  - S13
+  - S14
+  - S15
+  - S16
+  - S17
+  - S18
+  - S19
+  - S20
+  - S21
+  - S22
+  - S23
+  - S24
+  - S25
+  - S26
+  - S27
+  - S28
+  - S29
+  - S30
+  - S31
+  - S32
+  - S33
+  - S34
+  - S35
+  - S36
+  - S37
+  execution_blockers:
+  - MISSING_STABLE_ASSET_IDS
+  - MISSING_SHA256_CHECKSUMS
+  - MISSING_APPROVED_SOURCE
+  - CREDIT_OR_MONEY_REQUIRED
+  note: This successor is valid production-decision, recovery, and preflight authority only. Provider review results are not approved production sources. Full execution remains blocked
+    until required binaries are mounted and rehashed, review candidates are explicitly approved, new-pixel shots pass a separately authorized generation gate, and the current live MagicLight
+    balance is verified through an authenticated session.
+authorities:
+  shot_map:
+    active_version: v01.1
+    status: LOCKED
+    shot_count: 37
+    predecessor:
+      version: v01
+      status: LOCKED
+  audio:
+    duration_seconds: 150.0
+    status: LOCKED
+    preserve_bytes: true
+    canonical_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+continuation:
+  resume_after_shot: S03
+  zero_cost_only: true
+  deterministic_existing_sources_only: true
+  qc_required: PASS
+  preserve_shot_timing:
+  - S07
+  - S08
+  - S27
+  - S28
+  - S29
+  stop_if:
+  - credits_or_money_required
+  - provider_generation_or_new_pixels_required
+  - approved_source_missing
+  - canon_or_locked_authority_conflict
+  - qc_not_pass
+  - locked_audio_would_change
+  - publishing_or_distribution_requested
+  - new_creative_decision_required
+spend_and_balance_gate:
+  quoted_generation_credits: 2300
+  spend_authorized: false
+  recorded_post_generation_balance: 86305
+  separately_displayed_balance: 86395
+  discrepancy_credits: 90
+  reconcile_before_any_future_spend: true
+prohibitions:
+  recreate_missing_source_image: false
+  substitute_missing_source_image: false
+  modify_locked_sources: false
+  publish: false
+external_media:
+  storage_authority: ChatGPT File Library / connected Google Drive / provider-native generation records
+  binaries_committed_to_git: false
+  stable_asset_ids_and_checksums:
+    status: PENDING_CAPTURE
+    stable_asset_ids: []
+    sha256_checksums: {}
+    rule: Do not invent identifiers or checksums. Locked binaries must be mounted and rehashed before execution. Provider-native review candidates remain REVIEW or FAIL and may not be
+      treated as approved sources.
+recorded_progress:
+  S01:
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_OPENING_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_0000000038f881f7a40de0921d6a73dc
+      reviewed_library_id: libfile_6ad8ef9c4e30819182b702e7f0884f43
+      sha256: cb2b72c91dbe630babd43229f55a868033203f78b2aed6411038a3717f914cba
+      mount_state: EXTERNAL_FOUND_NOT_MOUNTED
+      rehash_state: NOT_EXECUTED_BINARY_NOT_MOUNTED
+    wonder_light_glow_reveal:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S01_WONDER_LIGHT_GLOW_REVEAL_v01_APPROVED_LOCKED.mp4
+      sha256: 1464db416c0a6acee9baafce40e0a71e2c2d3060fda922ce631ad866628dbc55
+      stable_locator_state: UNRESOLVED
+      recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+  S02:
+    content_authority: six color lights; no character
+    opening_keyframe:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_000000003bb081f786c6b3f196941e13
+      reviewed_library_id: libfile_6800219bbeac81918b78041b01de44e6
+      sha256: 10a42a9a376772a01f78e7932a5eae7dc9d58306fe43a2283acb2bf26bc148ce
+      mount_state: EXTERNAL_FOUND_NOT_MOUNTED
+      rehash_state: NOT_EXECUTED_BINARY_NOT_MOUNTED
+    motion:
+      status: LOCKED
+      version: v04
+      exact_filename: VWF_RAINBOW_COLORS_S02_SIX_COLOR_LIGHTS_MOTION_v04_APPROVED_LOCKED.mp4
+      reviewed_library_id: libfile_d0204423d9f88191a5a520a62e3223c8
+      sha256: 6c05e761a8a139081851e465635cbc0904a9d9164400e9a60063db5b94473ca9
+      stable_locator_state: UNRESOLVED
+      recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+    legacy_voxie_variant:
+      status: PARKED
+      may_substitute: false
+  S03:
+    active_source:
+      status: LOCKED
+      version: v01
+      name: six stepping pools KF-A
+      exact_filename: VWF_RAINBOW_COLORS_S03_SIX_STEPPING_POOLS_KF-A_v01_APPROVED_LOCKED.png
+      stable_locator: file-library://file_000000007acc81f7896d61c56cfcb63f
+      reviewed_library_id: libfile_ba6e8749fd348191a4b1b5f97617ea90
+      sha256: d29ee0c4cc2e4de5599cc64f12d982cf1ca778b5239ca805346ccb0a5651894f
+      dimensions: 1920x1080
+      bytes: 260728
+      mount_state: EXTERNAL_FOUND_NOT_MOUNTED
+      rehash_state: NOT_EXECUTED_BINARY_NOT_MOUNTED
+    motion_review:
+      status: PENDING
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S03_STEPPING_POOLS_GENTLE_PUSH_v01_REVIEW.mp4
+      recipe: 119 frames at 24 fps, 4.958333 seconds, centered scale 1.0000 to 1.0250, soft S02-to-S03 dissolve, no audio
+      execution_performed: false
+      credits_spent: 0
+      blocker: LOCKED_SOURCE_BINARY_NOT_MOUNTED
+      no_substitution: true
+    six_light_image:
+      status: PARKED_ALTERNATE
+      may_replace_active_source: false
+  S01_S02_transition:
+    status: LOCKED
+    version: v01
+    exact_filename: VWF_RAINBOW_COLORS_S01-S02_OPENING_TRANSITION_v01_APPROVED_LOCKED.mp4
+    sha256: 90d719f3e3611b57e52f18eafa1d10d3ab4a7c84e3f8704bbf39473909dfed69
+    stable_locator_state: UNRESOLVED
+    recovery_state: RECOVERY_EXHAUSTED_BINARY_NOT_MOUNTED
+  S04:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 14.55
+    end_seconds: 21.0
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S05:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 21.0
+    end_seconds: 25.75
+    protected_timing: false
+    render_authorized: false
+    reason: DERIVE_FROM_S04_AFTER_APPROVAL
+    dependency: S04 review candidate approval
+    construction: deterministic light sweep; no parked-asset substitution
+  S06:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 25.75
+    end_seconds: 30.15
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_WRONG_POSE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S07:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 30.15
+    end_seconds: 33.7
+    protected_timing: true
+    render_authorized: false
+    reason: DETERMINISTIC_PAN_FROM_VERIFIED_POOL_SOURCE
+  S08:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 33.7
+    end_seconds: 37.8
+    protected_timing: true
+    render_authorized: false
+    reason: DETERMINISTIC_ORDERED_PULSES_FROM_VERIFIED_POOL_SOURCE
+  S09:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 37.8
+    end_seconds: 41.65
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_CANON_FAIL
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S10:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 41.65
+    end_seconds: 45.75
+    protected_timing: false
+    render_authorized: false
+    reason: NO_SURVIVING_HEAD_TAP_SOURCE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S11:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 45.75
+    end_seconds: 49.85
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_HEAD_TAP_MISSING_AND_SEVEN_RINGS
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S12:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 49.85
+    end_seconds: 54.35
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_WRONG_FRAMING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S13:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 54.35
+    end_seconds: 58.25
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_WAVE_NOT_STRETCH
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S14:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 58.25
+    end_seconds: 61.05
+    protected_timing: false
+    render_authorized: false
+    reason: SAFE_WIDE_STRETCH_HOLD_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S15:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 61.05
+    end_seconds: 64.85
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S16:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 64.85
+    end_seconds: 67.55
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_REACH_POSE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S17:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 67.55
+    end_seconds: 70.3
+    protected_timing: false
+    render_authorized: false
+    reason: TWO_REACH_SEQUENCE_UNSUPPORTED
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S18:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 70.3
+    end_seconds: 73.7
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S19:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 73.7
+    end_seconds: 77.35
+    protected_timing: false
+    render_authorized: false
+    reason: DERIVE_FROM_S20_AFTER_APPROVAL
+    dependency: S20 review candidate approval
+    construction: deterministic lean extraction from approved S20 source
+  S20:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 77.35
+    end_seconds: 81.9
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S21:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 81.9
+    end_seconds: 86.35
+    protected_timing: false
+    render_authorized: false
+    reason: DETERMINISTIC_EXISTING_SOURCE; RECOVERED_CANDIDATE_EXCLUDED
+  S22:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 86.35
+    end_seconds: 89.3
+    protected_timing: false
+    render_authorized: false
+    reason: BOTH_HANDS_WAVE_SOURCE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S23:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 89.3
+    end_seconds: 91.35
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_WRONG_SECTION
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S24:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 91.35
+    end_seconds: 94.85
+    protected_timing: false
+    render_authorized: false
+    reason: VERIFIED_EXISTING_SOURCE; PROVIDER_FRAME_NON_AUTHORITATIVE
+  S25:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 94.85
+    end_seconds: 97.8
+    protected_timing: false
+    render_authorized: false
+    reason: QUARTER_TURN_START_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S26:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 97.8
+    end_seconds: 101.0
+    protected_timing: false
+    render_authorized: false
+    reason: COMPLETED_TURN_SOURCE_MISSING
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S27:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 101.0
+    end_seconds: 104.85
+    protected_timing: true
+    render_authorized: false
+    reason: DETERMINISTIC_LOCKED_QUIZ_TEMPLATE
+  S28:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 104.85
+    end_seconds: 108.4
+    protected_timing: true
+    render_authorized: false
+    reason: DETERMINISTIC_LOCKED_QUIZ_TEMPLATE
+  S29:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 108.4
+    end_seconds: 112.8
+    protected_timing: true
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_BAKED_TEXT_AND_GRAPHICS
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S30:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 112.8
+    end_seconds: 117.8
+    protected_timing: false
+    render_authorized: false
+    reason: DETERMINISTIC_VERIFIED_COUNTING_ASSET
+  S31:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 117.8
+    end_seconds: 122.2
+    protected_timing: false
+    render_authorized: false
+    reason: REUSE_VERIFIED_COUNTING_ASSET
+  S32:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 122.2
+    end_seconds: 128.1
+    protected_timing: false
+    render_authorized: false
+    reason: DETERMINISTIC_NLE_MASKS_FROM_LOCKED_COLOR_SOURCES
+    construction: deterministic NLE masks from locked six-color sources
+    parked_assets_may_substitute: false
+  S33:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 128.1
+    end_seconds: 133.4
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S34:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 133.4
+    end_seconds: 138.35
+    protected_timing: false
+    render_authorized: false
+    reason: DETERMINISTIC_VERIFIED_SIX_ORB_ASSET
+  S35:
+    classification: MISSING_APPROVED_SOURCE
+    start_seconds: 138.35
+    end_seconds: 143.05
+    protected_timing: false
+    render_authorized: false
+    reason: PASS_REVIEW_CANDIDATE_AWAITING_APPROVAL
+  S36:
+    classification: NEW_PIXELS_REQUIRED
+    start_seconds: 143.05
+    end_seconds: 147.3
+    protected_timing: false
+    render_authorized: false
+    reason: RECOVERED_CANDIDATE_DARK_SILHOUETTE
+    credit_gate:
+      required_before_generation: true
+      spend_authorized: false
+      magiclight_live_balance_state: UNVERIFIED_NO_AUTHENTICATED_SESSION
+  S37:
+    classification: READY_EXISTING_SOURCE
+    start_seconds: 147.3
+    end_seconds: 150.0
+    protected_timing: false
+    render_authorized: false
+    reason: DETERMINISTIC_WONDER_LIGHT_CLOSING
