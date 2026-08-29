@@ -34,6 +34,7 @@ jobs:
           voxie-os timeline manifests/productions/big-surprise/shot-manifest-v01.yaml --out /tmp/big-surprise-neutral-timeline.json --format neutral
           voxie-os validate qc_report manifests/distribution/big-surprise/release-readiness-v01.yaml
           voxie-os validate qc_report manifests/distribution/freeze-dance/release-readiness-v01.yaml
+          voxie-os validate qc_report manifests/distribution/colorful-day/release-readiness-v01.yaml
           voxie-os validate alignment workflows/big-surprise-multi-aligner-evaluation-v01.yaml
           voxie-os validate benchmark examples/benchmark.example.json
           voxie-os validate library_routing manifests/library-routing.v2.yaml

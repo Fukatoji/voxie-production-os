@@ -1,0 +1,112 @@
+report_version: '1.0'
+report_id: VWF-COLORFUL-DAY-RELEASE-READINESS-V01
+record_type: release_readiness
+project_id: VWF-COLORFUL-DAY
+project_title: Voxie's Colorful Day
+status: REVIEW
+master:
+  manifest: manifests/productions/colorful-day/master-status-v01.md
+  status: COMPLETE_APPROVED_LOCKED
+  controlled_filename: VWF_COLORFUL_DAY_1080P_MASTER_v01.3_APPROVED_LOCKED.mp4
+  sha256: b23fd47f3ad1f1da03b1e98cb79183e74ad362bdb0c2f7ea46eb8ea172dd83ea
+  duration_seconds: 190.0
+  resolution: 1920x1080
+  aspect_ratio: '16:9'
+  progressive: true
+  pixel_format: yuv420p
+  fps: 24
+  frame_count: 4560
+  video_codec: H.264 High
+  audio_codec: AAC-LC
+  audio_sample_rate_hz: 48000
+  audio_channels: 2
+  audio_bitrate_kbps: 320
+  locked_soundtrack: VWF_COLORFUL_DAY_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+  source_audio_preserved: true
+qc:
+  complete_decode: PASS
+  shot_timeline_coverage: PASS
+  canon_four_wing_topology: PASS
+  child_safety_pacing: PASS
+  black_frame_scan: PASS
+  accepted_limitation: controlled still-motion assembly rather than full generative character animation
+  captions_status: OMITTED_INTENTIONALLY_LOW_CONFIDENCE
+  captions_reason: several sung words remain low-confidence
+  paid_credits: 0
+distribution_package:
+  authority_status: APPROVED_LOCKED
+  authority_source: manifests/productions/colorful-day/master-status-v01.md
+  repository_inventory_status: NOT_ENUMERATED
+  package_filenames_recorded: false
+  package_sha256_recorded: false
+  platform_metadata_recorded: false
+  thumbnail_recorded: false
+  platform_format_records_present: false
+  rule: Preserve the approved-and-locked distribution authority, but do not infer package contents, filenames, checksums, metadata, thumbnails, or platform formats that are not enumerated in the repository evidence.
+release_gate:
+  execution_authority: BLOCKED
+  publication_authorized: false
+  scheduling_authorized: false
+  account_write_authorized: false
+  required_approvals:
+  - DISTRIBUTION_PACKAGE_INVENTORY_CAPTURE_OR_EXPLICIT_WAIVER
+  - PLATFORM_METADATA_CONFIRMATION
+  - THUMBNAIL_CONFIRMATION
+  - MADE_FOR_KIDS_CONFIGURATION
+  - CAPTION_OR_NO_CAPTION_ACCESSIBILITY_APPROVAL
+  - SCHEDULE_APPROVAL
+  - EXPLICIT_PUBLICATION_APPROVAL
+  blockers:
+  - DISTRIBUTION_PACKAGE_DETAILS_NOT_ENUMERATED
+  - PLATFORM_METADATA_NOT_RECORDED
+  - THUMBNAIL_NOT_RECORDED
+  - MADE_FOR_KIDS_SETTING_NOT_REVIEWED
+  - CAPTION_ACCESSIBILITY_DECISION_PENDING
+  - RELEASE_SCHEDULE_NOT_APPROVED
+  - PUBLICATION_NOT_AUTHORIZED
+platforms:
+- platform: youtube
+  format: NOT_RECORDED
+  package_status: AUTHORITY_APPROVED_DETAILS_UNRECORDED
+  upload_authorized: false
+  publish_authorized: false
+- platform: tiktok
+  format: NOT_RECORDED
+  package_status: AUTHORITY_APPROVED_DETAILS_UNRECORDED
+  upload_authorized: false
+  publish_authorized: false
+- platform: instagram
+  format: NOT_RECORDED
+  package_status: AUTHORITY_APPROVED_DETAILS_UNRECORDED
+  upload_authorized: false
+  publish_authorized: false
+findings:
+- severity: info
+  rule_id: MASTER_APPROVED_LOCKED
+  shot_id: null
+  message: The 190-second 1080p master and locked soundtrack are recorded as complete, approved, and locked.
+- severity: info
+  rule_id: MASTER_QC_PASS
+  shot_id: null
+  message: Decode, shot coverage, canon topology, child-safety pacing, and black-frame checks are recorded as passing.
+- severity: info
+  rule_id: DISTRIBUTION_PACKAGE_APPROVED_LOCKED
+  shot_id: null
+  message: The source master-status record declares the distribution package approved and locked.
+- severity: warning
+  rule_id: DISTRIBUTION_PACKAGE_DETAILS_NOT_ENUMERATED
+  shot_id: null
+  message: Repository evidence does not enumerate package filenames, checksums, metadata, thumbnails, or platform-specific formats; publication cannot rely on inferred package contents.
+- severity: warning
+  rule_id: CAPTION_ACCESSIBILITY_DECISION_PENDING
+  shot_id: null
+  message: Captions were intentionally omitted because several sung words remain low-confidence; release requires explicit accessibility approval of the caption or no-caption decision.
+- severity: warning
+  rule_id: PUBLICATION_NOT_AUTHORIZED
+  shot_id: null
+  message: Uploading, scheduling, account writes, and public release remain blocked until explicit approval.
+next_action: >-
+  Route the approved-and-locked master and distribution authority to 04 — Publishing
+  & Social Media to capture or explicitly waive the exact package inventory, confirm
+  metadata and thumbnail, review Made for Kids and accessibility, approve a schedule,
+  and obtain explicit publication authorization.
