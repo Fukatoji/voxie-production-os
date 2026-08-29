@@ -33,6 +33,7 @@ jobs:
           voxie-os validate library_routing manifests/library-routing.v2.yaml
           voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v01.yaml
           voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v02.yaml
+          voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v03.yaml
           voxie-os validate benchmark_suite workflows/voxie-model-benchmark-v01.yaml
           voxie-os validate provider_catalog config/providers.v1.yaml
           voxie-os validate provider_job examples/provider-job.magiclight-character-preview.yaml
