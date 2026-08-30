@@ -90,7 +90,7 @@ def _append_repository_file_error(
 
 
 def _validate_library_routing_state(data: Any) -> list[str]:
-    """Check relationships only after the manifest schema has passed."""
+    """Check intake counts and verify exact predecessor lineage."""
     status = data["current_intake_status"]
     unresolved = status["unresolved"]
     unresolved_count = status["unresolved_count"]
@@ -104,10 +104,27 @@ def _validate_library_routing_state(data: Any) -> list[str]:
     if data["version"] > 1:
         previous = int(data["version"]) - 1
         lineage = data["supersedes"]
+        expected_manifest = f"manifests/library-routing.v{previous}.yaml"
         if lineage["version"] != previous:
             errors.append(f"supersedes.version: expected {previous}")
-        if lineage["manifest"] != f"manifests/library-routing.v{previous}.yaml":
+        if lineage["manifest"] != expected_manifest:
             errors.append("supersedes.manifest: must reference the preceding manifest version")
+
+        before_reference_errors = len(errors)
+        _append_repository_file_error(
+            errors,
+            "supersedes.manifest",
+            lineage["manifest"],
+        )
+        if len(errors) == before_reference_errors:
+            predecessor = ROOT / lineage["manifest"]
+            actual_sha256 = hashlib.sha256(predecessor.read_bytes()).hexdigest()
+            if lineage["sha256"].lower() != actual_sha256:
+                errors.append(
+                    "supersedes.sha256: expected "
+                    f"{actual_sha256} for {lineage['manifest']}, "
+                    f"got {lineage['sha256']}"
+                )
     return errors
 
 
