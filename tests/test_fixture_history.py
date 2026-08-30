@@ -108,7 +108,7 @@ def test_current_index_check_remains_active_when_history_check_is_enabled(histor
     _git(history_repo, "add", "--force", "--", "media/current-master.wav")
 
     assert validate_fixtures(history_repo, base=base, head="HEAD") == [
-        "media/current-master.wav: staged media is not an approved fixture"
+        "media/current-master.wav: tracked media is not an approved fixture"
     ]
 
 
