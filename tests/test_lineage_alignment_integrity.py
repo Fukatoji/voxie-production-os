@@ -28,7 +28,7 @@ def _source(source_id: str, *, line_id: str = "L001", start: float = 0.5):
         "adapter": "whisperx" if source_id == "A" else "lyric-align",
         "weight": 1.0,
         "revision": "test",
-        "audio": AUDIO,
+        "audio": deepcopy(AUDIO),
         "lyrics": [
             {
                 "line_id": line_id,
@@ -247,5 +247,40 @@ def test_alignment_cli_returns_controlled_failure_for_malformed_audio_hash(
     assert capsys.readouterr().out == (
         "FAIL\n- alignment-consensus: "
         "Alignment source audio.sha256 must be a string\n"
+    )
+    assert not output.exists()
+
+
+@pytest.mark.parametrize("malformed_audio", [None, 123, [], "audio"])
+def test_alignment_cli_returns_controlled_failure_for_non_object_audio(
+    monkeypatch,
+    capsys,
+    tmp_path,
+    malformed_audio,
+):
+    source = _source("A")
+    source["audio"] = malformed_audio
+    source_path = tmp_path / "source.json"
+    output = tmp_path / "consensus.json"
+    source_path.write_text(json.dumps(source), encoding="utf-8")
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "voxie-os",
+            "alignment-consensus",
+            str(source_path),
+            "--id",
+            "TEST",
+            "--out",
+            str(output),
+        ],
+    )
+
+    assert main() == 1
+    assert capsys.readouterr().out == (
+        "FAIL\n- alignment-consensus: "
+        "Alignment source audio must be an object\n"
     )
     assert not output.exists()
