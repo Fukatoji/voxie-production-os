@@ -71,8 +71,14 @@ def _validate_blob(
     if suffix not in MEDIA_EXTENSIONS and path not in allowed:
         return []
     if path not in allowed:
+        if context == "staged":
+            return [f"{path}: tracked media is not an approved fixture"]
         return [f"{path}: {context} media is not an approved fixture"]
     if mode != "100644":
+        if context == "staged":
+            return [
+                f"{path}: fixture must be a regular file with no merge conflict"
+            ]
         return [f"{path}: {context} fixture must be a regular file"]
     try:
         size = int(_git(root, "cat-file", "-s", oid))
