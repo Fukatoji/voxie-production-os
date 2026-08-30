@@ -154,6 +154,31 @@ def test_decimal_policy_boundary_uses_authored_value_semantics():
     assert not any(finding["metric"] == "avg_identity_drift" for finding in result["findings"])
 
 
+def test_duplicate_fixed_seed_scenario_samples_cannot_pad_acceptance_rate():
+    suite = load_data(SUITE_PATH)
+    run = _complete_run(suite)
+    for sample in run["samples"][1:]:
+        sample["accepted"] = False
+
+    passing = run["samples"][0]
+    for index in range(15):
+        duplicate = deepcopy(passing)
+        duplicate["sample_id"] = f"DUP{index + 1:02d}"
+        duplicate["output"]["sha256"] = f"{index + 10:064x}"
+        run["samples"].append(duplicate)
+
+    result = evaluate(run, suite)
+
+    assert result["summary"]["acceptance_rate"] == 0.8
+    assert result["decision"] == "REJECT"
+    assert result["production_promoted"] is False
+    finding = next(
+        item for item in result["findings"]
+        if item["metric"] == "scenario_sample_uniqueness"
+    )
+    assert finding["scenario_ids"] == [passing["scenario_id"]]
+
+
 def test_complete_run_still_requires_human_promotion_review():
     suite = load_data(SUITE_PATH)
     result = evaluate(_complete_run(suite), suite)
