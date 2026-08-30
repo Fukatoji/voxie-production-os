@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -35,6 +36,25 @@ def _source(source_id: str, *, line_id: str = "L001", start: float = 0.5):
             }
         ],
     }
+
+
+def test_yaml_control_records_are_pinned_to_lf():
+    result = subprocess.check_output(
+        [
+            "git",
+            "check-attr",
+            "eol",
+            "--",
+            "manifests/library-routing.v1.yaml",
+            "manifests/library-routing.v2.yaml",
+        ],
+        cwd=ROOT,
+        text=True,
+    )
+    assert result.splitlines() == [
+        "manifests/library-routing.v1.yaml: eol: lf",
+        "manifests/library-routing.v2.yaml: eol: lf",
+    ]
 
 
 def test_current_library_routing_predecessor_hash_matches_exact_bytes():
@@ -158,4 +178,35 @@ def test_alignment_cli_returns_controlled_failure_for_duplicate_line_ids(
         "FAIL\n- alignment-consensus: "
         "A contains duplicate line_id values: L001\n"
     )
+    assert not output.exists()
+
+
+def test_alignment_cli_returns_controlled_failure_for_malformed_yaml(
+    monkeypatch,
+    capsys,
+    tmp_path,
+):
+    source_path = tmp_path / "malformed.yaml"
+    output = tmp_path / "consensus.json"
+    source_path.write_text("source_id: [unterminated", encoding="utf-8")
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "voxie-os",
+            "alignment-consensus",
+            str(source_path),
+            "--id",
+            "TEST",
+            "--out",
+            str(output),
+        ],
+    )
+
+    assert main() == 1
+    captured = capsys.readouterr()
+    assert captured.out.startswith("FAIL\n- alignment-consensus: ")
+    assert "unterminated" in captured.out
+    assert captured.err == ""
     assert not output.exists()
