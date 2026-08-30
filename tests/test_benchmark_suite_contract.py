@@ -130,6 +130,30 @@ def test_sample_seed_must_match_suite_fixed_seed():
     }
 
 
+def test_schema_valid_integral_float_seed_matches_fixed_seed():
+    suite = load_data(SUITE_PATH)
+    run = _complete_run(suite)
+    scenario = suite["scenarios"][0]
+    run["samples"][0]["seed"] = float(scenario["seed"])
+
+    result = evaluate(run, suite)
+
+    assert result["decision"] == "ELIGIBLE_FOR_HUMAN_PROMOTION_REVIEW"
+    assert not any(finding["metric"] == "scenario_seed" for finding in result["findings"])
+
+
+def test_decimal_policy_boundary_uses_authored_value_semantics():
+    suite = load_data(SUITE_PATH)
+    run = _complete_run(suite)
+    for sample, value in zip(run["samples"], [0.1, 0.2, 0.15, 0.15, 0.15]):
+        sample["metrics"]["identity_drift"] = value
+
+    result = evaluate(run, suite)
+
+    assert result["summary"]["avg_identity_drift"] == 0.15
+    assert not any(finding["metric"] == "avg_identity_drift" for finding in result["findings"])
+
+
 def test_complete_run_still_requires_human_promotion_review():
     suite = load_data(SUITE_PATH)
     result = evaluate(_complete_run(suite), suite)

@@ -26,7 +26,9 @@ def _measurement(value: Any) -> bool:
 
 
 def _as_fraction(value: int | float) -> Fraction:
-    return Fraction(value) if isinstance(value, int) else Fraction.from_float(value)
+    # Policy values are authored as decimal numbers; avoid binary float tails
+    # changing an exact threshold comparison at a displayed boundary.
+    return Fraction(value) if isinstance(value, int) else Fraction(str(value))
 
 
 def _exact_average(values: list[int | float]) -> Fraction | None:
@@ -49,7 +51,7 @@ def _json_safe_number(value: Fraction | None) -> tuple[int | float | None, bool]
     try:
         numeric = float(value)
     except OverflowError:
-        numeric = math.copysign(sys.float_info.max, value.numerator)
+        numeric = sys.float_info.max if value >= 0 else -sys.float_info.max
         return numeric, True
     if not math.isfinite(numeric):
         numeric = math.copysign(sys.float_info.max, numeric)
@@ -257,7 +259,15 @@ def evaluate(run: dict[str, Any], suite: dict[str, Any]) -> dict[str, Any]:
             continue
         sample_id = sample.get("sample_id", f"sample-{sample_index}")
         expected_seed = scenario.get("seed")
-        if type(sample.get("seed")) is not int or sample.get("seed") != expected_seed:
+        sample_seed = sample.get("seed")
+        valid_seed = (
+            not isinstance(sample_seed, bool)
+            and isinstance(sample_seed, (int, float))
+            and (isinstance(sample_seed, int) or math.isfinite(sample_seed))
+            and (isinstance(sample_seed, int) or sample_seed.is_integer())
+            and sample_seed == expected_seed
+        )
+        if not valid_seed:
             findings.append(
                 {
                     "severity": "error",

@@ -74,6 +74,18 @@ def test_arbitrarily_large_integer_metric_rejects_and_serializes(tmp_path):
     assert json.loads(output.read_text(encoding="utf-8"))["decision"] == "REJECT"
 
 
+def test_negative_arbitrarily_large_integer_metric_keeps_sign_and_serializes():
+    suite = load_data(SUITE_PATH)
+    run = _complete_run(suite)
+    run["samples"][0]["metrics"]["identity_drift"] = -(10**10000)
+
+    result = evaluate(run, suite)
+
+    assert result["summary"]["avg_identity_drift"] == -sys.float_info.max
+    assert result["summary"]["overflowed_fields"] == ["avg_identity_drift"]
+    json.dumps(result, allow_nan=False)
+
+
 def test_arbitrarily_large_integer_wing_metric_rejects_and_serializes(tmp_path):
     suite = load_data(SUITE_PATH)
     run = _complete_run(suite)
