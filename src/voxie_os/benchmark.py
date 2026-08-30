@@ -1,16 +1,33 @@
 from __future__ import annotations
 
 import math
-from statistics import mean
+from fractions import Fraction
 from typing import Any
 
 
 def _measurement(value: Any) -> bool:
-    return (
-        isinstance(value, (int, float))
-        and not isinstance(value, bool)
-        and math.isfinite(float(value))
-    )
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    if isinstance(value, int):
+        return True
+    return math.isfinite(value)
+
+
+def _safe_average(values: list[int | float]):
+    """Average finite measurements without overflowing on very large integers."""
+    if not values:
+        return None
+    total = Fraction(0, 1)
+    for value in values:
+        total += value if isinstance(value, int) else Fraction.from_float(value)
+    average = total / len(values)
+    try:
+        numeric = float(average)
+    except OverflowError:
+        return average.numerator // average.denominator
+    if math.isinf(numeric):
+        return average.numerator // average.denominator
+    return round(numeric, 4)
 
 
 def summarize(run: dict[str, Any]) -> dict[str, Any]:
@@ -20,7 +37,7 @@ def summarize(run: dict[str, Any]) -> dict[str, Any]:
 
     def avg(key: str):
         values = [metric[key] for metric in metrics if _measurement(metric.get(key))]
-        return round(mean(values), 4) if values else None
+        return _safe_average(values)
 
     total_cost = sum(float(sample.get("cost_usd", 0) or 0) for sample in samples)
     accepted_seconds = sum(
@@ -199,14 +216,14 @@ def evaluate(run: dict[str, Any], suite: dict[str, Any]) -> dict[str, Any]:
             )
 
     max_wing_rate = policy.get("max_wing_count_error_rate")
-    wing_values: list[float] = []
+    wing_values: list[int | float] = []
     wing_metrics_complete = True
     for sample in samples:
         value = sample.get("metrics", {}).get("wing_count_error")
         if not _measurement(value):
             wing_metrics_complete = False
         else:
-            wing_values.append(float(value))
+            wing_values.append(value)
 
     wing_rate = (
         round(sum(1 for value in wing_values if value > 0) / len(wing_values), 4)
