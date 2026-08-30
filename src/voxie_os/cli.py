@@ -142,13 +142,19 @@ def main() -> int:
         return 1 if result["decision"] == "REJECT" else 0
 
     if args.cmd == "alignment-consensus":
-        result = build_consensus(
-            [load_data(path) for path in args.sources],
-            alignment_id=args.id,
-            max_timing_spread_s=args.max_timing_spread_s,
-            min_sources=args.min_sources,
-            min_confidence=args.min_confidence,
-        )
+        try:
+            sources = [load_data(path) for path in args.sources]
+            result = build_consensus(
+                sources,
+                alignment_id=args.id,
+                max_timing_spread_s=args.max_timing_spread_s,
+                min_sources=args.min_sources,
+                min_confidence=args.min_confidence,
+            )
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            print("FAIL")
+            print(f"- alignment-consensus: {error}")
+            return 1
         errors = validate("alignment", result)
         if errors:
             print("FAIL")
