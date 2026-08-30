@@ -234,6 +234,29 @@ def evaluate(run: dict[str, Any], suite: dict[str, Any]) -> dict[str, Any]:
         )
 
     samples = run.get("samples", [])
+    scenario_sample_counts: dict[str, int] = {}
+    for sample in samples:
+        scenario_id = str(sample.get("scenario_id", ""))
+        if scenario_id in scenario_specs:
+            scenario_sample_counts[scenario_id] = (
+                scenario_sample_counts.get(scenario_id, 0) + 1
+            )
+    duplicate_sample_scenarios = sorted(
+        scenario_id
+        for scenario_id, count in scenario_sample_counts.items()
+        if count > 1
+    )
+    if duplicate_sample_scenarios:
+        findings.append(
+            {
+                "severity": "error",
+                "metric": "scenario_sample_uniqueness",
+                "scenario_ids": duplicate_sample_scenarios,
+                "message": "Run contains duplicate samples for fixed-seed scenarios: "
+                + ", ".join(duplicate_sample_scenarios),
+            }
+        )
+
     represented_scenarios = {
         str(sample.get("scenario_id", "")) for sample in samples
     }
