@@ -135,7 +135,13 @@ def main() -> int:
 
     if args.cmd == "benchmark-evaluate":
         suite = load_data(args.suite)
-        result = evaluate(load_data(args.run), suite["promotion_policy"])
+        run = load_data(args.run)
+        schema_errors = validate("benchmark_suite", suite) + validate("benchmark", run)
+        if schema_errors:
+            print("FAIL")
+            print("\n".join(f"- {error}" for error in schema_errors))
+            return 1
+        result = evaluate(run, suite)
         if args.out:
             save_json(args.out, result)
         print(json.dumps(result, indent=2))
