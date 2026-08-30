@@ -210,3 +210,36 @@ def test_alignment_cli_returns_controlled_failure_for_malformed_yaml(
     assert "unterminated" in captured.out
     assert captured.err == ""
     assert not output.exists()
+
+
+def test_alignment_cli_returns_controlled_failure_for_malformed_audio_hash(
+    monkeypatch,
+    capsys,
+    tmp_path,
+):
+    source = _source("A")
+    source["audio"]["sha256"] = 123
+    source_path = tmp_path / "source.json"
+    output = tmp_path / "consensus.json"
+    source_path.write_text(json.dumps(source), encoding="utf-8")
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "voxie-os",
+            "alignment-consensus",
+            str(source_path),
+            "--id",
+            "TEST",
+            "--out",
+            str(output),
+        ],
+    )
+
+    assert main() == 1
+    assert capsys.readouterr().out == (
+        "FAIL\n- alignment-consensus: "
+        "Alignment source audio.sha256 must be a string\n"
+    )
+    assert not output.exists()

@@ -68,8 +68,12 @@ def build_consensus(
     _validate_source_identity(documents)
 
     audio = documents[0]["audio"]
+    if not isinstance(audio.get("sha256"), str):
+        raise ValueError("Alignment source audio.sha256 must be a string")
     for document in documents[1:]:
         other = document["audio"]
+        if not isinstance(other.get("sha256"), str):
+            raise ValueError("Alignment source audio.sha256 must be a string")
         if other["sha256"].lower() != audio["sha256"].lower():
             raise ValueError("Alignment sources reference different audio hashes")
         if abs(float(other["duration_s"]) - float(audio["duration_s"])) > 0.001:
