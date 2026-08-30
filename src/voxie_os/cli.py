@@ -30,6 +30,8 @@ def main() -> int:
 
     fixtures = sub.add_parser("fixtures-check")
     fixtures.add_argument("--repo", help="Repository to check; defaults to the Production OS checkout")
+    fixtures.add_argument("--base", help="Base revision for introduced-history inspection")
+    fixtures.add_argument("--head", default="HEAD", help="Head revision for introduced-history inspection")
 
     q = sub.add_parser("qc")
     q.add_argument("canon")
@@ -91,7 +93,12 @@ def main() -> int:
 
     args = p.parse_args()
     if args.cmd == "fixtures-check":
-        errors = validate_fixtures(args.repo) if args.repo else validate_fixtures()
+        kwargs = {"base": args.base, "head": args.head}
+        errors = (
+            validate_fixtures(args.repo, **kwargs)
+            if args.repo
+            else validate_fixtures(**kwargs)
+        )
         if errors:
             print("FAIL")
             print("\n".join(f"- {error}" for error in errors))
