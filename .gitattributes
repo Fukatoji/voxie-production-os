@@ -1,0 +1,3 @@
+# Stable text normalization for checksum-governed control records.
+*.yaml text eol=lf
+*.yml text eol=lf
