@@ -77,6 +77,32 @@ def test_add_then_delete_unapproved_media_is_rejected(history_repo):
     ]
 
 
+def test_new_media_path_reusing_base_blob_is_rejected(history_repo):
+    seed = history_repo / "seed.txt"
+    seed.write_bytes(b"same-content")
+    _git(history_repo, "add", "seed.txt")
+    _git(history_repo, "commit", "-q", "-m", "add reusable base blob")
+    base = _head(history_repo)
+
+    target = history_repo / "media/reused-master.mp4"
+    target.parent.mkdir(parents=True)
+    target.write_bytes(seed.read_bytes())
+    _git(history_repo, "add", "--force", "--", "media/reused-master.mp4")
+    _git(history_repo, "commit", "-q", "-m", "reuse base blob at prohibited path")
+    _delete_and_commit(history_repo, target)
+
+    base_oid = _git(history_repo, "rev-parse", f"{base}:seed.txt").decode().strip()
+    introduced_oid = _git(
+        history_repo,
+        "rev-parse",
+        "HEAD^:media/reused-master.mp4",
+    ).decode().strip()
+    assert introduced_oid == base_oid
+    assert validate_fixtures(history_repo, base=base, head="HEAD") == [
+        "media/reused-master.mp4: introduced-history media is not an approved fixture"
+    ]
+
+
 def test_add_then_delete_small_allowlisted_fixture_passes(history_repo):
     base = _head(history_repo)
     target = _commit_media(history_repo, "tests/fixtures/tone.wav", 1)
