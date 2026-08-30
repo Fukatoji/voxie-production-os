@@ -18,6 +18,10 @@ PREDECESSOR_PATH = ROOT / "manifests/library-routing.v1.yaml"
 AUDIO = {"sha256": "a" * 64, "duration_s": 8.0}
 
 
+def _canonical_lf_bytes(path: Path) -> bytes:
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 def _source(source_id: str, *, line_id: str = "L001", start: float = 0.5):
     return {
         "source_id": source_id,
@@ -57,9 +61,9 @@ def test_yaml_control_records_are_pinned_to_lf():
     ]
 
 
-def test_current_library_routing_predecessor_hash_matches_exact_bytes():
+def test_current_library_routing_predecessor_hash_matches_canonical_lf_bytes():
     manifest = load_data(ROUTING_PATH)
-    expected = hashlib.sha256(PREDECESSOR_PATH.read_bytes()).hexdigest()
+    expected = hashlib.sha256(_canonical_lf_bytes(PREDECESSOR_PATH)).hexdigest()
 
     assert manifest["supersedes"]["sha256"] == expected
     assert validate("library_routing", manifest) == []
@@ -67,7 +71,7 @@ def test_current_library_routing_predecessor_hash_matches_exact_bytes():
 
 def test_library_routing_rejects_wrong_predecessor_checksum():
     manifest = load_data(ROUTING_PATH)
-    actual = hashlib.sha256(PREDECESSOR_PATH.read_bytes()).hexdigest()
+    actual = hashlib.sha256(_canonical_lf_bytes(PREDECESSOR_PATH)).hexdigest()
     manifest["supersedes"]["sha256"] = "0" * 64
 
     assert validate("library_routing", manifest) == [
@@ -212,13 +216,15 @@ def test_alignment_cli_returns_controlled_failure_for_malformed_yaml(
     assert not output.exists()
 
 
+@pytest.mark.parametrize("malformed_hash", [123, None])
 def test_alignment_cli_returns_controlled_failure_for_malformed_audio_hash(
     monkeypatch,
     capsys,
     tmp_path,
+    malformed_hash,
 ):
     source = _source("A")
-    source["audio"]["sha256"] = 123
+    source["audio"]["sha256"] = malformed_hash
     source_path = tmp_path / "source.json"
     output = tmp_path / "consensus.json"
     source_path.write_text(json.dumps(source), encoding="utf-8")
