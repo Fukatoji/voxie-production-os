@@ -118,7 +118,11 @@ def _validate_library_routing_state(data: Any) -> list[str]:
         )
         if len(errors) == before_reference_errors:
             predecessor = ROOT / lineage["manifest"]
-            actual_sha256 = hashlib.sha256(predecessor.read_bytes()).hexdigest()
+            # Hash canonical LF text so existing Windows checkouts cannot fail
+            # solely because the working tree was written with CRLF before the
+            # repository added its YAML eol=lf attribute.
+            predecessor_bytes = predecessor.read_bytes().replace(b"\r\n", b"\n")
+            actual_sha256 = hashlib.sha256(predecessor_bytes).hexdigest()
             if lineage["sha256"].lower() != actual_sha256:
                 errors.append(
                     "supersedes.sha256: expected "
