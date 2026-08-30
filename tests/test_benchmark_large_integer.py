@@ -1,5 +1,8 @@
+import json
+import sys
+
 from voxie_os.benchmark import evaluate
-from voxie_os.core import load_data, validate
+from voxie_os.core import load_data, save_json, validate
 
 
 SUITE_PATH = "workflows/voxie-model-benchmark-v01.yaml"
@@ -44,7 +47,7 @@ def _complete_run(suite):
     }
 
 
-def test_arbitrarily_large_integer_metric_rejects_without_overflow():
+def test_arbitrarily_large_integer_metric_rejects_and_serializes(tmp_path):
     suite = load_data(SUITE_PATH)
     run = _complete_run(suite)
     huge = 10**10000
@@ -55,17 +58,23 @@ def test_arbitrarily_large_integer_metric_rejects_without_overflow():
 
     assert result["decision"] == "REJECT"
     assert result["production_promoted"] is False
-    assert isinstance(result["summary"]["avg_identity_drift"], int)
-    assert result["summary"]["avg_identity_drift"] > suite["promotion_policy"][
-        "max_identity_drift"
-    ]
-    assert any(
-        finding["metric"] == "avg_identity_drift"
-        for finding in result["findings"]
+    assert result["summary"]["avg_identity_drift"] == sys.float_info.max
+    assert "avg_identity_drift" in result["summary"]["overflowed_fields"]
+    finding = next(
+        item for item in result["findings"]
+        if item["metric"] == "avg_identity_drift"
     )
+    assert finding["actual"] == sys.float_info.max
+    assert finding["actual_capped"] is True
+
+    encoded = json.dumps(result)
+    assert "REJECT" in encoded
+    output = tmp_path / "result.json"
+    save_json(output, result)
+    assert json.loads(output.read_text(encoding="utf-8"))["decision"] == "REJECT"
 
 
-def test_arbitrarily_large_integer_wing_metric_rejects_without_overflow():
+def test_arbitrarily_large_integer_wing_metric_rejects_and_serializes(tmp_path):
     suite = load_data(SUITE_PATH)
     run = _complete_run(suite)
     run["samples"][0]["metrics"]["wing_count_error"] = 10**10000
@@ -79,3 +88,10 @@ def test_arbitrarily_large_integer_wing_metric_rejects_without_overflow():
         finding["metric"] == "wing_count_error_rate"
         for finding in result["findings"]
     )
+    encoded = json.dumps(result)
+    assert "wing_count_error_rate" in encoded
+    output = tmp_path / "wing-result.json"
+    save_json(output, result)
+    assert json.loads(output.read_text(encoding="utf-8"))[
+        "wing_count_error_rate"
+    ] == 0.2
