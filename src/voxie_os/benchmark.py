@@ -48,6 +48,13 @@ def _json_safe_number(value: Fraction | None) -> tuple[int | float | None, bool]
     """
     if value is None:
         return None, False
+
+    max_finite = Fraction.from_float(sys.float_info.max)
+    if value > max_finite:
+        return sys.float_info.max, True
+    if value < -max_finite:
+        return -sys.float_info.max, True
+
     try:
         numeric = float(value)
     except OverflowError:
