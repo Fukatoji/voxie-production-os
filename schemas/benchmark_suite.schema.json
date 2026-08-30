@@ -17,14 +17,30 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["scenario_id", "motion_mode", "duration_s", "fps", "seed", "approval_gate"],
+        "required": ["scenario_id", "motion_mode", "duration_s", "fps", "seed", "approval_gate", "required_metrics"],
         "properties": {
           "scenario_id": {"type": "string"},
           "motion_mode": {"enum": ["hold", "first_last", "arbitrary_frame_guides", "masked_repair", "motion_transfer", "audio_to_video"]},
           "duration_s": {"type": "number", "exclusiveMinimum": 0},
           "fps": {"type": "number", "exclusiveMinimum": 0},
           "seed": {"type": "integer", "minimum": 0},
-          "approval_gate": {"enum": ["NONE", "PAID_GENERATION", "LICENSE_REVIEW", "PRODUCTION_PROMOTION"]}
+          "approval_gate": {"enum": ["NONE", "PAID_GENERATION", "LICENSE_REVIEW", "PRODUCTION_PROMOTION"]},
+          "required_metrics": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "identity_drift",
+                "composition_drift",
+                "keyframe_error_frames",
+                "wing_count_error",
+                "face_error",
+                "runtime_s",
+                "peak_memory_gb"
+              ]
+            }
+          }
         },
         "additionalProperties": true
       }
