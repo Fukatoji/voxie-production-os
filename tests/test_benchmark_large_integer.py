@@ -86,6 +86,27 @@ def test_negative_arbitrarily_large_integer_metric_keeps_sign_and_serializes():
     json.dumps(result, allow_nan=False)
 
 
+def test_rounded_down_value_above_max_float_is_reported_as_capped():
+    suite = load_data(SUITE_PATH)
+    run = _complete_run(suite)
+    just_over_max = int(sys.float_info.max) + 1
+    for sample in run["samples"]:
+        sample["metrics"]["identity_drift"] = just_over_max
+
+    result = evaluate(run, suite)
+
+    assert result["decision"] == "REJECT"
+    assert result["summary"]["avg_identity_drift"] == sys.float_info.max
+    assert result["summary"]["overflowed_fields"] == ["avg_identity_drift"]
+    finding = next(
+        item for item in result["findings"]
+        if item["metric"] == "avg_identity_drift"
+    )
+    assert finding["actual"] == sys.float_info.max
+    assert finding["actual_capped"] is True
+    json.dumps(result, allow_nan=False)
+
+
 def test_arbitrarily_large_integer_wing_metric_rejects_and_serializes(tmp_path):
     suite = load_data(SUITE_PATH)
     run = _complete_run(suite)
