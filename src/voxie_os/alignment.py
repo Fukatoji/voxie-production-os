@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Mapping
 from typing import Any, Iterable
 
 
@@ -22,6 +23,38 @@ def _weighted_median(values: Iterable[tuple[float, float]]) -> float:
     return ordered[-1][0]
 
 
+def _validate_source_identity(documents: list[dict[str, Any]]) -> None:
+    source_ids = [str(document["source_id"]) for document in documents]
+    duplicates = sorted(
+        source_id for source_id in set(source_ids) if source_ids.count(source_id) > 1
+    )
+    if duplicates:
+        raise ValueError(
+            "Alignment source_id values must be unique: " + ", ".join(duplicates)
+        )
+
+    for document in documents:
+        source_id = str(document["source_id"])
+        line_ids = [str(cue["line_id"]) for cue in document.get("lyrics", [])]
+        duplicate_lines = sorted(
+            line_id for line_id in set(line_ids) if line_ids.count(line_id) > 1
+        )
+        if duplicate_lines:
+            raise ValueError(
+                f"{source_id} contains duplicate line_id values: "
+                + ", ".join(duplicate_lines)
+            )
+
+
+def _audio_mapping(document: dict[str, Any]) -> Mapping[str, Any]:
+    audio = document.get("audio")
+    if not isinstance(audio, Mapping):
+        raise ValueError("Alignment source audio must be an object")
+    if not isinstance(audio.get("sha256"), str):
+        raise ValueError("Alignment source audio.sha256 must be a string")
+    return audio
+
+
 def build_consensus(
     documents: list[dict[str, Any]],
     *,
@@ -33,15 +66,20 @@ def build_consensus(
     """Merge normalized aligner outputs without hiding disagreement.
 
     Each input document must contain ``source_id``, ``adapter``, ``audio`` and
-    ``lyrics``. Lines are joined by ``line_id``. The output is still provisional;
+    ``lyrics``. Lines are joined by ``line_id``. Source IDs must be unique, and
+    each source may contribute a line only once. The output is provisional;
     only a separate human approval may promote it to HUMAN_REVIEWED or LOCKED.
     """
     if not documents:
         raise ValueError("At least one alignment source is required")
+    if min_sources < 1:
+        raise ValueError("min_sources must be at least 1")
 
-    audio = documents[0]["audio"]
+    _validate_source_identity(documents)
+
+    audio = _audio_mapping(documents[0])
     for document in documents[1:]:
-        other = document["audio"]
+        other = _audio_mapping(document)
         if other["sha256"].lower() != audio["sha256"].lower():
             raise ValueError("Alignment sources reference different audio hashes")
         if abs(float(other["duration_s"]) - float(audio["duration_s"])) > 0.001:
@@ -56,6 +94,9 @@ def build_consensus(
     review_gates = []
     for line_id in sorted(grouped):
         candidates = grouped[line_id]
+        distinct_source_ids = {
+            str(document["source_id"]) for document, _ in candidates
+        }
         evidence = []
         starts: list[tuple[float, float]] = []
         ends: list[tuple[float, float]] = []
@@ -85,21 +126,30 @@ def build_consensus(
         end = _weighted_median(ends)
         start_values = [value for value, _ in starts]
         end_values = [value for value, _ in ends]
-        spread = max(max(start_values) - min(start_values), max(end_values) - min(end_values))
+        spread = max(
+            max(start_values) - min(start_values),
+            max(end_values) - min(end_values),
+        )
         confidence = sum(
             float(cue.get("confidence", 0.0)) * float(document.get("weight", 1.0))
             for document, cue in candidates
         ) / sum(float(document.get("weight", 1.0)) for document, _ in candidates)
-        agreement_penalty = min(1.0, spread / max(max_timing_spread_s, 0.001)) * 0.2
+        agreement_penalty = min(
+            1.0,
+            spread / max(max_timing_spread_s, 0.001),
+        ) * 0.2
         confidence = round(max(0.0, min(1.0, confidence - agreement_penalty)), 4)
         text = max(text_candidates, key=lambda item: item[0])[1]
         text_forms = {_normal_text(item[1]) for item in text_candidates}
 
         reasons = []
-        if len(candidates) < min_sources:
-            reasons.append(f"only {len(candidates)} source(s)")
+        source_count = len(distinct_source_ids)
+        if source_count < min_sources:
+            reasons.append(f"only {source_count} distinct source(s)")
         if spread > max_timing_spread_s:
-            reasons.append(f"timing spread {spread:.3f}s exceeds {max_timing_spread_s:.3f}s")
+            reasons.append(
+                f"timing spread {spread:.3f}s exceeds {max_timing_spread_s:.3f}s"
+            )
         if confidence < min_confidence:
             reasons.append(f"confidence {confidence:.3f} is below {min_confidence:.3f}")
         if len(text_forms) > 1:
@@ -142,8 +192,11 @@ def build_consensus(
         "summary": {
             "line_count": len(merged),
             "review_line_count": sum(1 for line in merged if line["manual_review"]),
-            "source_count": len(documents),
-            "max_timing_spread_s": max((line["timing_spread_s"] for line in merged), default=0.0),
+            "source_count": len({str(document["source_id"]) for document in documents}),
+            "max_timing_spread_s": max(
+                (line["timing_spread_s"] for line in merged),
+                default=0.0,
+            ),
             "evidence_count": sum(len(line["evidence"]) for line in merged),
         },
         "review_gates": review_gates,
@@ -161,19 +214,45 @@ def audit_beatmap(beatmap: dict[str, Any]) -> dict[str, Any]:
         start = float(line["vocal_start_s"])
         end = float(line["vocal_end_s"])
         if line_id in seen:
-            findings.append({"severity": "error", "line_id": line_id, "message": "Duplicate line_id"})
+            findings.append(
+                {"severity": "error", "line_id": line_id, "message": "Duplicate line_id"}
+            )
         seen.add(line_id)
         if start < previous_start:
-            findings.append({"severity": "error", "line_id": line_id, "message": "Lines are not in chronological order"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "line_id": line_id,
+                    "message": "Lines are not in chronological order",
+                }
+            )
         if end < start:
-            findings.append({"severity": "error", "line_id": line_id, "message": "Cue ends before it starts"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "line_id": line_id,
+                    "message": "Cue ends before it starts",
+                }
+            )
         if start < 0 or end > duration:
-            findings.append({"severity": "error", "line_id": line_id, "message": "Cue is outside the audio duration"})
+            findings.append(
+                {
+                    "severity": "error",
+                    "line_id": line_id,
+                    "message": "Cue is outside the audio duration",
+                }
+            )
         if bool(line.get("manual_review")):
-            findings.append({"severity": "warning", "line_id": line_id, "message": "Cue still requires manual review"})
+            findings.append(
+                {
+                    "severity": "warning",
+                    "line_id": line_id,
+                    "message": "Cue still requires manual review",
+                }
+            )
         previous_start = start
 
-    status = "FAIL" if any(f["severity"] == "error" for f in findings) else (
+    status = "FAIL" if any(finding["severity"] == "error" for finding in findings) else (
         "REVIEW" if findings else "PASS"
     )
     return {
