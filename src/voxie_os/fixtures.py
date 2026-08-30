@@ -123,6 +123,32 @@ def _validate_current_index(
     return errors
 
 
+def _tree_entries(root: Path, revision: str) -> dict[str, tuple[str, str]]:
+    """Return path -> (mode, blob OID) for one Git tree."""
+    raw_entries = _git(
+        root,
+        "ls-tree",
+        "-r",
+        "-z",
+        "--full-tree",
+        revision,
+    )
+    entries: dict[str, tuple[str, str]] = {}
+    for record in raw_entries.split(b"\0"):
+        if not record:
+            continue
+        metadata, raw_path = record.split(b"\t", 1)
+        mode_raw, object_type, oid_raw = metadata.split()
+        if object_type != b"blob":
+            continue
+        path = raw_path.decode("utf-8", errors="surrogateescape")
+        entries[path] = (
+            mode_raw.decode("ascii"),
+            oid_raw.decode("ascii"),
+        )
+    return entries
+
+
 def _validate_introduced_history(
     root: Path,
     *,
@@ -133,10 +159,6 @@ def _validate_introduced_history(
 ) -> list[str]:
     revision_range = f"{base}..{head}"
     try:
-        object_lines = _git(root, "rev-list", "--objects", revision_range).splitlines()
-        introduced_oids = {
-            line.split(b" ", 1)[0] for line in object_lines if line
-        }
         commits = _git(root, "rev-list", "--reverse", revision_range).splitlines()
     except (OSError, subprocess.CalledProcessError):
         return [
@@ -144,31 +166,34 @@ def _validate_introduced_history(
         ]
 
     errors = []
-    seen: set[tuple[bytes, str, str]] = set()
+    seen: set[tuple[str, str, str]] = set()
     for raw_commit in commits:
         commit = raw_commit.decode("ascii")
         try:
-            entries = _git(
+            commit_entries = _tree_entries(root, commit)
+            parent_line = _git(
                 root,
-                "ls-tree",
-                "-r",
-                "-z",
-                "--full-tree",
+                "rev-list",
+                "--parents",
+                "-n",
+                "1",
                 commit,
+            ).decode("ascii").strip().split()
+            parent_entries = (
+                _tree_entries(root, parent_line[1])
+                if len(parent_line) > 1
+                else {}
             )
-        except (OSError, subprocess.CalledProcessError):
+        except (OSError, subprocess.CalledProcessError, ValueError):
             return [f"fixtures: unable to inspect tree for commit {commit}"]
 
-        for record in entries.split(b"\0"):
-            if not record:
+        # Validate each path whose blob or mode changed relative to the first
+        # parent. This catches newly introduced paths even when they reuse a
+        # blob OID that was already reachable from the base history.
+        for path, (mode, oid) in commit_entries.items():
+            if parent_entries.get(path) == (mode, oid):
                 continue
-            metadata, raw_path = record.split(b"\t", 1)
-            mode_raw, object_type, oid_raw = metadata.split()
-            if object_type != b"blob" or oid_raw not in introduced_oids:
-                continue
-            path = raw_path.decode("utf-8", errors="surrogateescape")
-            mode = mode_raw.decode("ascii")
-            key = (oid_raw, path, mode)
+            key = (oid, path, mode)
             if key in seen:
                 continue
             seen.add(key)
@@ -176,7 +201,7 @@ def _validate_introduced_history(
                 _validate_blob(
                     root,
                     path=path,
-                    oid=oid_raw.decode("ascii"),
+                    oid=oid,
                     mode=mode,
                     maximum=maximum,
                     allowed=allowed,
@@ -192,10 +217,11 @@ def validate_fixtures(
     base: str | None = None,
     head: str = "HEAD",
 ) -> list[str]:
-    """Check both the current index and every media blob introduced by a change.
+    """Check both the current index and every media path introduced by a change.
 
     The optional ``base``/``head`` range catches prohibited or oversized media
-    that was added in one commit and deleted in a later commit. Existing Git
+    that was added in one commit and deleted in a later commit, including a new
+    path that reuses a blob already reachable from the base. Existing Git
     history is never rewritten.
     """
     root = Path(root)
