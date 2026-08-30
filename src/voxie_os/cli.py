@@ -4,6 +4,8 @@ import argparse
 import json
 import sys
 
+import yaml
+
 from .alignment import audit_beatmap, build_consensus
 from .authority import build_authority_coverage_report
 from .authority_lock import (
@@ -151,7 +153,7 @@ def main() -> int:
                 min_sources=args.min_sources,
                 min_confidence=args.min_confidence,
             )
-        except (OSError, ValueError, KeyError, TypeError) as error:
+        except (OSError, ValueError, KeyError, TypeError, yaml.YAMLError) as error:
             print("FAIL")
             print(f"- alignment-consensus: {error}")
             return 1
