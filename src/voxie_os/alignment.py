@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Mapping
 from typing import Any, Iterable
 
 
@@ -45,6 +46,15 @@ def _validate_source_identity(documents: list[dict[str, Any]]) -> None:
             )
 
 
+def _audio_mapping(document: dict[str, Any]) -> Mapping[str, Any]:
+    audio = document.get("audio")
+    if not isinstance(audio, Mapping):
+        raise ValueError("Alignment source audio must be an object")
+    if not isinstance(audio.get("sha256"), str):
+        raise ValueError("Alignment source audio.sha256 must be a string")
+    return audio
+
+
 def build_consensus(
     documents: list[dict[str, Any]],
     *,
@@ -67,13 +77,9 @@ def build_consensus(
 
     _validate_source_identity(documents)
 
-    audio = documents[0]["audio"]
-    if not isinstance(audio.get("sha256"), str):
-        raise ValueError("Alignment source audio.sha256 must be a string")
+    audio = _audio_mapping(documents[0])
     for document in documents[1:]:
-        other = document["audio"]
-        if not isinstance(other.get("sha256"), str):
-            raise ValueError("Alignment source audio.sha256 must be a string")
+        other = _audio_mapping(document)
         if other["sha256"].lower() != audio["sha256"].lower():
             raise ValueError("Alignment sources reference different audio hashes")
         if abs(float(other["duration_s"]) - float(audio["duration_s"])) > 0.001:
