@@ -24,10 +24,10 @@ def _verified_source_marker():
     return {
         "canonical_filename": "stage_d_verified_markers.tsv",
         "status": "AVAILABLE",
-        "asset_id": "libfile_source_marker",
+        "asset_id": "libfile_sourcemarker",
         "storage": {
             "provider": "CHATGPT_LIBRARY",
-            "library_file_id": "libfile_source_marker",
+            "library_file_id": "libfile_sourcemarker",
             "path": "/Voxie's Wonder World/stage_d_verified_markers.tsv",
         },
         "checksum_status": "VERIFIED",
@@ -42,12 +42,12 @@ def _verified_video_binaries():
         "checksum_status": "VERIFIED",
         "assets": [
             {
-                "asset_id": "libfile_rsp_video",
+                "asset_id": "libfile_rspvideo",
                 "canonical_filename": "RSP_S01.mp4",
                 "mime_type": "video/mp4",
                 "storage": {
                     "provider": "CHATGPT_LIBRARY",
-                    "library_file_id": "libfile_rsp_video",
+                    "library_file_id": "libfile_rspvideo",
                     "path": "/Voxie's Wonder World/RSP_S01.mp4",
                 },
                 "sha256": "d" * 64,
@@ -321,7 +321,7 @@ def test_missing_video_binaries_require_matching_blocker():
 def test_verified_video_asset_id_must_match_storage_identity():
     candidate = _manifest()
     candidate["video_binaries"] = _verified_video_binaries()
-    candidate["video_binaries"]["assets"][0]["asset_id"] = "libfile_wrong_video"
+    candidate["video_binaries"]["assets"][0]["asset_id"] = "libfile_wrongvideo"
 
     assert validate("production_manifest", candidate) == [
         "video_binaries.assets.0.asset_id: must match "
