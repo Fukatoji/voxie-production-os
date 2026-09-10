@@ -18,16 +18,19 @@
       "const": "1.0"
     },
     "lock_id": {
-      "const": "VOS-AUTHORITY-CONTENT-LOCK-V01"
+      "type": "string",
+      "pattern": "^VOS-AUTHORITY-CONTENT-LOCK-V[0-9]{2}$"
     },
     "record_type": {
       "const": "authority_lock"
     },
     "index_id": {
-      "const": "VOS-AUTHORITY-INDEX-V01"
+      "type": "string",
+      "pattern": "^VOS-AUTHORITY-INDEX-V[0-9]{2}$"
     },
     "index_path": {
-      "const": "manifests/control/authority-index-v01.yaml"
+      "type": "string",
+      "pattern": "^manifests/control/authority-index-v[0-9]{2}\\.yaml$"
     },
     "index_sha256": {
       "type": "string",
