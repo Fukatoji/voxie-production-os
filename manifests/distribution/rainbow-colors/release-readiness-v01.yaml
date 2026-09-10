@@ -1,0 +1,121 @@
+report_version: '1.0'
+report_id: VWF-RAINBOW-COLORS-RELEASE-READINESS-V01
+record_type: release_readiness
+project_id: VWF-RAINBOW-COLORS
+project_title: "Voxie's Rainbow Colors"
+status: REVIEW
+master:
+  manifest: manifests/productions/rainbow-colors/production-state-v05.yaml
+  status: APPROVED_LOCKED
+  controlled_filename: VWF_RAINBOW_COLORS_FULL_MASTER_v02_APPROVED_LOCKED.mov
+  library_id: libfile_64109527eacc8191aa0ec53196960cc9
+  sha256: d105f6b89aa6a924cd72a2b1d3be5df28fb2483064e31a9e5087b5e45cadaef7
+  duration_seconds: 150.0
+  resolution: 1920x1080
+  fps: 24
+  frame_count: 3600
+  video_codec: H.264_High
+  audio_codec: PCM_s24le
+  audio_sample_rate_hz: 48000
+  audio_channels: 2
+  source_audio_preserved: true
+distribution_package:
+  authority_status: APPROVED_LOCKED
+  filename: VWF_RAINBOW_COLORS_YOUTUBE_LAUNCH_PACKAGE_v02_REVIEW.md
+  library_id: libfile_2d82c14bed008191bcfb54d623f8047a
+  sha256: 1600290980012b099bbf15705f05af8cd1648a7faf02d75aef6ec026556bb481
+  approval_record_library_id: libfile_a3d87b5d6b1c8191a73d2ae8d4804ce9
+  correction_record_library_id: libfile_a12c1ae558008191b93375195f891173
+  title: Learn Rainbow Colors with Voxie | Calm Color Song for Toddlers
+  caption:
+    filename: VWF_RAINBOW_COLORS_EN_v01_APPROVED_LOCKED.vtt
+    library_id: libfile_7c28fe90ac6c8191b9af69e82d230f36
+    sha256: 883ad68b5b9ae3f71fa117e1ad7c8c728960863b3bbc45b0aeeab0bdfcdee264
+    language: English_United_States
+    cue_count: 32
+  thumbnail:
+    filename: VWF_RAINBOW_COLORS_S33_POINT_SEQUENCE_KF-A_v01_APPROVED_LOCKED.png
+    library_id: libfile_2362d07fa7908191bf95741940755c11
+    sha256: 53a262287231e50a4356158a79e1a2151c3865136e0fc85d3784672f2c3fb283
+  audience: MADE_FOR_KIDS
+  category: Education
+  video_language: English_United_States
+  title_description_language: English_United_States
+  license: STANDARD_YOUTUBE_LICENSE
+  paid_promotion: false
+  altered_synthetic_disclosure_required: false
+  credits_spent: 0
+private_native_review:
+  status: PASS_WITH_MACHINE_SCOPE
+  audit_library_id: libfile_10bf43fb13e4819181f19b54bfee8244
+  platform: youtube
+  channel_handle: '@VoxiesWonderWorld'
+  channel_id: UCWku_aFjx61hePgosuzzyvg
+  video_id: 2hfGiF27iM8
+  video_url: https://youtu.be/2hfGiF27iM8
+  visibility: PRIVATE
+  owner_only_confirmed: true
+  schedule_set: false
+  public_publication_performed: false
+  sd_processing_complete: true
+  hd_processing_complete: true
+  native_1080p_confirmed: true
+  full_playback_reached_seconds: 150
+  original_audio_track_published: true
+  player_unmuted: true
+  subjective_human_listening_claimed: false
+  manual_caption_track_published: true
+  manual_caption_cue_count: 32
+  automatic_caption_track_deleted: true
+  copyright_check: PASS
+  community_guidelines_check: PASS
+release_gate:
+  execution_authority: BLOCKED
+  publication_authorized: false
+  scheduling_authorized: false
+  account_write_authorized: false
+  required_approvals:
+  - SCHEDULE_APPROVAL
+  - EXPLICIT_PUBLICATION_APPROVAL
+  blockers:
+  - RELEASE_SCHEDULE_NOT_APPROVED
+  - PUBLICATION_NOT_AUTHORIZED
+platforms:
+- platform: youtube
+  format: LONGFORM_16_9
+  package_status: PRIVATE_NATIVE_REVIEW_COMPLETE
+  upload_authorized: false
+  publish_authorized: false
+findings:
+- severity: info
+  rule_id: MASTER_APPROVED_LOCKED
+  shot_id: null
+  message: The exact 150-second 1080p master is approved and locked with stable Library identity and SHA-256.
+- severity: info
+  rule_id: YOUTUBE_PRIVATE_NATIVE_REVIEW_PASS
+  shot_id: null
+  message: The existing private upload was completed on the authenticated Voxie's Wonder World channel without creating a duplicate.
+- severity: info
+  rule_id: YOUTUBE_PROCESSING_AND_PLATFORM_CHECKS_PASS
+  shot_id: null
+  message: SD and HD processing completed, 1080p rendered natively, full playback reached 2:30, and YouTube reported no copyright or Community Guidelines issues.
+- severity: info
+  rule_id: MANUAL_CAPTION_AUTHORITY_PASS
+  shot_id: null
+  message: The approved 32-cue manual English track is published to the private video and the duplicate automatic track was deleted.
+- severity: info
+  rule_id: PRIVATE_VISIBILITY_CONFIRMED
+  shot_id: null
+  message: Studio and the watch page show Private owner-only visibility, Made for Kids, and no schedule.
+- severity: warning
+  rule_id: RELEASE_SCHEDULE_NOT_APPROVED
+  shot_id: null
+  message: No public release date or immediate-release choice is authorized.
+- severity: warning
+  rule_id: PUBLICATION_NOT_AUTHORIZED
+  shot_id: null
+  message: Public, Unlisted, Premiere, Schedule, and public Publish actions remain blocked until separately authorized.
+next_action: >-
+  Preserve video ID 2hfGiF27iM8 as the single private native-review upload. Do not
+  retry or duplicate it. Obtain exact authorization for the intended public visibility
+  and either an immediate release or a specific schedule before any further account write.
