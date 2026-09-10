@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -10,7 +11,15 @@ from .core import ROOT, load_data, sha256_file, validate
 
 
 LOCK_SCHEMA_PATH = ROOT / "schemas/authority_lock.schema.json"
-DEFAULT_LOCK_ID = "VOS-AUTHORITY-CONTENT-LOCK-V01"
+INDEX_ID_PATTERN = re.compile(r"^VOS-AUTHORITY-INDEX-(V[0-9]{2})$")
+LOCK_ID_PREFIX = "VOS-AUTHORITY-CONTENT-LOCK-"
+
+
+def authority_lock_id_for_index(index_id: str) -> str:
+    match = INDEX_ID_PATTERN.fullmatch(index_id)
+    if match is None:
+        raise ValueError(f"unsupported authority index ID: {index_id}")
+    return f"{LOCK_ID_PREFIX}{match.group(1)}"
 
 
 def authority_lock_schema() -> dict[str, Any]:
@@ -54,13 +63,22 @@ def build_authority_lock(
     *,
     index_path: str | Path,
     repo_root: str | Path = ROOT,
-    lock_id: str = DEFAULT_LOCK_ID,
+    lock_id: str | None = None,
 ) -> dict[str, Any]:
     """Build a deterministic SHA-256 lock for the current authority set."""
     root = Path(repo_root)
     index_errors = validate("authority_index", index)
     if index_errors:
         raise ValueError("invalid authority index: " + "; ".join(index_errors))
+
+    expected_lock_id = authority_lock_id_for_index(index["index_id"])
+    if lock_id is None:
+        lock_id = expected_lock_id
+    elif lock_id != expected_lock_id:
+        raise ValueError(
+            f"lock ID {lock_id} does not match index ID {index['index_id']}; "
+            f"expected {expected_lock_id}"
+        )
 
     index_relative = _relative_repository_path(root, index_path)
     index_file, index_error = _resolve_repository_file(root, index_relative)
@@ -147,6 +165,14 @@ def verify_authority_lock(
             },
             "findings": findings,
         }
+
+    expected_lock_id = authority_lock_id_for_index(lock["index_id"])
+    if lock["lock_id"] != expected_lock_id:
+        add(
+            "LOCK_INDEX_VERSION_MISMATCH",
+            f"lock ID {lock['lock_id']} does not match index ID "
+            f"{lock['index_id']}; expected {expected_lock_id}",
+        )
 
     try:
         index_relative = _relative_repository_path(root, index_path)
@@ -272,7 +298,7 @@ def load_and_build_authority_lock(
     index_path: str | Path,
     *,
     repo_root: str | Path = ROOT,
-    lock_id: str = DEFAULT_LOCK_ID,
+    lock_id: str | None = None,
 ) -> dict[str, Any]:
     return build_authority_lock(
         load_data(index_path),
