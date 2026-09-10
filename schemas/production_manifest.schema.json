@@ -284,7 +284,8 @@
           "pattern": "^[a-f0-9]{64}$"
         },
         "schema": {
-          "const": "schemas/beatmap.schema.json"
+          "type": "string",
+          "pattern": "^schemas/[A-Za-z0-9_.-]+\\.schema\\.json$"
         },
         "duration_ms": {
           "type": "integer",
