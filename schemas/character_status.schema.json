@@ -102,6 +102,37 @@
       },
       "additionalProperties": true
     },
+    "canon_change_proposal": {
+      "type": "object",
+      "required": [
+        "proposal_id",
+        "status",
+        "requested_changes",
+        "authority_effect"
+      ],
+      "properties": {
+        "proposal_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_-]+$"
+        },
+        "status": {
+          "const": "PENDING_CANON_CHANGE_GATE"
+        },
+        "requested_changes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authority_effect": {
+          "const": "NONE_UNTIL_SEPARATELY_APPROVED_AND_LOCKED"
+        }
+      },
+      "additionalProperties": false
+    },
     "character": {
       "type": "object",
       "required": [
@@ -188,6 +219,14 @@
             }
           },
           "additionalProperties": true
+        },
+        "pending_change_proposals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/canon_change_proposal"
+          }
         },
         "parked_alternatives": {
           "type": "array",
