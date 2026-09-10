@@ -23,7 +23,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "pattern": "^[0-9]+\\\\.[0-9]+$"
+      "pattern": "^[0-9]+\\.[0-9]+$"
     },
     "record_version": {
       "type": "integer",
@@ -77,7 +77,7 @@
             },
             "path": {
               "type": "string",
-              "pattern": "^manifests/productions/ready-set-play/production-manifest-v[0-9]{2}\\\\.json$"
+              "pattern": "^manifests/productions/ready-set-play/production-manifest-v[0-9]{2}\\.json$"
             },
             "sha256": {
               "type": "string",
@@ -125,7 +125,7 @@
         },
         "canonical_filename": {
           "type": "string",
-          "pattern": "^[^/\\\\\\\\]+\\\\.wav$"
+          "pattern": "^[^/\\\\]+\\.wav$"
         },
         "mime_type": {
           "const": "audio/wav"
@@ -166,7 +166,7 @@
             },
             "url": {
               "type": "string",
-              "pattern": "^https://drive\\\\.google\\\\.com/"
+              "pattern": "^https://drive\\.google\\.com/"
             }
           }
         },
