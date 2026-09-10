@@ -193,9 +193,54 @@ def _validate_production_state(data: Any) -> list[str]:
 
 
 def _validate_production_manifest(data: Any) -> list[str]:
-    """Validate cross-field timeline relationships."""
+    """Validate version lineage, external authorities, blockers, and timing."""
     errors = []
+
+    expected_record_id = (
+        f"{data['production_id']}-PRODUCTION-MANIFEST-v"
+        f"{data['record_version']:02d}"
+    )
+    if data["record_id"] != expected_record_id:
+        errors.append(f"record_id: expected {expected_record_id}")
+
+    supersedes = data["supersedes"]
+    if data["record_version"] == 1:
+        if supersedes is not None:
+            errors.append("supersedes: record_version 1 must not name a predecessor")
+    elif supersedes is None:
+        errors.append(
+            f"supersedes: record_version {data['record_version']} "
+            "requires the immediate predecessor"
+        )
+    else:
+        previous = data["record_version"] - 1
+        expected_path = (
+            "manifests/productions/ready-set-play/"
+            f"production-manifest-v{previous:02d}.json"
+        )
+        if supersedes["record_version"] != previous:
+            errors.append(f"supersedes.record_version: expected {previous}")
+        if supersedes["path"] != expected_path:
+            errors.append(f"supersedes.path: expected {expected_path}")
+
+    audio = data["audio"]
+    beatmap = data["beatmap"]
     timeline = data["timeline"]
+    registry = data["registry"]
+
+    for field, item in (("beatmap", beatmap), ("timeline", timeline)):
+        if item["asset_id"] != item["storage"]["library_file_id"]:
+            errors.append(
+                f"{field}.asset_id: must match {field}.storage.library_file_id"
+            )
+        if item["duration_ms"] != audio["duration_ms"]:
+            errors.append(
+                f"{field}.duration_ms: expected {audio['duration_ms']} "
+                f"to match audio.duration_ms, got {item['duration_ms']}"
+            )
+
+    _append_repository_file_error(errors, "beatmap.schema", beatmap["schema"])
+
     if timeline["unique_keyframes"] > timeline["shot_count"]:
         errors.append(
             "timeline.unique_keyframes: cannot exceed timeline.shot_count"
@@ -204,6 +249,30 @@ def _validate_production_manifest(data: Any) -> list[str]:
         errors.append(
             "timeline.hold_or_continue_shots: cannot exceed timeline.shot_count"
         )
+
+    required_blockers = set()
+    if audio["checksum_status"] != "VERIFIED":
+        required_blockers.add("AUDIO_SHA256_PENDING")
+    if audio["known_defects"]:
+        required_blockers.add("AUDIO_CONTENT_DEFECT_PRESENT")
+    if any(
+        source["status"] != "AVAILABLE"
+        for source in beatmap["authoritative_sources"]
+    ):
+        required_blockers.add("SOURCE_MARKER_NOT_AVAILABLE")
+    if registry["status"] != "VERIFIED":
+        required_blockers.add("PRODUCTION_REGISTRY_NOT_AVAILABLE")
+
+    missing_blockers = sorted(required_blockers - set(data["blockers"]))
+    if missing_blockers:
+        errors.append(
+            "blockers: missing required blockers: " + ", ".join(missing_blockers)
+        )
+    if required_blockers and data["execution_authority"] != "BLOCKED":
+        errors.append(
+            "execution_authority: must be BLOCKED while production blockers remain"
+        )
+
     return errors
 
 
