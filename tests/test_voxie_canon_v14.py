@@ -17,16 +17,48 @@ EXPECTED_PACKAGE_SHA256 = (
 EXPECTED_PRIMARY_SHEET_SHA256 = (
     "d9dc1779104b3bc8cc0a4ca950cd874eaa4499898d5075a866352f98936ecff1"
 )
-EXPECTED_VIEW_HASHES = {
-    "FRONT_000": "6cbaed736eabc5323a50fea5d4abb554cac9042fb44da1e644db432a5c3c9194",
-    "FRONT_3Q_RIGHT_045": "1afe2b3d5dda607534485385a124c2322b739b234a266fccee5ae820018220f0",
-    "RIGHT_PROFILE_090": "b89b2a4e48c458b8b010a95e15fcffb349a8f1ceb82cd63624cfd2511d228983",
-    "REAR_3Q_RIGHT_135": "f83b884e1d63d5a0a7bdca53aeb3d535d16bdcbe7b611f7f8f0897eaf692d760",
-    "BACK_180": "d30025aa17db0b742db853ede7c4aa34cd7671058a310c666c49c10b1edb8f2d",
-    "REAR_3Q_LEFT_225": "bb906bd69615790aca1d83399f099c8c5744b711c8b97ef36dc99aba138f68f5",
-    "LEFT_PROFILE_270": "d10b30e8a964f55946538fb1f6796279901807b5cc52cc9c5981594575e3e64f",
-    "FRONT_3Q_LEFT_315": "05da660b912015290e8506d2361542b10b5cbe6eb3bdc7f52e07e16cd408b6c3",
-}
+EXPECTED_VIEWS = [
+    (
+        "FRONT_000",
+        "VOXIE_V14_FRONT_000_APPROVED_LOCKED.png",
+        "6cbaed736eabc5323a50fea5d4abb554cac9042fb44da1e644db432a5c3c9194",
+    ),
+    (
+        "FRONT_3Q_RIGHT_045",
+        "VOXIE_V14_FRONT_3Q_RIGHT_045_APPROVED_LOCKED.png",
+        "1afe2b3d5dda607534485385a124c2322b739b234a266fccee5ae820018220f0",
+    ),
+    (
+        "RIGHT_PROFILE_090",
+        "VOXIE_V14_RIGHT_PROFILE_090_APPROVED_LOCKED.png",
+        "b89b2a4e48c458b8b010a95e15fcffb349a8f1ceb82cd63624cfd2511d228983",
+    ),
+    (
+        "REAR_3Q_RIGHT_135",
+        "VOXIE_V14_REAR_3Q_RIGHT_135_APPROVED_LOCKED.png",
+        "f83b884e1d63d5a0a7bdca53aeb3d535d16bdcbe7b611f7f8f0897eaf692d760",
+    ),
+    (
+        "BACK_180",
+        "VOXIE_V14_BACK_180_APPROVED_LOCKED.png",
+        "d30025aa17db0b742db853ede7c4aa34cd7671058a310c666c49c10b1edb8f2d",
+    ),
+    (
+        "REAR_3Q_LEFT_225",
+        "VOXIE_V14_REAR_3Q_LEFT_225_APPROVED_LOCKED.png",
+        "bb906bd69615790aca1d83399f099c8c5744b711c8b97ef36dc99aba138f68f5",
+    ),
+    (
+        "LEFT_PROFILE_270",
+        "VOXIE_V14_LEFT_PROFILE_270_APPROVED_LOCKED.png",
+        "d10b30e8a964f55946538fb1f6796279901807b5cc52cc9c5981594575e3e64f",
+    ),
+    (
+        "FRONT_3Q_LEFT_315",
+        "VOXIE_V14_FRONT_3Q_LEFT_315_APPROVED_LOCKED.png",
+        "05da660b912015290e8506d2361542b10b5cbe6eb3bdc7f52e07e16cd408b6c3",
+    ),
+]
 
 
 def _voxie(register):
@@ -56,9 +88,14 @@ def test_v14_asset_is_exact_approved_locked_package_authority():
         "preservation_state": "preserved_unchanged",
     }
     assert asset["primary_sheet"]["sha256"] == EXPECTED_PRIMARY_SHEET_SHA256
-    assert {view["view_id"]: view["sha256"] for view in asset["views"]} == (
-        EXPECTED_VIEW_HASHES
-    )
+    view_records = [
+        (view["view_id"], view["filename"], view["sha256"])
+        for view in asset["views"]
+    ]
+    assert len(view_records) == 8
+    assert len({view_id for view_id, _, _ in view_records}) == 8
+    assert len({filename for _, filename, _ in view_records}) == 8
+    assert view_records == EXPECTED_VIEWS
     assert asset["media_committed_to_repository"] is False
 
 
