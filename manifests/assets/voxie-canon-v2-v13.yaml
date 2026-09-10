@@ -1,0 +1,108 @@
+asset_id: VOXIE_CANON_V2_V13
+asset_name: "Voxie — Canon V2 v13 eight-view turnaround"
+asset_type: model
+status: locked
+path_or_uri: null
+sha256: bfbc8fe437662c7713c5c0044e851f8a7fabff98effcf10074ef748d565edb96
+provenance:
+  storage_provider: ChatGPT Library
+  source_package:
+    library_file_id: libfile_9597ccb65f4081919dba8385a253530b
+    filename: VOXIE_CANON_V2_EIGHT_VIEW_TURNAROUND_v13_REVIEW.zip
+    library_path: /VOXIE_CANON_V2_EIGHT_VIEW_TURNAROUND_v13_REVIEW.zip
+    sha256: bfbc8fe437662c7713c5c0044e851f8a7fabff98effcf10074ef748d565edb96
+    preservation_state: preserved_unchanged
+  approval_lock_record:
+    library_file_id: libfile_732559e7ae308191baf8432be55720f2
+    filename: VOXIE_CANON_V2_v13_APPROVAL_LOCK_RECORD.md
+    library_path: /VOXIE_CANON_V2_v13_APPROVAL_LOCK_RECORD.md
+  approval_date_utc: "2026-09-08"
+  lock_method: lossless_byte_identical_promotion
+approval_state: "APPROVED / LOCKED CANON"
+qc_status: PASS
+qc:
+  machine_and_visual_qc: PASS
+  package_integrity: PASS
+  view_03_view_07_mirror_evidence: PASS
+  view_count: 8
+  locked_invariants:
+    - exactly one Voxie per production shot
+    - exactly two arms and exactly two legs
+    - exactly four translucent wings with the upper pair larger than the lower pair
+    - no pointy ears
+    - glossy dark-indigo visor
+    - cyan eyes, brows, mouth, forehead V, and chest core
+    - white and dark-indigo segmented armor
+    - segmented thigh and shin armor
+    - distinct ankle and foot armor with rounded purple toe and sole
+    - exactly four digits per hand, comprising three fingers and one thumb
+views:
+  - view_id: 01_FRONT
+    filename: 01_VOXIE_V2_FRONT_v06_APPROVED_LOCKED.png
+    width: 1651
+    height: 953
+    sha256: 48ab231dca38a29fab31aa655f858d469044dd63b781372e8115e2293b06e974
+  - view_id: 02_FRONT_3Q_RIGHT
+    filename: 02_VOXIE_V2_FRONT_3Q_RIGHT_v06_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: 8cf5c1699c5a3fbc56bd9f11e2f84988d5c16307bad447e49ebf8d99bd6c0082
+  - view_id: 03_TRUE_SIDE_RIGHT
+    filename: 03_VOXIE_V2_TRUE_SIDE_FACING_RIGHT_v15_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: dd2b8a24ecfc03335bb187571947767f32eca4fa5147fdc6824e622b35b1fdfe
+  - view_id: 04_REAR_3Q_RIGHT
+    filename: 04_VOXIE_V2_REAR_3Q_RIGHT_v06_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: c9da5e873a24debb0867b01f8722d401ab9123ac15c7f7a52e87233677511cc3
+  - view_id: 05_STRAIGHT_BACK
+    filename: 05_VOXIE_V2_STRAIGHT_BACK_v07_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: f76b08f07f212ddffc1ba5340434da159fcae9932a1d6c4ca3884b81ab470038
+  - view_id: 06_REAR_3Q_LEFT
+    filename: 06_VOXIE_V2_REAR_3Q_LEFT_v06_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: f8ec76486752d7f63e28fc158257ce4ea958f0637dff8ecdd020c3dfa240a32c
+  - view_id: 07_TRUE_SIDE_LEFT
+    filename: 07_VOXIE_V2_TRUE_SIDE_FACING_LEFT_v21_APPROVED_LOCKED.png
+    width: 1650
+    height: 953
+    sha256: 7c19be37940de315acd892873c9555b05262e7cd970eb1676fae0d7e0dee11ad
+  - view_id: 08_FRONT_3Q_LEFT
+    filename: 08_VOXIE_V2_FRONT_3Q_LEFT_v05_APPROVED_LOCKED.png
+    width: 1653
+    height: 951
+    sha256: 7fd691ba3bf8146d3420643849ea0bd7b39f569dcebd7cb125da479e1fa9c218
+lineage:
+  historical_predecessor:
+    asset_id: VOXIE_CANON_V1_0_MAGICLIGHT
+    manifest: manifests/assets/voxie-canon-v1.0.magiclight.yaml
+    state: historical_locked
+    permitted_use: existing_approved_v1_era_productions_only
+  new_visual_generation_authority: VOXIE_CANON_V2_V13
+canon_change_gate:
+  required_for_any_later_structure_or_image_change: true
+  pending_proposal:
+    proposal_id: VOXIE_CANON_V14
+    status: PENDING_CANON_CHANGE_GATE
+    requested_changes:
+      - five digits per hand, comprising four fingers and one thumb
+      - white rear helmet shell
+    authority_effect: none_until_separately_approved_and_locked
+execution_boundaries:
+  provider_generation_authorized: false
+  credit_spend_authorized: false
+  publication_authorized: false
+  asset_replacement_authorized: false
+publication: none
+canon_tags:
+  - VOXIE
+  - CANON_V2
+  - CANON_V2_V13
+  - EIGHT_VIEW_TURNAROUND
+  - APPROVED_LOCKED
+media_committed_to_repository: false

@@ -29,11 +29,18 @@ jobs:
           voxie-os validate canon examples/canon.voxie.v1.yaml
           voxie-os validate character_status manifests/characters/status-register-v01.yaml
           voxie-os validate authority_index manifests/control/authority-index-v01.yaml
-          voxie-os authority-audit manifests/control/authority-index-v01.yaml --out /tmp/authority-audit.json
           voxie-os authority-lock-build manifests/control/authority-index-v01.yaml --out /tmp/authority-lock-v01.json
           cmp /tmp/authority-lock-v01.json manifests/control/authority-content-lock-v01.json
-          voxie-os authority-lock-verify manifests/control/authority-index-v01.yaml manifests/control/authority-content-lock-v01.json --out /tmp/authority-lock-audit.json
-          cat /tmp/authority-lock-audit.json
+          voxie-os authority-lock-verify manifests/control/authority-index-v01.yaml manifests/control/authority-content-lock-v01.json --out /tmp/authority-lock-audit-v01.json
+          cat /tmp/authority-lock-audit-v01.json
+          voxie-os validate asset manifests/assets/voxie-canon-v2-v13.yaml
+          voxie-os validate character_status manifests/characters/status-register-v02.yaml
+          voxie-os validate authority_index manifests/control/authority-index-v02.yaml
+          voxie-os authority-audit manifests/control/authority-index-v02.yaml --out /tmp/authority-audit-v02.json
+          voxie-os authority-lock-build manifests/control/authority-index-v02.yaml --out /tmp/authority-lock-v02.json
+          cmp /tmp/authority-lock-v02.json manifests/control/authority-content-lock-v02.json
+          voxie-os authority-lock-verify manifests/control/authority-index-v02.yaml manifests/control/authority-content-lock-v02.json --out /tmp/authority-lock-audit-v02.json
+          cat /tmp/authority-lock-audit-v02.json
           voxie-os validate beatmap examples/beatmap.example.json
           voxie-os validate shot_manifest examples/shot_manifest.example.yaml
           voxie-os validate shot_manifest manifests/productions/big-surprise/shot-manifest-v01.yaml

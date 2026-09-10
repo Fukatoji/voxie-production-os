@@ -7,7 +7,6 @@ import sys
 from .alignment import audit_beatmap, build_consensus
 from .authority import build_authority_coverage_report
 from .authority_lock import (
-    DEFAULT_LOCK_ID,
     build_authority_lock,
     verify_authority_lock,
 )
@@ -72,7 +71,7 @@ def main() -> int:
     alb = sub.add_parser("authority-lock-build")
     alb.add_argument("index")
     alb.add_argument("--out", required=True)
-    alb.add_argument("--lock-id", default=DEFAULT_LOCK_ID)
+    alb.add_argument("--lock-id")
 
     alv = sub.add_parser("authority-lock-verify")
     alv.add_argument("index")
