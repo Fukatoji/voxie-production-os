@@ -34,7 +34,7 @@ jobs:
           voxie-os authority-lock-build manifests/control/authority-index-v01.yaml --out /tmp/authority-lock-v01.json
           cmp /tmp/authority-lock-v01.json manifests/control/authority-content-lock-v01.json
           voxie-os authority-lock-verify manifests/control/authority-index-v01.yaml manifests/control/authority-content-lock-v01.json --out /tmp/authority-lock-audit-v01.json
-          voxie-os authority-lock-build manifests/control/authority-index-v02.yaml --lock-id VOS-AUTHORITY-CONTENT-LOCK-V02 --out /tmp/authority-lock-v02.json
+          voxie-os authority-lock-build manifests/control/authority-index-v02.yaml --out /tmp/authority-lock-v02.json
           cmp /tmp/authority-lock-v02.json manifests/control/authority-content-lock-v02.json
           voxie-os authority-lock-verify manifests/control/authority-index-v02.yaml manifests/control/authority-content-lock-v02.json --out /tmp/authority-lock-audit-v02.json
           cat /tmp/authority-lock-audit-v01.json
