@@ -49,6 +49,7 @@ SCHEMA_FILES = {
     "provider_catalog": "provider_catalog.schema.json",
     "provider_job": "provider_job.schema.json",
     "production_state": "production_state.schema.json",
+    "production_manifest": "production_manifest.schema.json",
 }
 
 
@@ -187,6 +188,22 @@ def _validate_production_state(data: Any) -> list[str]:
                 "asset IDs must exactly match SHA-256 checksum keys"
             )
 
+    return errors
+
+
+
+def _validate_production_manifest(data: Any) -> list[str]:
+    """Validate cross-field timeline relationships."""
+    errors = []
+    timeline = data["timeline"]
+    if timeline["unique_keyframes"] > timeline["shot_count"]:
+        errors.append(
+            "timeline.unique_keyframes: cannot exceed timeline.shot_count"
+        )
+    if timeline["hold_or_continue_shots"] > timeline["shot_count"]:
+        errors.append(
+            "timeline.hold_or_continue_shots: cannot exceed timeline.shot_count"
+        )
     return errors
 
 
@@ -487,6 +504,8 @@ def validate(kind: str, data: Any) -> list[str]:
         errors.extend(_validate_library_routing_state(data))
     if kind == "production_state" and not errors:
         errors.extend(_validate_production_state(data))
+    if kind == "production_manifest" and not errors:
+        errors.extend(_validate_production_manifest(data))
     if kind == "release_readiness" and not errors:
         errors.extend(_validate_release_readiness(data))
     if kind == "character_status" and not errors:
