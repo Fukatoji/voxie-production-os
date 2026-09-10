@@ -13,7 +13,7 @@ from voxie_os.core import load_data
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INDEX_PATH = ROOT / "manifests/control/authority-index-v01.yaml"
+INDEX_PATH = ROOT / "manifests/control/authority-index-v03.yaml"
 
 
 def _index():
@@ -25,7 +25,7 @@ def test_current_authority_index_covers_discovery_policy():
 
     assert report["status"] == "PASS"
     assert report["counts"]["current"] == 18
-    assert report["counts"]["predecessors"] == 4
+    assert report["counts"]["predecessors"] == 8
     assert report["counts"]["discovered"] == report["counts"]["covered"]
     assert report["missing_from_index"] == []
     assert report["outside_discovery_policy"] == []
@@ -37,7 +37,7 @@ def test_discovery_policy_is_explicit_and_control_plane_only():
     discovered = discover_authority_records()
 
     assert AUTHORITY_DISCOVERY_PATTERNS
-    assert "manifests/control/authority-index-v01.yaml" not in discovered
+    assert "manifests/control/authority-index-v03.yaml" not in discovered
     assert not any(path.startswith("examples/") for path in discovered)
     assert not any(path.startswith("handoff/") for path in discovered)
     assert not any(path.endswith((".mp4", ".wav", ".png")) for path in discovered)

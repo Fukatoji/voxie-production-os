@@ -8,10 +8,15 @@ from voxie_os.core import SCHEMA_FILES, load_data, schema_for, validate
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTER_PATH = ROOT / "manifests/characters/status-register-v01.yaml"
+V2_REGISTER_PATH = ROOT / "manifests/characters/status-register-v02.yaml"
 
 
 def _register():
     return deepcopy(load_data(REGISTER_PATH))
+
+
+def _v2_register():
+    return deepcopy(load_data(V2_REGISTER_PATH))
 
 
 def _characters(register):
@@ -130,4 +135,58 @@ def test_parked_alternative_cannot_replace_locked_canon():
 
     assert validate("character_status", register) == [
         "characters.0.parked_alternatives.0.may_replace_locked_canon: must be false"
+    ]
+
+
+def test_pending_canon_change_cannot_be_marked_approved_in_place():
+    register = _v2_register()
+    proposal = _characters(register)["VOXIE"]["pending_change_proposals"][0]
+    proposal["status"] = "APPROVED"
+
+    errors = validate("character_status", register)
+
+    assert any(
+        error.startswith("characters.0.pending_change_proposals.0.status:")
+        for error in errors
+    )
+
+
+def test_pending_canon_change_cannot_gain_authority_in_place():
+    register = _v2_register()
+    proposal = _characters(register)["VOXIE"]["pending_change_proposals"][0]
+    proposal["authority_effect"] = "ACTIVE"
+
+    errors = validate("character_status", register)
+
+    assert any(
+        error.startswith(
+            "characters.0.pending_change_proposals.0.authority_effect:"
+        )
+        for error in errors
+    )
+
+
+def test_pending_canon_change_requires_requested_changes():
+    register = _v2_register()
+    proposal = _characters(register)["VOXIE"]["pending_change_proposals"][0]
+    del proposal["requested_changes"]
+
+    errors = validate("character_status", register)
+
+    assert any(
+        error.startswith("characters.0.pending_change_proposals.0:")
+        and "requested_changes" in error
+        for error in errors
+    )
+
+
+def test_pending_canon_change_proposal_ids_must_be_unique():
+    register = _v2_register()
+    proposals = _characters(register)["VOXIE"]["pending_change_proposals"]
+    duplicate = deepcopy(proposals[0])
+    duplicate["requested_changes"] = ["another separately gated change"]
+    proposals.append(duplicate)
+
+    assert validate("character_status", register) == [
+        "characters.0.pending_change_proposals: proposal IDs must be unique"
     ]

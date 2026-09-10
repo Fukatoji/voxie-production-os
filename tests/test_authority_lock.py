@@ -6,6 +6,7 @@ from jsonschema import Draft202012Validator
 from voxie_os.authority_lock import (
     authority_lock_schema,
     build_authority_lock,
+    validate_authority_lock_schema,
     verify_authority_lock,
 )
 from voxie_os.core import load_data, sha256_file
@@ -13,6 +14,7 @@ from voxie_os.core import load_data, sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_PATH = ROOT / "manifests/control/authority-index-v01.yaml"
+V2_INDEX_PATH = ROOT / "manifests/control/authority-index-v02.yaml"
 
 
 def _index():
@@ -33,6 +35,7 @@ def test_builder_is_deterministic_and_complete():
 
     assert first == second
     assert first["algorithm"] == "sha256"
+    assert first["lock_id"] == "VOS-AUTHORITY-CONTENT-LOCK-V01"
     assert first["index_sha256"] == sha256_file(INDEX_PATH)
     assert first["entry_count"] == 18
     assert len(first["entries"]) == 18
@@ -52,6 +55,26 @@ def test_generated_lock_verifies():
         "findings": 0,
     }
     assert report["findings"] == []
+
+
+def test_v2_authority_lock_builds_and_verifies():
+    index = load_data(V2_INDEX_PATH)
+    lock = build_authority_lock(index, index_path=V2_INDEX_PATH)
+
+    assert lock["lock_id"] == "VOS-AUTHORITY-CONTENT-LOCK-V02"
+    assert lock["index_id"] == "VOS-AUTHORITY-INDEX-V02"
+    assert lock["index_path"] == "manifests/control/authority-index-v02.yaml"
+    assert lock["entry_count"] == 18
+    assert verify_authority_lock(index, lock, index_path=V2_INDEX_PATH)["status"] == "PASS"
+
+
+def test_lock_and_index_version_suffixes_must_match():
+    lock = _lock()
+    lock["lock_id"] = "VOS-AUTHORITY-CONTENT-LOCK-V02"
+
+    assert validate_authority_lock_schema(lock) == [
+        "lock_id, index_id, and index_path: version suffixes must match"
+    ]
 
 
 def test_authority_hash_mismatch_fails():

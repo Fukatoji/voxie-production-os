@@ -7,7 +7,7 @@ from voxie_os.core import SCHEMA_FILES, load_data, schema_for, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INDEX_PATH = ROOT / "manifests/control/authority-index-v01.yaml"
+INDEX_PATH = ROOT / "manifests/control/authority-index-v03.yaml"
 
 
 def _index():
@@ -42,8 +42,8 @@ def test_index_covers_priority_canon_production_distribution_and_workflows():
     paths = {entry["path"] for entry in _index()["entries"]}
 
     assert {
-        "manifests/assets/voxie-canon-v1.0.magiclight.yaml",
-        "manifests/characters/status-register-v01.yaml",
+        "manifests/assets/voxie-canon-v14.yaml",
+        "manifests/characters/status-register-v03.yaml",
         "manifests/productions/big-surprise/beatmap-001.final.json",
         "manifests/productions/big-surprise/shot-manifest-v01.yaml",
         "manifests/distribution/big-surprise/release-readiness-v01.yaml",

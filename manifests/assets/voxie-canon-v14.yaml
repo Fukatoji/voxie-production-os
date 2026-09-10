@@ -1,0 +1,156 @@
+asset_id: VOXIE_CANON_V14
+asset_name: "Voxie — V14 approved locked eight-view reference"
+asset_type: model
+status: locked
+path_or_uri: null
+sha256: b9ce2b414dc3bb25ec064646c4d45a70557683fb885d64f7c1583955d6c2f061
+provenance:
+  storage_provider: ChatGPT Library
+  source_package:
+    library_file_id: libfile_2158d521dfe88191aeddffdaa73d5aef
+    file_id: file_00000000d27481f596ad115084332396
+    filename: VOXIE_V14_APPROVED_LOCKED_v01.zip
+    library_path: /Voxie's Wonder World/01 Canon/Characters/Voxie/V14/Approved Locked/VOXIE_V14_APPROVED_LOCKED_v01.zip
+    byte_size: 11604796
+    sha256: b9ce2b414dc3bb25ec064646c4d45a70557683fb885d64f7c1583955d6c2f061
+    preservation_state: preserved_unchanged
+  embedded_lock_evidence:
+    lock_manifest:
+      path: LOCK_MANIFEST.json
+      sha256: 28773dbf1ee35515fe4527cdfc8d6ecb90714f556fd4485299c150e657af36d8
+    lock_record:
+      path: LOCK_RECORD.md
+      sha256: cc3a3f55e323c71b7ba26170949556d3775c0226b064c4dfbfe3ce666fa6c7b1
+    qc_verification:
+      path: QC_VERIFICATION.json
+      sha256: 108b9a80b7cf911a9f5add16bbdd517c05150e4f7d6f53e61b4d6c36fc71fe35
+    source_review_package:
+      path: Source_Provenance/VOXIE_V14_APPROVAL_PACKAGE_v01.zip
+      sha256: 68bcac7071f6fd7c2e3a198c59ef3ecd3730954b290b1822e558a13b019df6a5
+  approval_date_utc: "2026-09-10"
+  approved_by: user
+  approval_quote: "Yes and Lock this"
+  lock_method: sealed_package_checksum_verification
+approval_state: "APPROVED / LOCKED CANON"
+qc_status: PASS
+qc:
+  package_integrity: PASS
+  internal_checksum_count: 14
+  internal_checksum_result: PASS
+  source_review_package_byte_identical: true
+  machine_and_visual_qc: PASS
+  mirrored_view_evidence:
+    right_profile_090_is_exact_horizontal_mirror_of_left_profile_270: true
+    rear_3q_right_135_is_exact_horizontal_mirror_of_rear_3q_left_225: true
+  view_count: 8
+  visible_reference_limits:
+    primary_sheet_dimensions: [1672, 941]
+    native_view_dimensions: [402, 416]
+    hidden_anatomy_certified: false
+    model_or_rig_certified: false
+  locked_invariants:
+    - exactly one Voxie per production shot
+    - exactly two arms and exactly two legs
+    - exactly four translucent wings with the upper pair larger than the lower pair
+    - no pointy ears
+    - glossy dark-indigo visor
+    - cyan eyes, brows, mouth, forehead V, and chest core
+    - white and dark-indigo segmented armor
+    - navy-purple helmet crown wrap with white rear-side shell areas
+    - solid cyan rear V
+    - segmented thigh and shin armor
+    - small solid cyan ankle side discs
+    - distinct ankle and foot armor with rounded purple toes and soles
+    - exactly four visible digits per hand, comprising three fingers and one thumb
+    - preserve accepted hand artwork and orientation; do not redraw the hands
+    - preserve the accepted four-wing artwork; rejected wing repairs are excluded
+primary_sheet:
+  filename: VOXIE_V14_POLISHED_MIRRORED_APPROVED_LOCKED.png
+  width: 1672
+  height: 941
+  sha256: d9dc1779104b3bc8cc0a4ca950cd874eaa4499898d5075a866352f98936ecff1
+views:
+  - view_id: FRONT_000
+    filename: VOXIE_V14_FRONT_000_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: 6cbaed736eabc5323a50fea5d4abb554cac9042fb44da1e644db432a5c3c9194
+  - view_id: FRONT_3Q_RIGHT_045
+    filename: VOXIE_V14_FRONT_3Q_RIGHT_045_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: 1afe2b3d5dda607534485385a124c2322b739b234a266fccee5ae820018220f0
+  - view_id: RIGHT_PROFILE_090
+    filename: VOXIE_V14_RIGHT_PROFILE_090_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: b89b2a4e48c458b8b010a95e15fcffb349a8f1ceb82cd63624cfd2511d228983
+  - view_id: REAR_3Q_RIGHT_135
+    filename: VOXIE_V14_REAR_3Q_RIGHT_135_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: f83b884e1d63d5a0a7bdca53aeb3d535d16bdcbe7b611f7f8f0897eaf692d760
+  - view_id: BACK_180
+    filename: VOXIE_V14_BACK_180_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: d30025aa17db0b742db853ede7c4aa34cd7671058a310c666c49c10b1edb8f2d
+  - view_id: REAR_3Q_LEFT_225
+    filename: VOXIE_V14_REAR_3Q_LEFT_225_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: bb906bd69615790aca1d83399f099c8c5744b711c8b97ef36dc99aba138f68f5
+  - view_id: LEFT_PROFILE_270
+    filename: VOXIE_V14_LEFT_PROFILE_270_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: d10b30e8a964f55946538fb1f6796279901807b5cc52cc9c5981594575e3e64f
+  - view_id: FRONT_3Q_LEFT_315
+    filename: VOXIE_V14_FRONT_3Q_LEFT_315_APPROVED_LOCKED.png
+    width: 402
+    height: 416
+    sha256: 05da660b912015290e8506d2361542b10b5cbe6eb3bdc7f52e07e16cd408b6c3
+lineage:
+  immediate_predecessor:
+    asset_id: VOXIE_CANON_V2_V13
+    manifest: manifests/assets/voxie-canon-v2-v13.yaml
+    state: HISTORICAL_LOCKED
+    preservation_state: historical_unchanged
+    permitted_use: EXISTING_APPROVED_V13_ERA_PRODUCTIONS_ONLY
+  earlier_predecessor:
+    asset_id: VOXIE_CANON_V1_0_MAGICLIGHT
+    manifest: manifests/assets/voxie-canon-v1.0.magiclight.yaml
+    state: HISTORICAL_LOCKED
+    preservation_state: historical_unchanged
+    permitted_use: EXISTING_APPROVED_V1_ERA_PRODUCTIONS_ONLY
+  new_visual_generation_authority: VOXIE_CANON_V14
+canon_change_gate:
+  gate_id: VOXIE_CANON_CHANGE_GATE_V14
+  status: COMPLETE
+  decision: APPROVED_AND_LOCKED
+  effective_date_utc: "2026-09-10"
+  authority_effect: CURRENT_FOR_NEW_WORK
+  basis:
+    - exact sealed package SHA-256 verified
+    - all 14 internal checksums passed
+    - eight locked views visually inspected
+    - user directed completion of the V14 canon change gate
+  scope: visible_reference_design_and_exact_reference_images
+  exclusions:
+    - hidden hand anatomy
+    - unseen wing roots
+    - three-dimensional model or rig
+    - measured ankle-disc midpoint geometry
+  future_structure_or_image_change_requires_new_version: true
+execution_boundaries:
+  provider_generation_authorized: false
+  credit_spend_authorized: false
+  publication_authorized: false
+  asset_replacement_authorized: false
+publication: none
+canon_tags:
+  - VOXIE
+  - CANON_V14
+  - EIGHT_VIEW_REFERENCE
+  - APPROVED_LOCKED
+media_committed_to_repository: false

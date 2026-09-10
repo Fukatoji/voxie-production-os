@@ -399,6 +399,13 @@ def _validate_character_status(data: Any) -> list[str]:
                     f"{prefix}.parked_alternatives.{alternative_index}.may_replace_locked_canon: must be false"
                 )
 
+        proposals = character.get("pending_change_proposals", [])
+        proposal_ids = [proposal["proposal_id"] for proposal in proposals]
+        if len(proposal_ids) != len(set(proposal_ids)):
+            errors.append(
+                f"{prefix}.pending_change_proposals: proposal IDs must be unique"
+            )
+
     return errors
 
 

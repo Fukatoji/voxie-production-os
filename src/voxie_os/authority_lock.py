@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +12,11 @@ from .core import ROOT, load_data, sha256_file, validate
 
 LOCK_SCHEMA_PATH = ROOT / "schemas/authority_lock.schema.json"
 DEFAULT_LOCK_ID = "VOS-AUTHORITY-CONTENT-LOCK-V01"
+LOCK_ID_PATTERN = re.compile(r"^VOS-AUTHORITY-CONTENT-LOCK-(V[0-9]{2})$")
+INDEX_ID_PATTERN = re.compile(r"^VOS-AUTHORITY-INDEX-(V[0-9]{2})$")
+INDEX_PATH_PATTERN = re.compile(
+    r"^manifests/control/authority-index-(v[0-9]{2})\.yaml$"
+)
 
 
 def authority_lock_schema() -> dict[str, Any]:
@@ -23,6 +29,22 @@ def validate_authority_lock_schema(lock: Any) -> list[str]:
     for error in sorted(validator.iter_errors(lock), key=lambda item: list(item.path)):
         where = ".".join(str(part) for part in error.path) or "<root>"
         errors.append(f"{where}: {error.message}")
+    if errors or not isinstance(lock, dict):
+        return errors
+
+    lock_match = LOCK_ID_PATTERN.fullmatch(lock["lock_id"])
+    index_match = INDEX_ID_PATTERN.fullmatch(lock["index_id"])
+    path_match = INDEX_PATH_PATTERN.fullmatch(lock["index_path"])
+    if lock_match and index_match and path_match:
+        versions = {
+            lock_match.group(1).lower(),
+            index_match.group(1).lower(),
+            path_match.group(1).lower(),
+        }
+        if len(versions) != 1:
+            errors.append(
+                "lock_id, index_id, and index_path: version suffixes must match"
+            )
     return errors
 
 
@@ -54,13 +76,19 @@ def build_authority_lock(
     *,
     index_path: str | Path,
     repo_root: str | Path = ROOT,
-    lock_id: str = DEFAULT_LOCK_ID,
+    lock_id: str | None = None,
 ) -> dict[str, Any]:
     """Build a deterministic SHA-256 lock for the current authority set."""
     root = Path(repo_root)
     index_errors = validate("authority_index", index)
     if index_errors:
         raise ValueError("invalid authority index: " + "; ".join(index_errors))
+
+    if lock_id is None:
+        index_match = INDEX_ID_PATTERN.fullmatch(index["index_id"])
+        if index_match is None:
+            raise ValueError("authority index ID has no version suffix")
+        lock_id = f"VOS-AUTHORITY-CONTENT-LOCK-{index_match.group(1)}"
 
     index_relative = _relative_repository_path(root, index_path)
     index_file, index_error = _resolve_repository_file(root, index_relative)
@@ -272,7 +300,7 @@ def load_and_build_authority_lock(
     index_path: str | Path,
     *,
     repo_root: str | Path = ROOT,
-    lock_id: str = DEFAULT_LOCK_ID,
+    lock_id: str | None = None,
 ) -> dict[str, Any]:
     return build_authority_lock(
         load_data(index_path),
