@@ -73,7 +73,7 @@ def schema_for(kind: str) -> dict[str, Any]:
 
 def _append_repository_file_error(
     errors: list[str], field: str, relative_path: str
-) -> None:
+) -> bool:
     """Require a repository-local reference to resolve to an existing file."""
     repository_root = ROOT.resolve()
     target = (ROOT / relative_path).resolve()
@@ -83,11 +83,13 @@ def _append_repository_file_error(
         errors.append(
             f"{field}: referenced path must stay within repository: {relative_path}"
         )
-        return
+        return False
     if not target.is_file():
         errors.append(
             f"{field}: referenced repository file does not exist: {relative_path}"
         )
+        return False
+    return True
 
 
 def _validate_library_routing_state(data: Any) -> list[str]:
@@ -196,6 +198,16 @@ def _validate_production_manifest(data: Any) -> list[str]:
     """Validate version lineage, external authorities, blockers, and timing."""
     errors = []
 
+    try:
+        datetime.strptime(
+            data["recorded_at_utc"], "%Y-%m-%dT%H:%M:%SZ"
+        ).replace(tzinfo=timezone.utc)
+    except ValueError:
+        errors.append(
+            "recorded_at_utc: must be a real RFC 3339 UTC timestamp "
+            "in YYYY-MM-DDTHH:MM:SSZ form"
+        )
+
     expected_record_id = (
         f"{data['production_id']}-PRODUCTION-MANIFEST-v"
         f"{data['record_version']:02d}"
@@ -222,11 +234,36 @@ def _validate_production_manifest(data: Any) -> list[str]:
             errors.append(f"supersedes.record_version: expected {previous}")
         if supersedes["path"] != expected_path:
             errors.append(f"supersedes.path: expected {expected_path}")
+        elif _append_repository_file_error(
+            errors, "supersedes.path", supersedes["path"]
+        ):
+            predecessor_path = ROOT / supersedes["path"]
+            predecessor_sha256 = hashlib.sha256(
+                predecessor_path.read_bytes()
+            ).hexdigest()
+            if supersedes["sha256"] != predecessor_sha256:
+                errors.append(
+                    "supersedes.sha256: expected checksum "
+                    f"{predecessor_sha256} for {supersedes['path']}"
+                )
 
     audio = data["audio"]
     beatmap = data["beatmap"]
     timeline = data["timeline"]
     registry = data["registry"]
+
+    audio_storage = audio["storage"]
+    if audio["asset_id"] != audio_storage["file_id"]:
+        errors.append("audio.asset_id: must match audio.storage.file_id")
+    expected_audio_url_prefix = (
+        "https://drive.google.com/file/d/"
+        f"{audio_storage['file_id']}/"
+    )
+    if not audio_storage["url"].startswith(expected_audio_url_prefix):
+        errors.append(
+            "audio.storage.url: must encode audio.storage.file_id "
+            "in the Google Drive file path"
+        )
 
     for field, item in (("beatmap", beatmap), ("timeline", timeline)):
         if item["asset_id"] != item["storage"]["library_file_id"]:
@@ -268,9 +305,9 @@ def _validate_production_manifest(data: Any) -> list[str]:
         errors.append(
             "blockers: missing required blockers: " + ", ".join(missing_blockers)
         )
-    if required_blockers and data["execution_authority"] != "BLOCKED":
+    if data["blockers"] and data["execution_authority"] != "BLOCKED":
         errors.append(
-            "execution_authority: must be BLOCKED while production blockers remain"
+            "execution_authority: must be BLOCKED while blockers remain"
         )
 
     return errors
