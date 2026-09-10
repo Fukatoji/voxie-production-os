@@ -20,6 +20,42 @@ def _manifest():
     return deepcopy(load_data(MANIFEST))
 
 
+def _verified_source_marker():
+    return {
+        "canonical_filename": "stage_d_verified_markers.tsv",
+        "status": "AVAILABLE",
+        "asset_id": "libfile_source_marker",
+        "storage": {
+            "provider": "CHATGPT_LIBRARY",
+            "library_file_id": "libfile_source_marker",
+            "path": "/Voxie's Wonder World/stage_d_verified_markers.tsv",
+        },
+        "checksum_status": "VERIFIED",
+        "sha256": "c" * 64,
+    }
+
+
+def _verified_video_binaries():
+    return {
+        "status": "VERIFIED",
+        "required_for_execution": True,
+        "checksum_status": "VERIFIED",
+        "assets": [
+            {
+                "asset_id": "libfile_rsp_video",
+                "canonical_filename": "RSP_S01.mp4",
+                "mime_type": "video/mp4",
+                "storage": {
+                    "provider": "CHATGPT_LIBRARY",
+                    "library_file_id": "libfile_rsp_video",
+                    "path": "/Voxie's Wonder World/RSP_S01.mp4",
+                },
+                "sha256": "d" * 64,
+            }
+        ],
+    }
+
+
 def test_production_manifest_schema_is_registered_and_valid():
     assert SCHEMA_FILES["production_manifest"] == "production_manifest.schema.json"
     Draft202012Validator.check_schema(schema_for("production_manifest"))
@@ -80,10 +116,31 @@ def test_external_artifacts_use_stable_library_id_and_checksum():
 
 def test_available_source_does_not_require_missing_source_blocker():
     candidate = _manifest()
-    candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
+    candidate["beatmap"]["authoritative_sources"][0] = _verified_source_marker()
     candidate["blockers"].remove("SOURCE_MARKER_NOT_AVAILABLE")
 
     assert validate("production_manifest", candidate) == []
+
+
+def test_available_source_requires_stable_identity():
+    candidate = _manifest()
+    candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
+    candidate["blockers"].remove("SOURCE_MARKER_NOT_AVAILABLE")
+
+    errors = validate("production_manifest", candidate)
+
+    assert any(
+        error.startswith("beatmap.authoritative_sources.0.asset_id:")
+        for error in errors
+    )
+    assert any(
+        error.startswith("beatmap.authoritative_sources.0.storage:")
+        for error in errors
+    )
+    assert any(
+        error.startswith("beatmap.authoritative_sources.0.sha256:")
+        for error in errors
+    )
 
 
 def test_v01_requires_null_predecessor():
@@ -163,7 +220,8 @@ def test_any_declared_blocker_prevents_execution_authorization():
     candidate["audio"]["checksum_status"] = "VERIFIED"
     candidate["audio"]["sha256"] = "a" * 64
     candidate["audio"]["known_defects"] = []
-    candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
+    candidate["beatmap"]["authoritative_sources"][0] = _verified_source_marker()
+    candidate["video_binaries"] = _verified_video_binaries()
     candidate["registry"] = {
         "canonical_filename": "production_registry.sqlite3",
         "status": "VERIFIED",
@@ -249,3 +307,36 @@ def test_recorded_timestamp_must_be_real_utc_time():
         "recorded_at_utc: must be a real RFC 3339 UTC timestamp "
         "in YYYY-MM-DDTHH:MM:SSZ form"
     ]
+
+
+def test_missing_video_binaries_require_matching_blocker():
+    candidate = _manifest()
+    candidate["blockers"].remove("RSP_VIDEO_BINARIES_NOT_OBSERVED")
+
+    assert validate("production_manifest", candidate) == [
+        "blockers: missing required blockers: RSP_VIDEO_BINARIES_NOT_OBSERVED"
+    ]
+
+
+def test_verified_video_asset_id_must_match_storage_identity():
+    candidate = _manifest()
+    candidate["video_binaries"] = _verified_video_binaries()
+    candidate["video_binaries"]["assets"][0]["asset_id"] = "libfile_wrong_video"
+
+    assert validate("production_manifest", candidate) == [
+        "video_binaries.assets.0.asset_id: must match "
+        "video_binaries.assets.0.storage.library_file_id"
+    ]
+
+
+def test_verified_video_requires_sha256():
+    candidate = _manifest()
+    candidate["video_binaries"] = _verified_video_binaries()
+    candidate["video_binaries"]["assets"][0]["sha256"] = None
+
+    errors = validate("production_manifest", candidate)
+
+    assert any(
+        error.startswith("video_binaries.assets.0.sha256:")
+        for error in errors
+    )
