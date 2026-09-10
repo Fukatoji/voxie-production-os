@@ -10,9 +10,25 @@
 
 ## ASSET
 
+Registered manifest:
+
+`manifests/productions/magic-dance-freeze/approved-review-binary-v16.yaml`
+
+Stable asset ID:
+
+`VWF-MDF-V03-V16-REVIEW-MASTER`
+
 Controlling review binary:
 
 `/Voxie's Wonder World/VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.mp4`
+
+Canonical filename:
+
+`VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.mp4`
+
+Storage location:
+
+`ChatGPT File Library / Voxie's Wonder World`
 
 SHA-256:
 
@@ -61,4 +77,4 @@ Interpretation for control purposes:
 
 ## NEXT ACTION
 
-Route this exact approved v16 binary to 00 Command Center / mastering records for the formal lock/package gate. Preserve the exact binary and SHA-256. Do not regenerate, alter, rename, replace, publish, or retry the historical missing-output provider operation unless separately authorized.
+Route the registered exact v16 asset `VWF-MDF-V03-V16-REVIEW-MASTER` through `manifests/productions/magic-dance-freeze/approved-review-binary-v16.yaml` to 00 Command Center / mastering records for the formal lock/package gate. Verify the exact binary against the manifest SHA-256 before promotion. Do not regenerate, alter, rename, replace, publish, or retry the historical missing-output provider operation unless separately authorized.
