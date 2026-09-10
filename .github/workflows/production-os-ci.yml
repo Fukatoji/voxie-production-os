@@ -29,11 +29,16 @@ jobs:
           voxie-os validate canon examples/canon.voxie.v1.yaml
           voxie-os validate character_status manifests/characters/status-register-v01.yaml
           voxie-os validate authority_index manifests/control/authority-index-v01.yaml
-          voxie-os authority-audit manifests/control/authority-index-v01.yaml --out /tmp/authority-audit.json
+          voxie-os validate authority_index manifests/control/authority-index-v02.yaml
+          voxie-os authority-audit manifests/control/authority-index-v02.yaml --out /tmp/authority-audit.json
           voxie-os authority-lock-build manifests/control/authority-index-v01.yaml --out /tmp/authority-lock-v01.json
           cmp /tmp/authority-lock-v01.json manifests/control/authority-content-lock-v01.json
-          voxie-os authority-lock-verify manifests/control/authority-index-v01.yaml manifests/control/authority-content-lock-v01.json --out /tmp/authority-lock-audit.json
-          cat /tmp/authority-lock-audit.json
+          voxie-os authority-lock-verify manifests/control/authority-index-v01.yaml manifests/control/authority-content-lock-v01.json --out /tmp/authority-lock-audit-v01.json
+          voxie-os authority-lock-build manifests/control/authority-index-v02.yaml --lock-id VOS-AUTHORITY-CONTENT-LOCK-V02 --out /tmp/authority-lock-v02.json
+          cmp /tmp/authority-lock-v02.json manifests/control/authority-content-lock-v02.json
+          voxie-os authority-lock-verify manifests/control/authority-index-v02.yaml manifests/control/authority-content-lock-v02.json --out /tmp/authority-lock-audit-v02.json
+          cat /tmp/authority-lock-audit-v01.json
+          cat /tmp/authority-lock-audit-v02.json
           voxie-os validate beatmap examples/beatmap.example.json
           voxie-os validate shot_manifest examples/shot_manifest.example.yaml
           voxie-os validate shot_manifest manifests/productions/big-surprise/shot-manifest-v01.yaml
@@ -41,6 +46,7 @@ jobs:
           voxie-os validate release_readiness manifests/distribution/big-surprise/release-readiness-v01.yaml
           voxie-os validate release_readiness manifests/distribution/freeze-dance/release-readiness-v01.yaml
           voxie-os validate release_readiness manifests/distribution/colorful-day/release-readiness-v01.yaml
+          voxie-os validate release_readiness manifests/distribution/rainbow-colors/release-readiness-v01.yaml
           voxie-os validate alignment workflows/big-surprise-multi-aligner-evaluation-v01.yaml
           voxie-os validate benchmark examples/benchmark.example.json
           voxie-os validate library_routing manifests/library-routing.v2.yaml
@@ -48,6 +54,7 @@ jobs:
           voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v02.yaml
           voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v03.yaml
           voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v04.yaml
+          voxie-os validate production_state manifests/productions/rainbow-colors/production-state-v05.yaml
           voxie-os validate benchmark_suite workflows/voxie-model-benchmark-v01.yaml
           voxie-os validate provider_catalog config/providers.v1.yaml
           voxie-os validate provider_job examples/provider-job.magiclight-character-preview.yaml
