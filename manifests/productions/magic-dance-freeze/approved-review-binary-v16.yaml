@@ -1,0 +1,47 @@
+version: 1
+record_type: approved_review_binary
+recorded_at_utc: '2026-09-10T22:50:00Z'
+project:
+  id: VWF-MAGIC-DANCE-FREEZE-V03
+  title: Voxie's Magic Dance Freeze
+asset:
+  stable_asset_id: VWF-MDF-V03-V16-REVIEW-MASTER
+  status: USER_APPROVED_REVIEW_BINARY
+  locked: false
+  publication_authorized: false
+  canonical_filename: VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.mp4
+  sha256: 7823ffd692fcaa5b227e6ddbc8e9e80fcee8a9a7dfe93f2273933a83d39b1609
+  storage_location: ChatGPT File Library / Voxie's Wonder World
+  controlling_storage_path: "/Voxie's Wonder World/VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.mp4"
+  duplicate_storage_path: "/VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.mp4"
+  binary_locator_status: CONNECTED_STORAGE_PATH_VERIFIED_BINARY_ID_NOT_SURFACED
+  checksum_evidence:
+    stable_file_id: file_00000000859081f5affd7dcdb7667e4b
+    filename: VWF_MAGIC_DANCE_FREEZE_V03_NEW_CANON_CUE_SYNC_v16_REVIEW.sha256
+  qc_evidence:
+    stable_file_id: file_00000000d82c81f58d71900d1d438436
+    filename: VWF_MAGIC_DANCE_FREEZE_v16_FINAL_TECHNICAL_QC.md
+technical:
+  duration_seconds: 175.830
+  resolution: 1920x1080
+  fps: 25
+  video_codec: H.264 High
+  audio_codec: AAC
+  audio_sample_rate_hz: 44100
+  audio_channels: 2
+qc:
+  final_technical_qc: PASS
+  one_voxie: PASS
+  four_wing_control: PASS
+  segmented_lower_body: PASS
+  motion_continuity: PASS
+  child_safety: PASS
+  av_sync: PASS
+spend:
+  approval_record_step_credits: 0
+  historical_missing_output_incident: '120 credits charged / output missing — DO NOT RETRY'
+notes:
+  - This manifest registers the exact user-approved v16 review binary for routing and verification.
+  - This record does not declare a final locked master.
+  - This record does not authorize publishing.
+  - The exact binary must match the recorded SHA-256 before any downstream lock or package promotion.
