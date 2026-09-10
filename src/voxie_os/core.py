@@ -180,11 +180,26 @@ def _validate_production_state(data: Any) -> list[str]:
     lineage = data["external_media"]["stable_asset_ids_and_checksums"]
     if lineage["status"] == "VERIFIED":
         asset_ids = set(lineage["stable_asset_ids"])
-        checksum_ids = set(lineage["sha256_checksums"])
+        checksums = lineage["sha256_checksums"]
+        checksum_ids = set(checksums)
         if asset_ids != checksum_ids:
             errors.append(
                 "external_media.stable_asset_ids_and_checksums: VERIFIED "
                 "asset IDs must exactly match SHA-256 checksum keys"
+            )
+
+        locked_audio = data["authorities"]["audio"]
+        locked_audio_id = locked_audio["library_id"]
+        locked_audio_sha256 = locked_audio["sha256"]
+        if locked_audio_id not in asset_ids:
+            errors.append(
+                "authorities.audio.library_id: VERIFIED lineage must include "
+                "the locked audio library ID"
+            )
+        if checksums.get(locked_audio_id) != locked_audio_sha256:
+            errors.append(
+                "authorities.audio.sha256: VERIFIED lineage checksum must "
+                "match the locked audio SHA-256"
             )
 
     return errors

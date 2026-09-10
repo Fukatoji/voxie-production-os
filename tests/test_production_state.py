@@ -101,11 +101,14 @@ def test_pending_lineage_rejects_invented_identifiers_or_checksums():
 
 
 def test_verified_lineage_requires_exact_asset_checksum_mapping():
-    manifest = _manifest()
+    manifest = _v05_manifest()
+    audio = manifest["authorities"]["audio"]
     lineage = manifest["external_media"]["stable_asset_ids_and_checksums"]
-    lineage["status"] = "VERIFIED"
-    lineage["stable_asset_ids"] = ["asset-a"]
-    lineage["sha256_checksums"] = {"asset-b": "b" * 64}
+    lineage["stable_asset_ids"] = [audio["library_id"], "asset-a"]
+    lineage["sha256_checksums"] = {
+        audio["library_id"]: audio["sha256"],
+        "asset-b": "b" * 64,
+    }
 
     assert validate("production_state", manifest) == [
         "external_media.stable_asset_ids_and_checksums: VERIFIED "
@@ -184,8 +187,12 @@ def _v03_manifest():
     return deepcopy(load_data(V03_MANIFEST))
 
 
+def _v05_manifest():
+    return deepcopy(load_data(V05_MANIFEST))
+
+
 def test_rainbow_colors_v05_binds_locked_audio_to_verified_lineage():
-    manifest = load_data(V05_MANIFEST)
+    manifest = _v05_manifest()
     audio = manifest["authorities"]["audio"]
     lineage = manifest["external_media"]["stable_asset_ids_and_checksums"]
 
@@ -196,6 +203,43 @@ def test_rainbow_colors_v05_binds_locked_audio_to_verified_lineage():
     assert audio["library_id"] in lineage["stable_asset_ids"]
     assert lineage["sha256_checksums"][audio["library_id"]] == audio["sha256"]
     assert validate("production_state", manifest) == []
+
+
+def test_verified_lineage_requires_locked_audio_identity_fields():
+    for field in ("library_id", "sha256"):
+        manifest = _v05_manifest()
+        del manifest["authorities"]["audio"][field]
+
+        errors = validate("production_state", manifest)
+
+        assert any(error.startswith("authorities.audio:") for error in errors)
+
+
+def test_verified_lineage_must_include_locked_audio_library_id():
+    manifest = _v05_manifest()
+    lineage = manifest["external_media"]["stable_asset_ids_and_checksums"]
+    audio_id = manifest["authorities"]["audio"]["library_id"]
+    lineage["stable_asset_ids"].remove(audio_id)
+    del lineage["sha256_checksums"][audio_id]
+
+    assert validate("production_state", manifest) == [
+        "authorities.audio.library_id: VERIFIED lineage must include "
+        "the locked audio library ID",
+        "authorities.audio.sha256: VERIFIED lineage checksum must match "
+        "the locked audio SHA-256",
+    ]
+
+
+def test_verified_lineage_must_match_locked_audio_checksum():
+    manifest = _v05_manifest()
+    audio = manifest["authorities"]["audio"]
+    lineage = manifest["external_media"]["stable_asset_ids_and_checksums"]
+    lineage["sha256_checksums"][audio["library_id"]] = "a" * 64
+
+    assert validate("production_state", manifest) == [
+        "authorities.audio.sha256: VERIFIED lineage checksum must match "
+        "the locked audio SHA-256"
+    ]
 
 
 def test_rainbow_colors_v03_validates():

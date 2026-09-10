@@ -524,6 +524,52 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "external_media": {
+            "properties": {
+              "stable_asset_ids_and_checksums": {
+                "properties": {
+                  "status": {
+                    "const": "VERIFIED"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "required": [
+              "stable_asset_ids_and_checksums"
+            ]
+          }
+        },
+        "required": [
+          "external_media"
+        ]
+      },
+      "then": {
+        "properties": {
+          "authorities": {
+            "properties": {
+              "audio": {
+                "required": [
+                  "library_id",
+                  "sha256"
+                ]
+              }
+            },
+            "required": [
+              "audio"
+            ]
+          }
+        },
+        "required": [
+          "authorities"
+        ]
+      }
     }
   ],
   "$defs": {
