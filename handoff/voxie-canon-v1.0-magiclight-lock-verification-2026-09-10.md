@@ -15,7 +15,7 @@ Publication: **none**
 - Format: `16:9`
 - Outputs: `1`
 - Credits used: `90`
-- Post-generation balance: `86,305`
+- Post-generation balance (historical generation record): `86,305`
 - QC: `PASS`
 - Rejections/replacements: `none`
 - Publication: `none`
@@ -43,9 +43,10 @@ Publication: **none**
 - Preview binary checksum: `pending/unavailable`
 - Checksum reason: MagicLight does not expose the exact preview binary/hash.
 - Large generated media committed to GitHub: `no`
+- Current live MagicLight balance: `unverified`; the historical `86,305` value does not authorize current spending.
 
 The existing canonical manifest and original approval handoff already contain the supplied provider IDs, generation settings, spend record, QC evidence, publication state, and approval state. They remain unchanged because approved historical records must not be overwritten. This verification record adds no provider execution change and makes no change to unrelated canon versions, production branches, pull requests, or publication state.
 
 ## Next permitted action
 
-Return to MagicLight and proceed with `Voxie’s Rainbow Colors` using the approved reusable asset reference. Any paid generation remains a separately costed and authorized production action.
+Return to MagicLight and proceed with read-only inspection and preparation for `Voxie’s Rainbow Colors` using the approved reusable asset reference. Before any paid generation, authenticate the MagicLight session, verify the current live balance, preserve the balance-reconciliation gate in `manifests/productions/rainbow-colors/production-state-v04.yaml`, and obtain authorization for the exact quoted action.
