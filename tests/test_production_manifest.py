@@ -9,7 +9,10 @@ from voxie_os.core import SCHEMA_FILES, load_data, schema_for, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "manifests/production_manifest.json"
+MANIFEST = (
+    ROOT
+    / "manifests/productions/ready-set-play/production-manifest-v01.json"
+)
 
 
 def _manifest():
@@ -35,34 +38,105 @@ def test_cli_validates_current_production_manifest(monkeypatch, capsys):
     assert capsys.readouterr().out == "PASS\n"
 
 
-def test_missing_production_id_fails_closed():
+def test_missing_audio_identity_fails_closed():
     candidate = _manifest()
-    del candidate["production_id"]
+    del candidate["audio"]["asset_id"]
+
+    errors = validate("production_manifest", candidate)
 
     assert any(
-        error.startswith("<root>:") and "production_id" in error
+        error.startswith("audio:") and "asset_id" in error
+        for error in errors
+    )
+
+
+def test_pending_audio_checksum_blocks_execution():
+    candidate = _manifest()
+    candidate["execution_authority"] = "AUTHORIZED"
+
+    assert any(
+        error.startswith("execution_authority:")
         for error in validate("production_manifest", candidate)
     )
 
 
-def test_invalid_state_fails_closed():
+def test_pending_audio_checksum_requires_matching_blocker():
     candidate = _manifest()
-    candidate["state"] = "READY_TO_POST"
+    candidate["blockers"].remove("AUDIO_SHA256_PENDING")
+
+    assert validate("production_manifest", candidate) == [
+        "blockers: missing required blockers: AUDIO_SHA256_PENDING"
+    ]
+
+
+def test_external_artifacts_use_stable_library_id_and_checksum():
+    manifest = _manifest()
+
+    for key in ("beatmap", "timeline"):
+        assert manifest[key]["asset_id"] == manifest[key]["storage"]["library_file_id"]
+        assert len(manifest[key]["sha256"]) == 64
+
+
+def test_missing_source_is_not_treated_as_resolved():
+    candidate = _manifest()
+    candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
+    candidate["blockers"].remove("SOURCE_MARKER_NOT_AVAILABLE")
+
+    assert validate("production_manifest", candidate) == []
+
+
+def test_v01_requires_null_predecessor():
+    candidate = _manifest()
+    candidate["supersedes"] = {
+        "record_version": 1,
+        "path": "manifests/productions/ready-set-play/production-manifest-v01.json",
+        "sha256": "a" * 64,
+    }
+
+    assert validate("production_manifest", candidate) == [
+        "supersedes: record_version 1 must not name a predecessor"
+    ]
+
+
+def test_future_version_requires_immediate_predecessor():
+    candidate = _manifest()
+    candidate["record_version"] = 2
+    candidate["record_id"] = "VWW-RSP-001-PRODUCTION-MANIFEST-v02"
+    candidate["supersedes"] = None
+
+    assert validate("production_manifest", candidate) == [
+        "supersedes: record_version 2 requires the immediate predecessor"
+    ]
+
+
+def test_record_id_matches_version():
+    candidate = _manifest()
+    candidate["record_id"] = "VWW-RSP-001-PRODUCTION-MANIFEST-v02"
+
+    assert validate("production_manifest", candidate) == [
+        "record_id: expected VWW-RSP-001-PRODUCTION-MANIFEST-v01"
+    ]
+
+
+def test_referenced_repository_schema_must_exist():
+    candidate = _manifest()
+    candidate["beatmap"]["schema"] = "schemas/missing.schema.json"
+
+    errors = validate("production_manifest", candidate)
 
     assert any(
-        error.startswith("state:")
-        for error in validate("production_manifest", candidate)
+        error.startswith("beatmap.schema: referenced repository file does not exist:")
+        for error in errors
     )
 
 
-def test_nonpositive_audio_duration_fails_closed():
+def test_timing_durations_must_match_audio():
     candidate = _manifest()
-    candidate["audio"]["duration_ms"] = 0
+    candidate["timeline"]["duration_ms"] += 1
 
-    assert any(
-        error.startswith("audio.duration_ms:")
-        for error in validate("production_manifest", candidate)
-    )
+    assert validate("production_manifest", candidate) == [
+        "timeline.duration_ms: expected 174693 to match audio.duration_ms, got 174694"
+    ]
 
 
 def test_unique_keyframes_cannot_exceed_shot_count():
