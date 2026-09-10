@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "production_id": "VWW-RSP-001",
+  "title": "Voxie's Ready, Set, Play!",
+  "state": "CONDITIONAL",
+  "audio": {
+    "duration_ms": 174693,
+    "status": "SUNG MASTER v1.0 — CONDITIONAL",
+    "known_defects": [
+      "V7 counts 1-2-3 are missing/inaudible; do not fabricate visual sync."
+    ]
+  },
+  "beatmap": {
+    "path": "beatmap.generated.json",
+    "schema": "../../schemas/beatmap.schema.json",
+    "authoritative_sources": ["stage_d_verified_markers.tsv"]
+  },
+  "timeline": {
+    "path": "timeline.generated.json",
+    "fps": 24,
+    "shot_count": 23,
+    "unique_keyframes": 19,
+    "hold_or_continue_shots": 4
+  },
+  "qc": {
+    "character_lock": "Voxie hard character lock",
+    "blocking_rules": [
+      "VOXIE_WING_COUNT",
+      "VOXIE_V_EMBLEM_PRESENT",
+      "VOXIE_CHEST_DIAMOND_PRESENT",
+      "VOXIE_EXTRA_MOUTH"
+    ]
+  },
+  "registry": {
+    "path": "production_registry.sqlite3"
+  }
+}
