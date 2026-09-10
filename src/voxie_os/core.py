@@ -92,6 +92,31 @@ def _append_repository_file_error(
     return True
 
 
+def _append_external_storage_identity_errors(
+    errors: list[str],
+    field: str,
+    asset_id: str,
+    storage: dict[str, Any],
+) -> None:
+    """Bind a stable asset ID to the identity encoded by its storage record."""
+    if storage["provider"] == "GOOGLE_DRIVE":
+        if asset_id != storage["file_id"]:
+            errors.append(f"{field}.asset_id: must match {field}.storage.file_id")
+        expected_url_prefix = (
+            "https://drive.google.com/file/d/"
+            f"{storage['file_id']}/"
+        )
+        if not storage["url"].startswith(expected_url_prefix):
+            errors.append(
+                f"{field}.storage.url: must encode {field}.storage.file_id "
+                "in the Google Drive file path"
+            )
+    elif asset_id != storage["library_file_id"]:
+        errors.append(
+            f"{field}.asset_id: must match {field}.storage.library_file_id"
+        )
+
+
 def _validate_library_routing_state(data: Any) -> list[str]:
     """Check relationships only after the manifest schema has passed."""
     status = data["current_intake_status"]
@@ -250,20 +275,12 @@ def _validate_production_manifest(data: Any) -> list[str]:
     audio = data["audio"]
     beatmap = data["beatmap"]
     timeline = data["timeline"]
+    video_binaries = data["video_binaries"]
     registry = data["registry"]
 
-    audio_storage = audio["storage"]
-    if audio["asset_id"] != audio_storage["file_id"]:
-        errors.append("audio.asset_id: must match audio.storage.file_id")
-    expected_audio_url_prefix = (
-        "https://drive.google.com/file/d/"
-        f"{audio_storage['file_id']}/"
+    _append_external_storage_identity_errors(
+        errors, "audio", audio["asset_id"], audio["storage"]
     )
-    if not audio_storage["url"].startswith(expected_audio_url_prefix):
-        errors.append(
-            "audio.storage.url: must encode audio.storage.file_id "
-            "in the Google Drive file path"
-        )
 
     for field, item in (("beatmap", beatmap), ("timeline", timeline)):
         if item["asset_id"] != item["storage"]["library_file_id"]:
@@ -277,6 +294,23 @@ def _validate_production_manifest(data: Any) -> list[str]:
             )
 
     _append_repository_file_error(errors, "beatmap.schema", beatmap["schema"])
+
+    for source_index, source in enumerate(beatmap["authoritative_sources"]):
+        if source["status"] == "AVAILABLE":
+            _append_external_storage_identity_errors(
+                errors,
+                f"beatmap.authoritative_sources.{source_index}",
+                source["asset_id"],
+                source["storage"],
+            )
+
+    for asset_index, asset in enumerate(video_binaries["assets"]):
+        _append_external_storage_identity_errors(
+            errors,
+            f"video_binaries.assets.{asset_index}",
+            asset["asset_id"],
+            asset["storage"],
+        )
 
     if timeline["unique_keyframes"] > timeline["shot_count"]:
         errors.append(
@@ -299,6 +333,8 @@ def _validate_production_manifest(data: Any) -> list[str]:
         required_blockers.add("SOURCE_MARKER_NOT_AVAILABLE")
     if registry["status"] != "VERIFIED":
         required_blockers.add("PRODUCTION_REGISTRY_NOT_AVAILABLE")
+    if video_binaries["status"] != "VERIFIED" or not video_binaries["assets"]:
+        required_blockers.add("RSP_VIDEO_BINARIES_NOT_OBSERVED")
 
     missing_blockers = sorted(required_blockers - set(data["blockers"]))
     if missing_blockers:
