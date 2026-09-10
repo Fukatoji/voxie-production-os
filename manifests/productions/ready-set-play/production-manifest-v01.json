@@ -12,7 +12,8 @@
     "AUDIO_SHA256_PENDING",
     "AUDIO_CONTENT_DEFECT_PRESENT",
     "SOURCE_MARKER_NOT_AVAILABLE",
-    "PRODUCTION_REGISTRY_NOT_AVAILABLE"
+    "PRODUCTION_REGISTRY_NOT_AVAILABLE",
+    "RSP_VIDEO_BINARIES_NOT_OBSERVED"
   ],
   "audio": {
     "asset_id": "1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0",
@@ -49,7 +50,11 @@
     "authoritative_sources": [
       {
         "canonical_filename": "stage_d_verified_markers.tsv",
-        "status": "NOT_AVAILABLE"
+        "status": "NOT_AVAILABLE",
+        "asset_id": null,
+        "storage": null,
+        "checksum_status": "NOT_AVAILABLE",
+        "sha256": null
       }
     ]
   },
@@ -68,6 +73,12 @@
     "shot_count": 23,
     "unique_keyframes": 19,
     "hold_or_continue_shots": 4
+  },
+  "video_binaries": {
+    "status": "NOT_AVAILABLE",
+    "required_for_execution": true,
+    "checksum_status": "NOT_AVAILABLE",
+    "assets": []
   },
   "qc": {
     "character_lock": "Voxie hard character lock",
