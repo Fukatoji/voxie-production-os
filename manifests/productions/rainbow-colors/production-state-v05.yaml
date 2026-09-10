@@ -1,0 +1,146 @@
+version: 5
+record_type: production_state
+recorded_at_utc: '2026-09-10T02:34:24Z'
+production_date_local: '2026-09-09'
+production_timezone: America/Chicago
+production:
+  slug: rainbow-colors
+  title: "Voxie's Rainbow Colors"
+  status: COMPLETE
+  final_master_status: LOCKED
+authority_scope:
+  decision_authority: VALID
+  decision_scope:
+  - shot_map_v01.1
+  - locked_audio_boundary
+  - approved_locked_full_master_v02
+  - approved_locked_english_vtt_v01
+  - approved_locked_youtube_package_v02
+  - private_youtube_native_review_v01
+  execution_authority: BLOCKED
+  execution_media_scope:
+  - S00
+  - S37
+  execution_blockers:
+  - NEW_CREATIVE_DECISION_REQUIRED
+  note: This successor records the completed approved-and-locked master and the separately authorized private YouTube native review. No further media mutation, paid generation, scheduling, or public publication is authorized.
+authorities:
+  shot_map:
+    active_version: v01.1
+    status: LOCKED
+    shot_count: 37
+    predecessor:
+      version: v01
+      status: LOCKED
+  audio:
+    duration_seconds: 150.0
+    status: LOCKED
+    preserve_bytes: true
+    canonical_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+recorded_progress:
+  S00:
+    status: LOCKED
+    control_record: true
+    purpose: final_master_and_private_youtube_native_review
+    predecessor_manifest: manifests/productions/rainbow-colors/production-state-v04.yaml
+    final_master:
+      status: LOCKED
+      version: v02
+      exact_filename: VWF_RAINBOW_COLORS_FULL_MASTER_v02_APPROVED_LOCKED.mov
+      library_id: libfile_64109527eacc8191aa0ec53196960cc9
+      sha256: d105f6b89aa6a924cd72a2b1d3be5df28fb2483064e31a9e5087b5e45cadaef7
+      duration_seconds: 150.0
+      resolution: 1920x1080
+      fps: 24
+      frame_count: 3600
+      video_codec: H.264_High
+      audio_codec: PCM_s24le
+      audio_sample_rate_hz: 48000
+      audio_channels: 2
+    english_captions:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_EN_v01_APPROVED_LOCKED.vtt
+      library_id: libfile_7c28fe90ac6c8191b9af69e82d230f36
+      sha256: 883ad68b5b9ae3f71fa117e1ad7c8c728960863b3bbc45b0aeeab0bdfcdee264
+      cue_count: 32
+    thumbnail:
+      status: LOCKED
+      version: v01
+      exact_filename: VWF_RAINBOW_COLORS_S33_POINT_SEQUENCE_KF-A_v01_APPROVED_LOCKED.png
+      library_id: libfile_2362d07fa7908191bf95741940755c11
+      sha256: 53a262287231e50a4356158a79e1a2151c3865136e0fc85d3784672f2c3fb283
+      resolution: 1920x1080
+    youtube_package:
+      status: LOCKED
+      version: v02
+      exact_filename: VWF_RAINBOW_COLORS_YOUTUBE_LAUNCH_PACKAGE_v02_REVIEW.md
+      library_id: libfile_2d82c14bed008191bcfb54d623f8047a
+      sha256: 1600290980012b099bbf15705f05af8cd1648a7faf02d75aef6ec026556bb481
+      approval_record_library_id: libfile_a3d87b5d6b1c8191a73d2ae8d4804ce9
+      correction_record_library_id: libfile_a12c1ae558008191b93375195f891173
+    private_native_review:
+      status: APPROVED
+      version: v01
+      audit_library_id: libfile_10bf43fb13e4819181f19b54bfee8244
+      channel_handle: '@VoxiesWonderWorld'
+      channel_id: UCWku_aFjx61hePgosuzzyvg
+      video_id: 2hfGiF27iM8
+      visibility: PRIVATE
+      schedule_set: false
+      made_for_kids: true
+      sd_processing: PASS
+      hd_processing: PASS
+      native_1080p: PASS
+      full_playback: PASS
+      youtube_checks: PASS
+      manual_caption_cue_count: 32
+      automatic_caption_duplicate_removed: true
+      original_audio_track_status: PUBLISHED
+      subjective_human_listening_claimed: false
+      credits_spent: 0
+  S37:
+    status: LOCKED
+    final_assembly_included: true
+    final_master_version: v02
+    final_frame_count: 3600
+continuation:
+  resume_after_shot: S37
+  zero_cost_only: true
+  deterministic_existing_sources_only: true
+  qc_required: PASS
+  preserve_shot_timing: []
+  stop_if:
+  - credits_or_money_required
+  - provider_generation_or_new_pixels_required
+  - canon_or_locked_authority_conflict
+  - qc_not_pass
+  - locked_audio_would_change
+  - publishing_or_distribution_requested
+  - new_creative_decision_required
+spend_and_balance_gate:
+  quoted_generation_credits: 2300
+  spend_authorized: false
+  recorded_post_generation_balance: 86305
+  separately_displayed_balance: 86395
+  discrepancy_credits: 90
+  reconcile_before_any_future_spend: true
+prohibitions:
+  recreate_missing_source_image: false
+  substitute_missing_source_image: false
+  modify_locked_sources: false
+  publish: false
+external_media:
+  storage_authority: ChatGPT Library
+  binaries_committed_to_git: false
+  stable_asset_ids_and_checksums:
+    status: VERIFIED
+    stable_asset_ids:
+    - libfile_64109527eacc8191aa0ec53196960cc9
+    - libfile_7c28fe90ac6c8191b9af69e82d230f36
+    - libfile_2362d07fa7908191bf95741940755c11
+    sha256_checksums:
+      libfile_64109527eacc8191aa0ec53196960cc9: d105f6b89aa6a924cd72a2b1d3be5df28fb2483064e31a9e5087b5e45cadaef7
+      libfile_7c28fe90ac6c8191b9af69e82d230f36: 883ad68b5b9ae3f71fa117e1ad7c8c728960863b3bbc45b0aeeab0bdfcdee264
+      libfile_2362d07fa7908191bf95741940755c11: 53a262287231e50a4356158a79e1a2151c3865136e0fc85d3784672f2c3fb283
+    rule: The exact locked master, caption sidecar, and thumbnail identities are verified. Package and approval records remain external control evidence; media binaries stay outside Git.
