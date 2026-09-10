@@ -1,4 +1,5 @@
 from copy import deepcopy
+import hashlib
 from pathlib import Path
 import sys
 
@@ -77,7 +78,7 @@ def test_external_artifacts_use_stable_library_id_and_checksum():
         assert len(manifest[key]["sha256"]) == 64
 
 
-def test_missing_source_is_not_treated_as_resolved():
+def test_available_source_does_not_require_missing_source_blocker():
     candidate = _manifest()
     candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
     candidate["blockers"].remove("SOURCE_MARKER_NOT_AVAILABLE")
@@ -154,4 +155,97 @@ def test_hold_or_continue_shots_cannot_exceed_shot_count():
 
     assert validate("production_manifest", candidate) == [
         "timeline.hold_or_continue_shots: cannot exceed timeline.shot_count"
+    ]
+
+
+def test_any_declared_blocker_prevents_execution_authorization():
+    candidate = _manifest()
+    candidate["audio"]["checksum_status"] = "VERIFIED"
+    candidate["audio"]["sha256"] = "a" * 64
+    candidate["audio"]["known_defects"] = []
+    candidate["beatmap"]["authoritative_sources"][0]["status"] = "AVAILABLE"
+    candidate["registry"] = {
+        "canonical_filename": "production_registry.sqlite3",
+        "status": "VERIFIED",
+        "storage": {
+            "provider": "CHATGPT_LIBRARY",
+            "library_file_id": "libfile_registry",
+            "path": "/Voxie's Wonder World/production_registry.sqlite3",
+        },
+        "checksum_status": "VERIFIED",
+        "sha256": "b" * 64,
+    }
+    candidate["blockers"] = ["VISUAL_MASTER_MISSING"]
+    candidate["execution_authority"] = "AUTHORIZED"
+
+    assert validate("production_manifest", candidate) == [
+        "execution_authority: must be BLOCKED while blockers remain"
+    ]
+
+
+def test_audio_asset_id_must_match_drive_file_id():
+    candidate = _manifest()
+    candidate["audio"]["storage"]["file_id"] = "different-drive-file"
+
+    errors = validate("production_manifest", candidate)
+
+    assert "audio.asset_id: must match audio.storage.file_id" in errors
+    assert any(error.startswith("audio.storage.url:") for error in errors)
+
+
+def test_audio_drive_url_must_encode_drive_file_id():
+    candidate = _manifest()
+    candidate["audio"]["storage"]["url"] = (
+        "https://drive.google.com/file/d/different-drive-file/view"
+    )
+
+    assert validate("production_manifest", candidate) == [
+        "audio.storage.url: must encode audio.storage.file_id "
+        "in the Google Drive file path"
+    ]
+
+
+def test_predecessor_checksum_must_match_referenced_record():
+    candidate = _manifest()
+    candidate["record_version"] = 2
+    candidate["record_id"] = "VWW-RSP-001-PRODUCTION-MANIFEST-v02"
+    candidate["supersedes"] = {
+        "record_version": 1,
+        "path": "manifests/productions/ready-set-play/production-manifest-v01.json",
+        "sha256": "a" * 64,
+    }
+
+    errors = validate("production_manifest", candidate)
+    expected_sha256 = hashlib.sha256(MANIFEST.read_bytes()).hexdigest()
+
+    assert errors == [
+        "supersedes.sha256: expected checksum "
+        f"{expected_sha256} for "
+        "manifests/productions/ready-set-play/production-manifest-v01.json"
+    ]
+
+
+def test_predecessor_record_must_exist():
+    candidate = _manifest()
+    candidate["record_version"] = 3
+    candidate["record_id"] = "VWW-RSP-001-PRODUCTION-MANIFEST-v03"
+    candidate["supersedes"] = {
+        "record_version": 2,
+        "path": "manifests/productions/ready-set-play/production-manifest-v02.json",
+        "sha256": "a" * 64,
+    }
+
+    assert validate("production_manifest", candidate) == [
+        "supersedes.path: referenced repository file does not exist: "
+        "manifests/productions/ready-set-play/production-manifest-v02.json"
+    ]
+
+
+def test_recorded_timestamp_must_be_real_utc_time():
+    candidate = _manifest()
+    candidate["recorded_at_utc"] = "not-a-date"
+
+    assert validate("production_manifest", candidate) == [
+        "recorded_at_utc: must be a real RFC 3339 UTC timestamp "
+        "in YYYY-MM-DDTHH:MM:SSZ form"
     ]
