@@ -6,11 +6,7 @@ import sys
 
 from .alignment import audit_beatmap, build_consensus
 from .authority import build_authority_coverage_report
-from .authority_lock import (
-    DEFAULT_LOCK_ID,
-    build_authority_lock,
-    verify_authority_lock,
-)
+from .authority_lock import build_authority_lock, verify_authority_lock
 from .benchmark import evaluate, summarize
 from .change_report import build_change_report, changed_files, to_markdown
 from .core import SCHEMA_FILES, load_data, save_json, validate
@@ -72,7 +68,7 @@ def main() -> int:
     alb = sub.add_parser("authority-lock-build")
     alb.add_argument("index")
     alb.add_argument("--out", required=True)
-    alb.add_argument("--lock-id", default=DEFAULT_LOCK_ID)
+    alb.add_argument("--lock-id")
 
     alv = sub.add_parser("authority-lock-verify")
     alv.add_argument("index")
