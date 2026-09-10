@@ -177,10 +177,25 @@ def test_zero_cost_continuation_cannot_authorize_spend():
 
 
 V03_MANIFEST = ROOT / "manifests/productions/rainbow-colors/production-state-v03.yaml"
+V05_MANIFEST = ROOT / "manifests/productions/rainbow-colors/production-state-v05.yaml"
 
 
 def _v03_manifest():
     return deepcopy(load_data(V03_MANIFEST))
+
+
+def test_rainbow_colors_v05_binds_locked_audio_to_verified_lineage():
+    manifest = load_data(V05_MANIFEST)
+    audio = manifest["authorities"]["audio"]
+    lineage = manifest["external_media"]["stable_asset_ids_and_checksums"]
+
+    assert audio["library_id"] == "libfile_b84a335eaa248191a7692a956b264862"
+    assert audio["sha256"] == (
+        "6c5919525c0f8b465ed6625dfd9a1d59adfe38f0cd33147f3c4f453bc9650fb0"
+    )
+    assert audio["library_id"] in lineage["stable_asset_ids"]
+    assert lineage["sha256_checksums"][audio["library_id"]] == audio["sha256"]
+    assert validate("production_state", manifest) == []
 
 
 def test_rainbow_colors_v03_validates():

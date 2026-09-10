@@ -37,6 +37,8 @@ authorities:
     status: LOCKED
     preserve_bytes: true
     canonical_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+    library_id: libfile_b84a335eaa248191a7692a956b264862
+    sha256: 6c5919525c0f8b465ed6625dfd9a1d59adfe38f0cd33147f3c4f453bc9650fb0
 recorded_progress:
   S00:
     status: LOCKED
@@ -57,6 +59,19 @@ recorded_progress:
       audio_codec: PCM_s24le
       audio_sample_rate_hz: 48000
       audio_channels: 2
+    locked_audio:
+      status: LOCKED
+      exact_filename: VWF_RAINBOW_COLORS_AUDIO_MASTER_v01.1_APPROVED_LOCKED.wav
+      library_id: libfile_b84a335eaa248191a7692a956b264862
+      sha256: 6c5919525c0f8b465ed6625dfd9a1d59adfe38f0cd33147f3c4f453bc9650fb0
+      duration_seconds: 150.0
+      audio_codec: PCM_s24le
+      audio_sample_rate_hz: 48000
+      audio_channels: 2
+      fresh_rehash_performed: true
+      decoded_pcm_sha256: f748533b2bc882fb0c8cddf2ddcc312642cf7b126b785fbcacbb831ebc33fe65
+      master_embedded_pcm_sha256: f748533b2bc882fb0c8cddf2ddcc312642cf7b126b785fbcacbb831ebc33fe65
+      master_pcm_payload_match: true
     english_captions:
       status: LOCKED
       version: v01
@@ -137,10 +152,12 @@ external_media:
     status: VERIFIED
     stable_asset_ids:
     - libfile_64109527eacc8191aa0ec53196960cc9
+    - libfile_b84a335eaa248191a7692a956b264862
     - libfile_7c28fe90ac6c8191b9af69e82d230f36
     - libfile_2362d07fa7908191bf95741940755c11
     sha256_checksums:
       libfile_64109527eacc8191aa0ec53196960cc9: d105f6b89aa6a924cd72a2b1d3be5df28fb2483064e31a9e5087b5e45cadaef7
+      libfile_b84a335eaa248191a7692a956b264862: 6c5919525c0f8b465ed6625dfd9a1d59adfe38f0cd33147f3c4f453bc9650fb0
       libfile_7c28fe90ac6c8191b9af69e82d230f36: 883ad68b5b9ae3f71fa117e1ad7c8c728960863b3bbc45b0aeeab0bdfcdee264
       libfile_2362d07fa7908191bf95741940755c11: 53a262287231e50a4356158a79e1a2151c3865136e0fc85d3784672f2c3fb283
-    rule: The exact locked master, caption sidecar, and thumbnail identities are verified. Package and approval records remain external control evidence; media binaries stay outside Git.
+    rule: The exact locked master, locked audio, caption sidecar, and thumbnail identities are verified. Package and approval records remain external control evidence; media binaries stay outside Git.

@@ -234,6 +234,14 @@
             "canonical_filename": {
               "type": "string",
               "minLength": 1
+            },
+            "library_id": {
+              "type": "string",
+              "pattern": "^libfile_[a-z0-9]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
             }
           },
           "additionalProperties": false

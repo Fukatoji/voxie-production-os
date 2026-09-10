@@ -76,7 +76,7 @@
     {
       "authority_id": "RAINBOW_COLORS_PRODUCTION_STATE_V05",
       "path": "manifests/productions/rainbow-colors/production-state-v05.yaml",
-      "sha256": "cf5eb34ddb124e9283b9327223c83d9a2962edc37a3f0ef5f8da4078463d2fe7"
+      "sha256": "9995fcf34ade86c9d301b574a23277f7eb472f6cd7b9f67d7e7ca5e9678566b6"
     },
     {
       "authority_id": "RAINBOW_COLORS_RELEASE_READINESS_V01",
