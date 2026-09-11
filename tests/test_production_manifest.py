@@ -56,6 +56,31 @@ def _verified_video_binaries():
     }
 
 
+def _execution_ready_manifest():
+    candidate = _manifest()
+    candidate["state"] = "APPROVED"
+    candidate["audio"]["checksum_status"] = "VERIFIED"
+    candidate["audio"]["sha256"] = "a" * 64
+    candidate["audio"]["content_status"] = "PASS"
+    candidate["audio"]["known_defects"] = []
+    candidate["beatmap"]["authoritative_sources"][0] = _verified_source_marker()
+    candidate["video_binaries"] = _verified_video_binaries()
+    candidate["registry"] = {
+        "canonical_filename": "production_registry.sqlite3",
+        "status": "VERIFIED",
+        "storage": {
+            "provider": "CHATGPT_LIBRARY",
+            "library_file_id": "libfile_registry",
+            "path": "/Voxie's Wonder World/production_registry.sqlite3",
+        },
+        "checksum_status": "VERIFIED",
+        "sha256": "b" * 64,
+    }
+    candidate["blockers"] = []
+    candidate["execution_authority"] = "AUTHORIZED"
+    return candidate
+
+
 def test_production_manifest_schema_is_registered_and_valid():
     assert SCHEMA_FILES["production_manifest"] == "production_manifest.schema.json"
     Draft202012Validator.check_schema(schema_for("production_manifest"))
@@ -216,28 +241,31 @@ def test_hold_or_continue_shots_cannot_exceed_shot_count():
 
 
 def test_any_declared_blocker_prevents_execution_authorization():
-    candidate = _manifest()
-    candidate["audio"]["checksum_status"] = "VERIFIED"
-    candidate["audio"]["sha256"] = "a" * 64
-    candidate["audio"]["known_defects"] = []
-    candidate["beatmap"]["authoritative_sources"][0] = _verified_source_marker()
-    candidate["video_binaries"] = _verified_video_binaries()
-    candidate["registry"] = {
-        "canonical_filename": "production_registry.sqlite3",
-        "status": "VERIFIED",
-        "storage": {
-            "provider": "CHATGPT_LIBRARY",
-            "library_file_id": "libfile_registry",
-            "path": "/Voxie's Wonder World/production_registry.sqlite3",
-        },
-        "checksum_status": "VERIFIED",
-        "sha256": "b" * 64,
-    }
+    candidate = _execution_ready_manifest()
     candidate["blockers"] = ["VISUAL_MASTER_MISSING"]
-    candidate["execution_authority"] = "AUTHORIZED"
 
     assert validate("production_manifest", candidate) == [
         "execution_authority: must be BLOCKED while blockers remain"
+    ]
+
+
+def test_non_approved_states_prevent_execution_authorization():
+    for state in ("DRAFT", "REVIEW", "CONDITIONAL", "BLOCKED", "ARCHIVED"):
+        candidate = _execution_ready_manifest()
+        candidate["state"] = state
+
+        assert validate("production_manifest", candidate) == [
+            "execution_authority: must be BLOCKED unless state is "
+            "APPROVED or APPROVED_LOCKED"
+        ]
+
+
+def test_blocked_audio_without_known_defects_cannot_authorize_execution():
+    candidate = _execution_ready_manifest()
+    candidate["audio"]["content_status"] = "BLOCKED"
+
+    assert validate("production_manifest", candidate) == [
+        "blockers: missing required blockers: AUDIO_CONTENT_DEFECT_PRESENT"
     ]
 
 

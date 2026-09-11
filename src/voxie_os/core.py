@@ -324,7 +324,7 @@ def _validate_production_manifest(data: Any) -> list[str]:
     required_blockers = set()
     if audio["checksum_status"] != "VERIFIED":
         required_blockers.add("AUDIO_SHA256_PENDING")
-    if audio["known_defects"]:
+    if audio["content_status"] == "BLOCKED" or audio["known_defects"]:
         required_blockers.add("AUDIO_CONTENT_DEFECT_PRESENT")
     if any(
         source["status"] != "AVAILABLE"
@@ -344,6 +344,14 @@ def _validate_production_manifest(data: Any) -> list[str]:
     if data["blockers"] and data["execution_authority"] != "BLOCKED":
         errors.append(
             "execution_authority: must be BLOCKED while blockers remain"
+        )
+    if (
+        data["state"] not in {"APPROVED", "APPROVED_LOCKED"}
+        and data["execution_authority"] != "BLOCKED"
+    ):
+        errors.append(
+            "execution_authority: must be BLOCKED unless state is "
+            "APPROVED or APPROVED_LOCKED"
         )
 
     return errors
