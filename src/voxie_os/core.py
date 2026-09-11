@@ -49,6 +49,7 @@ SCHEMA_FILES = {
     "provider_catalog": "provider_catalog.schema.json",
     "provider_job": "provider_job.schema.json",
     "production_state": "production_state.schema.json",
+    "production_manifest": "production_manifest.schema.json",
 }
 
 
@@ -72,7 +73,7 @@ def schema_for(kind: str) -> dict[str, Any]:
 
 def _append_repository_file_error(
     errors: list[str], field: str, relative_path: str
-) -> None:
+) -> bool:
     """Require a repository-local reference to resolve to an existing file."""
     repository_root = ROOT.resolve()
     target = (ROOT / relative_path).resolve()
@@ -82,10 +83,37 @@ def _append_repository_file_error(
         errors.append(
             f"{field}: referenced path must stay within repository: {relative_path}"
         )
-        return
+        return False
     if not target.is_file():
         errors.append(
             f"{field}: referenced repository file does not exist: {relative_path}"
+        )
+        return False
+    return True
+
+
+def _append_external_storage_identity_errors(
+    errors: list[str],
+    field: str,
+    asset_id: str,
+    storage: dict[str, Any],
+) -> None:
+    """Bind a stable asset ID to the identity encoded by its storage record."""
+    if storage["provider"] == "GOOGLE_DRIVE":
+        if asset_id != storage["file_id"]:
+            errors.append(f"{field}.asset_id: must match {field}.storage.file_id")
+        expected_url_prefix = (
+            "https://drive.google.com/file/d/"
+            f"{storage['file_id']}/"
+        )
+        if not storage["url"].startswith(expected_url_prefix):
+            errors.append(
+                f"{field}.storage.url: must encode {field}.storage.file_id "
+                "in the Google Drive file path"
+            )
+    elif asset_id != storage["library_file_id"]:
+        errors.append(
+            f"{field}.asset_id: must match {field}.storage.library_file_id"
         )
 
 
@@ -186,6 +214,145 @@ def _validate_production_state(data: Any) -> list[str]:
                 "external_media.stable_asset_ids_and_checksums: VERIFIED "
                 "asset IDs must exactly match SHA-256 checksum keys"
             )
+
+    return errors
+
+
+
+def _validate_production_manifest(data: Any) -> list[str]:
+    """Validate version lineage, external authorities, blockers, and timing."""
+    errors = []
+
+    try:
+        datetime.strptime(
+            data["recorded_at_utc"], "%Y-%m-%dT%H:%M:%SZ"
+        ).replace(tzinfo=timezone.utc)
+    except ValueError:
+        errors.append(
+            "recorded_at_utc: must be a real RFC 3339 UTC timestamp "
+            "in YYYY-MM-DDTHH:MM:SSZ form"
+        )
+
+    expected_record_id = (
+        f"{data['production_id']}-PRODUCTION-MANIFEST-v"
+        f"{data['record_version']:02d}"
+    )
+    if data["record_id"] != expected_record_id:
+        errors.append(f"record_id: expected {expected_record_id}")
+
+    supersedes = data["supersedes"]
+    if data["record_version"] == 1:
+        if supersedes is not None:
+            errors.append("supersedes: record_version 1 must not name a predecessor")
+    elif supersedes is None:
+        errors.append(
+            f"supersedes: record_version {data['record_version']} "
+            "requires the immediate predecessor"
+        )
+    else:
+        previous = data["record_version"] - 1
+        expected_path = (
+            "manifests/productions/ready-set-play/"
+            f"production-manifest-v{previous:02d}.json"
+        )
+        if supersedes["record_version"] != previous:
+            errors.append(f"supersedes.record_version: expected {previous}")
+        if supersedes["path"] != expected_path:
+            errors.append(f"supersedes.path: expected {expected_path}")
+        elif _append_repository_file_error(
+            errors, "supersedes.path", supersedes["path"]
+        ):
+            predecessor_path = ROOT / supersedes["path"]
+            predecessor_sha256 = hashlib.sha256(
+                predecessor_path.read_bytes()
+            ).hexdigest()
+            if supersedes["sha256"] != predecessor_sha256:
+                errors.append(
+                    "supersedes.sha256: expected checksum "
+                    f"{predecessor_sha256} for {supersedes['path']}"
+                )
+
+    audio = data["audio"]
+    beatmap = data["beatmap"]
+    timeline = data["timeline"]
+    video_binaries = data["video_binaries"]
+    registry = data["registry"]
+
+    _append_external_storage_identity_errors(
+        errors, "audio", audio["asset_id"], audio["storage"]
+    )
+
+    for field, item in (("beatmap", beatmap), ("timeline", timeline)):
+        if item["asset_id"] != item["storage"]["library_file_id"]:
+            errors.append(
+                f"{field}.asset_id: must match {field}.storage.library_file_id"
+            )
+        if item["duration_ms"] != audio["duration_ms"]:
+            errors.append(
+                f"{field}.duration_ms: expected {audio['duration_ms']} "
+                f"to match audio.duration_ms, got {item['duration_ms']}"
+            )
+
+    _append_repository_file_error(errors, "beatmap.schema", beatmap["schema"])
+
+    for source_index, source in enumerate(beatmap["authoritative_sources"]):
+        if source["status"] == "AVAILABLE":
+            _append_external_storage_identity_errors(
+                errors,
+                f"beatmap.authoritative_sources.{source_index}",
+                source["asset_id"],
+                source["storage"],
+            )
+
+    for asset_index, asset in enumerate(video_binaries["assets"]):
+        _append_external_storage_identity_errors(
+            errors,
+            f"video_binaries.assets.{asset_index}",
+            asset["asset_id"],
+            asset["storage"],
+        )
+
+    if timeline["unique_keyframes"] > timeline["shot_count"]:
+        errors.append(
+            "timeline.unique_keyframes: cannot exceed timeline.shot_count"
+        )
+    if timeline["hold_or_continue_shots"] > timeline["shot_count"]:
+        errors.append(
+            "timeline.hold_or_continue_shots: cannot exceed timeline.shot_count"
+        )
+
+    required_blockers = set()
+    if audio["checksum_status"] != "VERIFIED":
+        required_blockers.add("AUDIO_SHA256_PENDING")
+    if audio["content_status"] == "BLOCKED" or audio["known_defects"]:
+        required_blockers.add("AUDIO_CONTENT_DEFECT_PRESENT")
+    if any(
+        source["status"] != "AVAILABLE"
+        for source in beatmap["authoritative_sources"]
+    ):
+        required_blockers.add("SOURCE_MARKER_NOT_AVAILABLE")
+    if registry["status"] != "VERIFIED":
+        required_blockers.add("PRODUCTION_REGISTRY_NOT_AVAILABLE")
+    if video_binaries["status"] != "VERIFIED" or not video_binaries["assets"]:
+        required_blockers.add("RSP_VIDEO_BINARIES_NOT_OBSERVED")
+
+    missing_blockers = sorted(required_blockers - set(data["blockers"]))
+    if missing_blockers:
+        errors.append(
+            "blockers: missing required blockers: " + ", ".join(missing_blockers)
+        )
+    if data["blockers"] and data["execution_authority"] != "BLOCKED":
+        errors.append(
+            "execution_authority: must be BLOCKED while blockers remain"
+        )
+    if (
+        data["state"] not in {"APPROVED", "APPROVED_LOCKED"}
+        and data["execution_authority"] != "BLOCKED"
+    ):
+        errors.append(
+            "execution_authority: must be BLOCKED unless state is "
+            "APPROVED or APPROVED_LOCKED"
+        )
 
     return errors
 
@@ -487,6 +654,8 @@ def validate(kind: str, data: Any) -> list[str]:
         errors.extend(_validate_library_routing_state(data))
     if kind == "production_state" and not errors:
         errors.extend(_validate_production_state(data))
+    if kind == "production_manifest" and not errors:
+        errors.extend(_validate_production_manifest(data))
     if kind == "release_readiness" and not errors:
         errors.extend(_validate_release_readiness(data))
     if kind == "character_status" and not errors:

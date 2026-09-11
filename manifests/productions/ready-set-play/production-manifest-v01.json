@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "record_version": 1,
+  "record_id": "VWW-RSP-001-PRODUCTION-MANIFEST-v01",
+  "recorded_at_utc": "2026-09-10T13:39:57Z",
+  "production_id": "VWW-RSP-001",
+  "title": "Voxie's Ready, Set, Play!",
+  "state": "CONDITIONAL",
+  "supersedes": null,
+  "execution_authority": "BLOCKED",
+  "blockers": [
+    "AUDIO_SHA256_PENDING",
+    "AUDIO_CONTENT_DEFECT_PRESENT",
+    "SOURCE_MARKER_NOT_AVAILABLE",
+    "PRODUCTION_REGISTRY_NOT_AVAILABLE",
+    "RSP_VIDEO_BINARIES_NOT_OBSERVED"
+  ],
+  "audio": {
+    "asset_id": "1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0",
+    "canonical_filename": "Voxie_Ready_Set_Play_FINAL_MIX_v2_APPROVED_LOCKED.wav",
+    "mime_type": "audio/wav",
+    "size_bytes": 50311674,
+    "duration_ms": 174693,
+    "asset_state": "APPROVED_LOCKED",
+    "content_status": "CONDITIONAL",
+    "storage": {
+      "provider": "GOOGLE_DRIVE",
+      "file_id": "1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0",
+      "url": "https://drive.google.com/file/d/1zsKmWfW4rY9pv9l-etz2qbVJQmK7KNY0/view?usp=drivesdk"
+    },
+    "checksum_status": "PENDING_VERIFICATION",
+    "sha256": null,
+    "known_defects": [
+      "V7 counts 1-2-3 are missing/inaudible; do not fabricate visual sync."
+    ]
+  },
+  "beatmap": {
+    "asset_id": "libfile_81535c454ac8819191a35a0795f62542",
+    "canonical_filename": "beatmap.generated.json",
+    "status": "VERIFIED",
+    "storage": {
+      "provider": "CHATGPT_LIBRARY",
+      "library_file_id": "libfile_81535c454ac8819191a35a0795f62542",
+      "path": "/Voxie's Wonder World/beatmap.generated.json"
+    },
+    "sha256": "0ed9391446704b64b2165f1d2b2d693bddd1cb7980b8428cd1d4623b13618810",
+    "schema": "schemas/beatmap.schema.json",
+    "duration_ms": 174693,
+    "event_count": 31,
+    "authoritative_sources": [
+      {
+        "canonical_filename": "stage_d_verified_markers.tsv",
+        "status": "NOT_AVAILABLE",
+        "asset_id": null,
+        "storage": null,
+        "checksum_status": "NOT_AVAILABLE",
+        "sha256": null
+      }
+    ]
+  },
+  "timeline": {
+    "asset_id": "libfile_30a11b724d308191b28ac2e60d776d1a",
+    "canonical_filename": "timeline.generated.json",
+    "status": "VERIFIED",
+    "storage": {
+      "provider": "CHATGPT_LIBRARY",
+      "library_file_id": "libfile_30a11b724d308191b28ac2e60d776d1a",
+      "path": "/Voxie's Wonder World/timeline.generated.json"
+    },
+    "sha256": "53e7d1f80f65faa7d03031d86fca33acb6cdd76baba855e1192f91cba928a92a",
+    "duration_ms": 174693,
+    "fps": 24,
+    "shot_count": 23,
+    "unique_keyframes": 19,
+    "hold_or_continue_shots": 4
+  },
+  "video_binaries": {
+    "status": "NOT_AVAILABLE",
+    "required_for_execution": true,
+    "checksum_status": "NOT_AVAILABLE",
+    "assets": []
+  },
+  "qc": {
+    "character_lock": "Voxie hard character lock",
+    "blocking_rules": [
+      "VOXIE_WING_COUNT",
+      "VOXIE_V_EMBLEM_PRESENT",
+      "VOXIE_CHEST_DIAMOND_PRESENT",
+      "VOXIE_EXTRA_MOUTH"
+    ]
+  },
+  "registry": {
+    "canonical_filename": "production_registry.sqlite3",
+    "status": "NOT_AVAILABLE",
+    "storage": null,
+    "checksum_status": "NOT_AVAILABLE",
+    "sha256": null
+  }
+}

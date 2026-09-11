@@ -1,0 +1,822 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxie's Wonder World Production Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_version",
+    "record_id",
+    "recorded_at_utc",
+    "production_id",
+    "title",
+    "state",
+    "supersedes",
+    "execution_authority",
+    "blockers",
+    "audio",
+    "beatmap",
+    "timeline",
+    "video_binaries",
+    "qc",
+    "registry"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "record_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^VWW-[A-Z0-9-]+-PRODUCTION-MANIFEST-v[0-9]{2}$"
+    },
+    "recorded_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "production_id": {
+      "type": "string",
+      "pattern": "^VWW-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "REVIEW",
+        "CONDITIONAL",
+        "APPROVED",
+        "APPROVED_LOCKED",
+        "BLOCKED",
+        "ARCHIVED"
+      ]
+    },
+    "supersedes": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "record_version",
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "record_version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^manifests/productions/ready-set-play/production-manifest-v[0-9]{2}\\.json$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "execution_authority": {
+      "type": "string",
+      "enum": [
+        "BLOCKED",
+        "AUTHORIZED"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9_]*$"
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "canonical_filename",
+        "mime_type",
+        "size_bytes",
+        "duration_ms",
+        "asset_state",
+        "content_status",
+        "storage",
+        "checksum_status",
+        "sha256",
+        "known_defects"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_filename": {
+          "type": "string",
+          "pattern": "^[^/\\\\]+\\.wav$"
+        },
+        "mime_type": {
+          "const": "audio/wav"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "asset_state": {
+          "const": "APPROVED_LOCKED"
+        },
+        "content_status": {
+          "enum": [
+            "PASS",
+            "CONDITIONAL",
+            "BLOCKED"
+          ]
+        },
+        "storage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "file_id",
+            "url"
+          ],
+          "properties": {
+            "provider": {
+              "const": "GOOGLE_DRIVE"
+            },
+            "file_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https://drive\\.google\\.com/"
+            }
+          }
+        },
+        "checksum_status": {
+          "enum": [
+            "VERIFIED",
+            "PENDING_VERIFICATION"
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "known_defects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "checksum_status": {
+                "const": "VERIFIED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "checksum_status": {
+                "const": "PENDING_VERIFICATION"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "beatmap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "canonical_filename",
+        "status",
+        "storage",
+        "sha256",
+        "schema",
+        "duration_ms",
+        "event_count",
+        "authoritative_sources"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_filename": {
+          "const": "beatmap.generated.json"
+        },
+        "status": {
+          "const": "VERIFIED"
+        },
+        "storage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "library_file_id",
+            "path"
+          ],
+          "properties": {
+            "provider": {
+              "const": "CHATGPT_LIBRARY"
+            },
+            "library_file_id": {
+              "type": "string",
+              "pattern": "^libfile_[A-Za-z0-9]+$"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          }
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "schema": {
+          "type": "string",
+          "pattern": "^schemas/[A-Za-z0-9_.-]+\\.schema\\.json$"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "authoritative_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "canonical_filename",
+              "status",
+              "asset_id",
+              "storage",
+              "checksum_status",
+              "sha256"
+            ],
+            "properties": {
+              "canonical_filename": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "AVAILABLE",
+                  "NOT_AVAILABLE"
+                ]
+              },
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "storage": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/external_storage"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "checksum_status": {
+                "enum": [
+                  "VERIFIED",
+                  "NOT_AVAILABLE"
+                ]
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "AVAILABLE"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "asset_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "storage": {
+                      "$ref": "#/$defs/external_storage"
+                    },
+                    "checksum_status": {
+                      "const": "VERIFIED"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "NOT_AVAILABLE"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "asset_id": {
+                      "type": "null"
+                    },
+                    "storage": {
+                      "type": "null"
+                    },
+                    "checksum_status": {
+                      "const": "NOT_AVAILABLE"
+                    },
+                    "sha256": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "canonical_filename",
+        "status",
+        "storage",
+        "sha256",
+        "duration_ms",
+        "fps",
+        "shot_count",
+        "unique_keyframes",
+        "hold_or_continue_shots"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_filename": {
+          "const": "timeline.generated.json"
+        },
+        "status": {
+          "const": "VERIFIED"
+        },
+        "storage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "library_file_id",
+            "path"
+          ],
+          "properties": {
+            "provider": {
+              "const": "CHATGPT_LIBRARY"
+            },
+            "library_file_id": {
+              "type": "string",
+              "pattern": "^libfile_[A-Za-z0-9]+$"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          }
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fps": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "shot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unique_keyframes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hold_or_continue_shots": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "qc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_lock",
+        "blocking_rules"
+      ],
+      "properties": {
+        "character_lock": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_rules": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          }
+        }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_filename",
+        "status",
+        "storage",
+        "checksum_status",
+        "sha256"
+      ],
+      "properties": {
+        "canonical_filename": {
+          "const": "production_registry.sqlite3"
+        },
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "NOT_AVAILABLE"
+          ]
+        },
+        "storage": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "provider",
+                "library_file_id",
+                "path"
+              ],
+              "properties": {
+                "provider": {
+                  "const": "CHATGPT_LIBRARY"
+                },
+                "library_file_id": {
+                  "type": "string",
+                  "pattern": "^libfile_[A-Za-z0-9]+$"
+                },
+                "path": {
+                  "type": "string",
+                  "pattern": "^/"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "checksum_status": {
+          "enum": [
+            "VERIFIED",
+            "NOT_AVAILABLE"
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "VERIFIED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "storage": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "provider",
+                  "library_file_id",
+                  "path"
+                ],
+                "properties": {
+                  "provider": {
+                    "const": "CHATGPT_LIBRARY"
+                  },
+                  "library_file_id": {
+                    "type": "string",
+                    "pattern": "^libfile_[A-Za-z0-9]+$"
+                  },
+                  "path": {
+                    "type": "string",
+                    "pattern": "^/"
+                  }
+                }
+              },
+              "checksum_status": {
+                "const": "VERIFIED"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NOT_AVAILABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "storage": {
+                "type": "null"
+              },
+              "checksum_status": {
+                "const": "NOT_AVAILABLE"
+              },
+              "sha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "video_binaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "required_for_execution",
+        "checksum_status",
+        "assets"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "NOT_AVAILABLE"
+          ]
+        },
+        "required_for_execution": {
+          "const": true
+        },
+        "checksum_status": {
+          "enum": [
+            "VERIFIED",
+            "NOT_AVAILABLE"
+          ]
+        },
+        "assets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "asset_id",
+              "canonical_filename",
+              "mime_type",
+              "storage",
+              "sha256"
+            ],
+            "properties": {
+              "asset_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "canonical_filename": {
+                "type": "string",
+                "pattern": "^[^/\\\\]+\\.(mp4|mov|webm)$"
+              },
+              "mime_type": {
+                "enum": [
+                  "video/mp4",
+                  "video/quicktime",
+                  "video/webm"
+                ]
+              },
+              "storage": {
+                "$ref": "#/$defs/external_storage"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "VERIFIED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "checksum_status": {
+                "const": "VERIFIED"
+              },
+              "assets": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NOT_AVAILABLE"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "checksum_status": {
+                "const": "NOT_AVAILABLE"
+              },
+              "assets": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "external_storage": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "file_id",
+            "url"
+          ],
+          "properties": {
+            "provider": {
+              "const": "GOOGLE_DRIVE"
+            },
+            "file_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https://drive\\.google\\.com/"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "library_file_id",
+            "path"
+          ],
+          "properties": {
+            "provider": {
+              "const": "CHATGPT_LIBRARY"
+            },
+            "library_file_id": {
+              "type": "string",
+              "pattern": "^libfile_[A-Za-z0-9]+$"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
